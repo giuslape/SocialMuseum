@@ -10,12 +10,12 @@
 
 @implementation ArtWorkViewController
 
-@synthesize artWorks = _artWorks;
+
 @synthesize artWorkImage;
 @synthesize artWorkToModify = _artWorkToModify;
+@synthesize label;
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+/*- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     
@@ -23,7 +23,7 @@
         // Custom initialization
     }
     return self;
-}
+}*/
 
 - (void)didReceiveMemoryWarning
 {
@@ -48,13 +48,13 @@
 {
     [super viewDidLoad];
     
-    NSLog(@"%@ %@",self, NSStringFromSelector(_cmd));
-
     self.navigationController.navigationBarHidden = NO;
         
-    //self.artWorkImage.image = _artWorkToModify.image;
+    self.artWorkImage.image = _artWorkToModify.image;
     
-    //[self.artWorkImage sizeThatFits:artWorkImage.image.size];
+    [self.artWorkImage sizeThatFits:_artWorkToModify.image.size];
+    
+    
 }
 
 
@@ -72,4 +72,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(void)setArtWorkToModify:(ArtWork *)artWorkToModify{
+    
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    
+    _artWorkToModify = artWorkToModify;
+
+}
 @end

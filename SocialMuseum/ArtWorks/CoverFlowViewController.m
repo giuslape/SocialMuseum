@@ -63,26 +63,21 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
+    if ([[segue identifier] isEqualToString:@"Opera"]) {
+    
     ArtWorkViewController* artworkViewController = segue.destinationViewController;
     
-    sender = (UITapGestureRecognizer *)sender;
-
-    NSString* titleSelectedCoverView = 
-    [(AFOpenFlowView *)[sender view] selectedCoverView].titleItem;
-    
-    artworkViewController.artWorkToModify.title  = titleSelectedCoverView;
-    
-    NSString* descriptionSelectedCoverView = 
-    [(AFOpenFlowView *)[sender view] selectedCoverView].descriptionItem;
-    
-    artworkViewController.artWorkToModify.description = descriptionSelectedCoverView;
-    
-    UIImageView* imageSelectedCoverView = 
-    [(AFOpenFlowView *)[sender view] selectedCoverView].imageView;
-    
-    artworkViewController.artWorkToModify.image = imageSelectedCoverView.image;
+        ArtWork* artWork = [[ArtWork alloc] init];
         
-    NSLog(@"%@ %@",self, NSStringFromSelector(_cmd));
+        NSDictionary* artWorkFeatures = [_artWorks objectForKey:[NSNumber numberWithInt:_indexArtWork]];
+        
+        NSString* filename = [artWorkFeatures objectForKey:@"filename"];
+        
+        artWork.image = [UIImage imageNamed:filename];
+        
+        artworkViewController.artWorkToModify = artWork;
+    
+    }
 
 }
 
@@ -90,18 +85,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.navigationController.navigationBarHidden = YES;
-    
+        
     _flowView = (AFOpenFlowView *)[[self.view subviews] objectAtIndex:0];
 
-    NSDictionary* artworks = (NSDictionary *)[self.dao loadArtWorks];
+    _artWorks = (NSMutableDictionary *)[self.dao loadArtWorks];
     
-    int numberOfImages = [artworks count];
+    int numberOfImages = [_artWorks count];
         
-    for (id index in artworks) {
+    for (id index in _artWorks) {
         
-        id artWorkFeatures = [artworks objectForKey:index];
+        id artWorkFeatures = [_artWorks objectForKey:index];
         
         NSString* filename = [artWorkFeatures objectForKey:@"filename"];
         
@@ -118,13 +111,9 @@
         
 	}
     
-    id dictTemp = [artworks objectForKey:[NSNumber numberWithInt:0]];
-    
-    NSLog(@" %@", NSStringFromClass([dictTemp class]));
-    
+    id dictTemp = [_artWorks objectForKey:[NSNumber numberWithInt:0]];
+        
     NSString* descriptionTemp = [dictTemp objectForKey:@"description"];
-    
-    NSLog(@"%@",descriptionTemp);
     
     self.textView.text = descriptionTemp;
     
@@ -147,6 +136,8 @@
 - (void)openFlowView:(AFOpenFlowView *)openFlowView selectionDidChange:(int)index{
 	
     textView.text = [[openFlowView selectedCoverView] descriptionItem];
+    
+    _indexArtWork = index;
 
 	NSLog(@"%@ %d is selected",NSStringFromSelector(_cmd),index);
 
@@ -164,7 +155,6 @@
     
     NSLog(@"%@ %d", NSStringFromSelector(_cmd), index);
     
-
 }
 
 

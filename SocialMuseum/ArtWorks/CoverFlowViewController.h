@@ -16,13 +16,17 @@
     
     IBOutlet UITextView* textView;
     
-    __weak AFOpenFlowView* _flowView;
+    AFOpenFlowView* _flowView;
+    
+    NSMutableDictionary* _artWorks;
+    
+    int _indexArtWork;
     
 }
 
 @property (readonly, strong) id <OpereDao> dao;
 @property (nonatomic, strong)IBOutlet UITextView* textView;
-@property (weak, nonatomic) IBOutlet AFOpenFlowView *flowView;
+@property (nonatomic, strong)IBOutlet AFOpenFlowView *flowView;
 
 
 

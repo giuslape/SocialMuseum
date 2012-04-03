@@ -2,7 +2,7 @@
 //  ArtWorkViewController.h
 //  SocialMuseum
 //
-//  Created by Vincenzo Lapenta on 26/01/12.
+//  Created by Giuseppe Lapenta on 26/01/12.
 //  Copyright (c) 2012 Lapenta. All rights reserved.
 //
 
@@ -12,16 +12,15 @@
 @interface ArtWorkViewController : UIViewController
 
 {
-    NSMutableArray* _artWorks; 
     
     ArtWork* _artWorkToModify;
     
-    
 }
 
-@property (nonatomic, strong)NSMutableArray* artWorks;
 @property (weak, nonatomic) IBOutlet UIImageView * artWorkImage;
 @property (nonatomic, strong)ArtWork* artWorkToModify;
+@property (nonatomic, weak)IBOutlet UILabel* label;
+
 
 
 @end
