@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2182" systemVersion="11D50b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7JO-tK-Y4q">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <development version="4300" defaultVersion="4200" identifier="xcode"/>
@@ -12,11 +12,11 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
                 <viewController title="First" id="2" customClass="CoverFlowViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VWg-ej-V6g">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="16" customClass="AFOpenFlowView">
-                                <rect key="frame" x="0.0" y="44" width="320" height="216"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="265"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <gestureRecognizers/>
@@ -60,26 +60,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1337" y="-226"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="15">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
-                <tabBarController id="4" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="5">
-                        <rect key="frame" x="0.0" y="431" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="Iii-eA-C3g" kind="relationship" relationship="viewControllers" id="26"/>
-                        <segue destination="nDz-vn-uEK" kind="relationship" relationship="viewControllers" id="dQ2-fv-VkT"/>
-                    </connections>
-                </tabBarController>
-            </objects>
-            <point key="canvasLocation" x="132" y="180"/>
+            <point key="canvasLocation" x="2378" y="-458"/>
         </scene>
         <!--Mood View Controller - Mood-->
         <scene sceneID="exr-4p-fso">
@@ -129,7 +110,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
             </objects>
-            <point key="canvasLocation" x="1108" y="511"/>
+            <point key="canvasLocation" x="2126" y="850"/>
         </scene>
         <!--Navigation Controller - Mood-->
         <scene sceneID="LoQ-x8-IHm">
@@ -152,7 +133,7 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="582" y="524"/>
+            <point key="canvasLocation" x="1279" y="794"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="JHt-RK-CJf">
@@ -176,7 +157,7 @@
                     <navigationItem key="navigationItem" id="CcB-lA-CwB"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1564" y="511"/>
+            <point key="canvasLocation" x="2891" y="925"/>
         </scene>
         <!--Art Work View Controller-->
         <scene sceneID="dLa-0u-iS9">
@@ -219,7 +200,55 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1839" y="-226"/>
+            <point key="canvasLocation" x="3141" y="-716"/>
+        </scene>
+        <!--Location View Controller-->
+        <scene sceneID="5q6-nj-6CG">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bfi-zt-IOL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="acY-cr-O7L" customClass="LocationViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DQU-si-0Sl">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="u2v-g3-t67">
+                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="My position" id="jm8-Il-GT3"/>
+                                </items>
+                            </toolbar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" id="CCi-7B-X9G">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ucb-z1-XE4"/>
+                    <connections>
+                        <outlet property="map" destination="CCi-7B-X9G" id="tIx-j2-2Zy"/>
+                        <outlet property="myPosition" destination="jm8-Il-GT3" id="9gC-gD-iPo"/>
+                        <segue destination="dCz-YK-UWR" kind="push" identifier="Opera" id="Pru-jJ-0P8"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="812" y="27"/>
+        </scene>
+        <!--View Controller - Opera-->
+        <scene sceneID="Q1m-kt-u6S">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bhY-g2-WpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="dCz-YK-UWR" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mVb-nX-LN3">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Opera" id="Q7b-0w-AES"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1353" y="27"/>
         </scene>
         <!--Navigation Controller - Opere-->
         <scene sceneID="wpW-Ve-vO8">
@@ -239,7 +268,25 @@
                     </connections>
                 </navigationController>
             </objects>
-            <point key="canvasLocation" x="811" y="-226"/>
+            <point key="canvasLocation" x="1910" y="-419"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QCV-XL-Bdc">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3fj-31-9qm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController id="7JO-tK-Y4q" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ZHv-Cz-A7m">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="acY-cr-O7L" kind="relationship" relationship="rootViewController" id="s6B-F1-Smw"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="286" y="27"/>
         </scene>
     </scenes>
     <resources>
@@ -262,6 +309,13 @@
             <relationships>
                 <relationship kind="outlet" name="flowView" candidateClass="AFOpenFlowView"/>
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="LocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="map" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="myPosition" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="MoodCell" superclassName="UITableViewCell">

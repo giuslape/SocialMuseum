@@ -58,6 +58,11 @@
 		20BD119314A0A7C200B0F775 /* Players.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD117B14A0A7C200B0F775 /* Players.png */; };
 		20BD119414A0A7C200B0F775 /* Players@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD117C14A0A7C200B0F775 /* Players@2x.png */; };
 		20BD119714A0A83900B0F775 /* MoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BD119614A0A83900B0F775 /* MoodCell.m */; };
+		20C8506F1557D4080065FB75 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 20C8506E1557D4080065FB75 /* location.png */; };
+		20C850711557D4A60065FB75 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C850701557D4A60065FB75 /* MapKit.framework */; };
+		20C850741557D67F0065FB75 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C850731557D67F0065FB75 /* LocationViewController.m */; };
+		20C850761557D79E0065FB75 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C850751557D79E0065FB75 /* CoreLocation.framework */; };
+		20C850791557E00E0065FB75 /* SMAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C850781557E00E0065FB75 /* SMAnnotation.m */; };
 		20E120A4149F8B3400AFEADC /* MoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E120A3149F8B3400AFEADC /* MoodViewController.m */; };
 		20E7D49D1497999E00F68D1D /* AFItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7D4971497999E00F68D1D /* AFItemView.m */; };
 		20E7D49E1497999E00F68D1D /* AFOpenFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7D49A1497999E00F68D1D /* AFOpenFlowView.m */; };
@@ -110,10 +115,10 @@
 		2058DC1414975AF300E3B0B1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		2058DC1714975AF300E3B0B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		2058DC1A14975AF300E3B0B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		2058DC1F14975AF300E3B0B1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
-		2058DC2114975AF300E3B0B1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		2058DC2614975AF300E3B0B1 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
-		2058DC2814975AF300E3B0B1 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		2058DC1F14975AF300E3B0B1 /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = first.png; path = SocialMuseum/first.png; sourceTree = "<group>"; };
+		2058DC2114975AF300E3B0B1 /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "first@2x.png"; path = "SocialMuseum/first@2x.png"; sourceTree = "<group>"; };
+		2058DC2614975AF300E3B0B1 /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = second.png; path = SocialMuseum/second.png; sourceTree = "<group>"; };
+		2058DC2814975AF300E3B0B1 /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "second@2x.png"; path = "SocialMuseum/second@2x.png"; sourceTree = "<group>"; };
 		2058DC2F14975AF300E3B0B1 /* SocialMuseumTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocialMuseumTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2058DC3014975AF300E3B0B1 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		2058DC3814975AF300E3B0B1 /* SocialMuseumTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SocialMuseumTests-Info.plist"; sourceTree = "<group>"; };
@@ -150,6 +155,13 @@
 		20BD117C14A0A7C200B0F775 /* Players@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Players@2x.png"; sourceTree = "<group>"; };
 		20BD119514A0A83900B0F775 /* MoodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodCell.h; sourceTree = "<group>"; };
 		20BD119614A0A83900B0F775 /* MoodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodCell.m; sourceTree = "<group>"; };
+		20C8506E1557D4080065FB75 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
+		20C850701557D4A60065FB75 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		20C850721557D67F0065FB75 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationViewController.h; path = Location/LocationViewController.h; sourceTree = "<group>"; };
+		20C850731557D67F0065FB75 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationViewController.m; path = Location/LocationViewController.m; sourceTree = "<group>"; };
+		20C850751557D79E0065FB75 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		20C850771557E00E0065FB75 /* SMAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAnnotation.h; sourceTree = "<group>"; };
+		20C850781557E00E0065FB75 /* SMAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAnnotation.m; sourceTree = "<group>"; };
 		20E120A2149F8B3400AFEADC /* MoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodViewController.h; sourceTree = "<group>"; };
 		20E120A3149F8B3400AFEADC /* MoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodViewController.m; sourceTree = "<group>"; };
 		20E7D4961497999E00F68D1D /* AFItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFItemView.h; sourceTree = "<group>"; };
@@ -177,6 +189,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20C850761557D79E0065FB75 /* CoreLocation.framework in Frameworks */,
+				20C850711557D4A60065FB75 /* MapKit.framework in Frameworks */,
 				202208C9149A56D200686C86 /* libz.dylib in Frameworks */,
 				20E7D4A214979D0B00F68D1D /* QuartzCore.framework in Frameworks */,
 				2058DC0514975AF200E3B0B1 /* UIKit.framework in Frameworks */,
@@ -255,6 +269,8 @@
 		2058DBF514975AF200E3B0B1 = {
 			isa = PBXGroup;
 			children = (
+				20C850751557D79E0065FB75 /* CoreLocation.framework */,
+				20C850701557D4A60065FB75 /* MapKit.framework */,
 				202208D5149A78A800686C86 /* DAO */,
 				202208C8149A56D200686C86 /* libz.dylib */,
 				202208C1149A553A00686C86 /* TBXML */,
@@ -297,11 +313,11 @@
 				2058DC1414975AF300E3B0B1 /* AppDelegate.m */,
 				2058DC1614975AF300E3B0B1 /* MainStoryboard_iPhone.storyboard */,
 				2058DC1914975AF300E3B0B1 /* MainStoryboard_iPad.storyboard */,
-				2058DC1F14975AF300E3B0B1 /* first.png */,
-				2058DC2114975AF300E3B0B1 /* first@2x.png */,
-				2058DC2614975AF300E3B0B1 /* second.png */,
-				2058DC2814975AF300E3B0B1 /* second@2x.png */,
 				2058DC0B14975AF200E3B0B1 /* Supporting Files */,
+				20C850721557D67F0065FB75 /* LocationViewController.h */,
+				20C850731557D67F0065FB75 /* LocationViewController.m */,
+				20C850771557E00E0065FB75 /* SMAnnotation.h */,
+				20C850781557E00E0065FB75 /* SMAnnotation.m */,
 			);
 			path = SocialMuseum;
 			sourceTree = "<group>";
@@ -384,6 +400,11 @@
 		20E7D4A31497A23D00F68D1D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2058DC2814975AF300E3B0B1 /* second@2x.png */,
+				2058DC2614975AF300E3B0B1 /* second.png */,
+				2058DC2114975AF300E3B0B1 /* first@2x.png */,
+				2058DC1F14975AF300E3B0B1 /* first.png */,
+				20C8506E1557D4080065FB75 /* location.png */,
 				20BD116414A0A7B100B0F775 /* Mood */,
 				202208CA149A5C9300686C86 /* XML */,
 				20E7D4A41497A2A100F68D1D /* data */,
@@ -530,6 +551,7 @@
 				20BD119214A0A7C200B0F775 /* Gestures@2x.png in Resources */,
 				20BD119314A0A7C200B0F775 /* Players.png in Resources */,
 				20BD119414A0A7C200B0F775 /* Players@2x.png in Resources */,
+				20C8506F1557D4080065FB75 /* location.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +600,8 @@
 				20116EFD14CD70EC004BC80E /* CoverFlowViewController.m in Sources */,
 				206569E714D16BCF005AC738 /* ArtWorkViewController.m in Sources */,
 				20B558F2150E0AB500772044 /* ArtWork.m in Sources */,
+				20C850741557D67F0065FB75 /* LocationViewController.m in Sources */,
+				20C850791557E00E0065FB75 /* SMAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,8 +681,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PROVISIONING_PROFILE = "86F94FF5-5E11-4E48-9BA9-DF0DDB2785E8";
-				"PROVISIONING_PROFILE[sdk=*]" = "86F94FF5-5E11-4E48-9BA9-DF0DDB2785E8";
+				PROVISIONING_PROFILE = "432B6E5F-DE36-40C4-9458-B9773FFBBF3C";
+				"PROVISIONING_PROFILE[sdk=*]" = "432B6E5F-DE36-40C4-9458-B9773FFBBF3C";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -680,8 +704,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "86F94FF5-5E11-4E48-9BA9-DF0DDB2785E8";
-				"PROVISIONING_PROFILE[sdk=*]" = "86F94FF5-5E11-4E48-9BA9-DF0DDB2785E8";
+				PROVISIONING_PROFILE = "432B6E5F-DE36-40C4-9458-B9773FFBBF3C";
+				"PROVISIONING_PROFILE[sdk=*]" = "432B6E5F-DE36-40C4-9458-B9773FFBBF3C";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
