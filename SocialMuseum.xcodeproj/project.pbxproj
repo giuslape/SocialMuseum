@@ -84,6 +84,7 @@
 		20E6A57B156CD72100D4F202 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E6A56E156CD72100D4F202 /* ASIHTTPRequest.m */; };
 		20E6A57C156CD72100D4F202 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E6A572156CD72100D4F202 /* ASIInputStream.m */; };
 		20E6A57D156CD72100D4F202 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E6A574156CD72100D4F202 /* ASINetworkQueue.m */; };
+		20E6A581156CD76900D4F202 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E6A580156CD76900D4F202 /* MBProgressHUD.m */; };
 		20E7D49D1497999E00F68D1D /* AFItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7D4971497999E00F68D1D /* AFItemView.m */; };
 		20E7D49E1497999E00F68D1D /* AFOpenFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7D49A1497999E00F68D1D /* AFOpenFlowView.m */; };
 		20E7D49F1497999E00F68D1D /* AFUIImageReflection.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E7D49C1497999E00F68D1D /* AFUIImageReflection.m */; };
@@ -230,6 +231,8 @@
 		20E6A573156CD72100D4F202 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASINetworkQueue.h; sourceTree = "<group>"; };
 		20E6A574156CD72100D4F202 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASINetworkQueue.m; sourceTree = "<group>"; };
 		20E6A575156CD72100D4F202 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
+		20E6A57F156CD76900D4F202 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		20E6A580156CD76900D4F202 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		20E7D4961497999E00F68D1D /* AFItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFItemView.h; sourceTree = "<group>"; };
 		20E7D4971497999E00F68D1D /* AFItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFItemView.m; sourceTree = "<group>"; };
 		20E7D4981497999E00F68D1D /* AFOpenFlowConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOpenFlowConstants.h; sourceTree = "<group>"; };
@@ -334,6 +337,7 @@
 		2058DBF514975AF200E3B0B1 = {
 			isa = PBXGroup;
 			children = (
+				20E6A57E156CD75A00D4F202 /* MBProgressHUD */,
 				20E6A561156CD6FC00D4F202 /* ASIHTTPRequest */,
 				20E6A53A156CCF7800D4F202 /* JSON */,
 				20C850701557D4A60065FB75 /* MapKit.framework */,
@@ -508,6 +512,15 @@
 				20E6A575156CD72100D4F202 /* ASIProgressDelegate.h */,
 			);
 			name = ASIHTTPRequest;
+			sourceTree = "<group>";
+		};
+		20E6A57E156CD75A00D4F202 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				20E6A57F156CD76900D4F202 /* MBProgressHUD.h */,
+				20E6A580156CD76900D4F202 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		20E7D4951497999E00F68D1D /* OpenFlow */ = {
@@ -750,6 +763,7 @@
 				20E6A57B156CD72100D4F202 /* ASIHTTPRequest.m in Sources */,
 				20E6A57C156CD72100D4F202 /* ASIInputStream.m in Sources */,
 				20E6A57D156CD72100D4F202 /* ASINetworkQueue.m in Sources */,
+				20E6A581156CD76900D4F202 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
