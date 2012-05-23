@@ -11,24 +11,47 @@
 @implementation SMAnnotation
 
 @synthesize coordinate;
+@synthesize description;
+@synthesize image;
+@synthesize title = _title;
+@synthesize subTitle = _subTitle;
 
 
--(id)initWithCoordinate:(CLLocationCoordinate2D)c
+
++(id)initWithLocation:(CLLocationCoordinate2D)c{
+    
+    return [[self alloc] initWithLocation:c];
+    
+}
+
+-(id)initWithLocation:(CLLocationCoordinate2D)c
 {
     if (self = [super init]) {
         
         coordinate = c;
-        
+        image = nil;
     }
     return self;
 }
 
 - (NSString *)title {
-    return @"Prova";
+    
+    return _title;
 }
 
 - (NSString *)subtitle {
-    return @"Prova";
+    
+    return _subTitle;
+}
+
+- (NSString *)description{
+    
+    return @"Description";
+}
+
+- (UIImage *)image{
+    
+    return image;
 }
 
 

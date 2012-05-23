@@ -9,86 +9,71 @@
 #import "LocationViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "SMAnnotation.h"
+#import "SMAnnotationView.h"
 
 @interface LocationViewController ()
 
--(void)revGeocode:(CLLocation*)c;
--(void)geocode:(NSString*)address;
+-(void)reuseAnnotation;
 
 @end
 
 @implementation LocationViewController
 
 
+-(id<OpereDao>)dao{
+    
+    if (!dao) {
+        
+        dao = [[OpereDaoXML alloc] init];
+    }
+    
+    return dao;
+}
+
+
++ (CGFloat)annotationPadding;
+{
+    return 10.0f;
+}
++ (CGFloat)calloutHeight;
+{
+    return 40.0f;
+}
+
 #pragma mark -
 #pragma mark ===  Init Methods  ===
 #pragma mark -
 
--(void)geocode:(NSString*)address
-{
-    
-    CLGeocoder* gc = [[CLGeocoder alloc] init];
-    
-    [gc geocodeAddressString:address completionHandler:
-     ^(NSArray *placemarks, NSError *error) {
-         
-         if ([placemarks count]>0) {
-             
-             CLPlacemark* mark = (CLPlacemark*)
-             [placemarks objectAtIndex:0];
-             double lat = mark.location.coordinate.latitude;
-             double lng = mark.location.coordinate.longitude;
-             
-             //show the coords text
 
-            NSLog(@"Coordinate\nlat: %@, long: %@",[NSNumber numberWithDouble: lat], [NSNumber numberWithDouble: lng]);
-             
-             //show on the map
-             
-             CLLocationCoordinate2D coordinate;
-             coordinate.latitude = lat;
-             coordinate.longitude = lng;
-             
-             [map addAnnotation:(id)[[SMAnnotation alloc]
-                                     initWithCoordinate:coordinate]];
-             
-             MKCoordinateRegion viewRegion =
-             MKCoordinateRegionMakeWithDistance(map.userLocation.coordinate, 1000, 1000);
-             MKCoordinateRegion adjustedRegion = [map regionThatFits:viewRegion];
-             [map setRegion:adjustedRegion animated:YES];
-             map.showsUserLocation = YES;
-         }
-     }];
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-        // Custom initialization
-        
-    }
-    return self;
+-(IBAction)adjustedRegion:(id)sender{
+    
+    _regionVisible =
+    MKCoordinateRegionMakeWithDistance(_map.userLocation.coordinate, 1000, 1000);
+    MKCoordinateRegion adjustedRegion = [_map regionThatFits:_regionVisible];
+    [_map setRegion:adjustedRegion animated:YES];
+    [self reuseAnnotation];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    //start updating the location
-    
-    manager = [[CLLocationManager alloc] init];
-    manager.delegate = self;
-    map.delegate = self;
-    manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    [manager startUpdatingLocation];
+    _map.delegate = self;
+    _tagAnnotation = 0;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [manager stopUpdatingLocation];
+   // [manager stopUpdatingLocation];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+        
+    //Aspetto il caricamento della vista prima modificare l'area di interesse
+    
+    [self performSelector:@selector(adjustedRegion:) withObject:self afterDelay:0.5f];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -103,63 +88,106 @@
 }
 
 
+-(void)reuseAnnotation{
+    
+    for (id<MKAnnotation> annotation in _map.annotations) {
+        if ([annotation isKindOfClass:[MKUserLocation class]]) {
+            continue;
+        }
+        [_map removeAnnotation:annotation];
+    }
+    
+    
+    [_artWorks removeAllObjects];
+
+    NSDictionary* artworks = [self.dao loadArtWorksInRegion];
+        
+    for (id index in artworks) {
+        
+        id object = [artworks objectForKey:index];
+        
+        CLLocationDegrees latitude =  [[object valueForKey:@"latitude"]  doubleValue];
+        CLLocationDegrees longitude = [[object valueForKey:@"longitude"] doubleValue];
+        
+        CLLocationCoordinate2D coordinate ;
+        
+        coordinate.latitude = latitude;
+        coordinate.longitude = longitude;
+        
+        SMAnnotation* annotation = [[SMAnnotation alloc] initWithLocation:coordinate];
+        
+        annotation.title = [object objectForKey:@"title"];
+        
+        [_map addAnnotation:(id)annotation];
+        
+        [_artWorks addObject:object];
+    }
+        
+}
 
 #pragma mark -
 #pragma mark ===  Delegate Methods  ===
 #pragma mark -
 
 
-
-#pragma mark -
-#pragma mark Core Location
-
-- (void)locationManager:(CLLocationManager *)manager
-                        didUpdateToLocation:(CLLocation *)newLocation
-                        fromLocation:(CLLocation *)oldLocation
-{
-    if (newLocation.coordinate.latitude !=
-        oldLocation.coordinate.latitude) {
-        [self revGeocode: newLocation];
-    }
-}
-
--(void)revGeocode:(CLLocation*)c
-{
- 
-    CLGeocoder* gcrev = [[CLGeocoder alloc] init];
-    [gcrev reverseGeocodeLocation:c completionHandler:
-     ^(NSArray *placemarks, NSError *error) {
-         CLPlacemark* revMark = [placemarks objectAtIndex:0];
-         NSArray* addressLines =
-         [revMark.addressDictionary objectForKey:@"FormattedAddressLines"];
-         NSString* revAddress =
-         [addressLines componentsJoinedByString: @"\n"];
-         NSLog(@"Reverse geocoded address: \n%@", revAddress);
-         [self geocode:revAddress];
-     }];
-}
-
-#pragma mark -
 #pragma mark Map View
 
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id )annotation {
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id)annotation {
+    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+
     if (annotation == mapView.userLocation) 
         return nil;
     
-    MKPinAnnotationView *pinView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
-    pinView.pinColor = MKPinAnnotationColorPurple;
-    pinView.canShowCallout = YES;
-    pinView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    pinView.animatesDrop = YES;
+    
+    static NSString* SMAnnotationIdentifier = @"SMAnnotationIdentifier";
+    MKPinAnnotationView* pinView =
+    (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:SMAnnotationIdentifier];
+    if (!pinView)
+    {
+    MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation 
+                                                                          reuseIdentifier:SMAnnotationIdentifier];
+    
+    annotationView.canShowCallout = YES;
+    annotationView.rightCalloutAccessoryView = 
+        [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    annotationView.tag = _tagAnnotation++;
+        
+     return annotationView;
+
+    }else
+        
+        pinView.annotation = annotation;
+        
     return pinView;
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
         
-    [self performSegueWithIdentifier:@"Opera" sender:view];
     
+    [self performSegueWithIdentifier:@"Opera" sender:view];
+
 }
+
+
+-(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+    
+    
+
+}
+
+
+-(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
+    
+    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+
+}
+
+
 
 
 #pragma mark -
@@ -168,7 +196,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
     
 }
 
@@ -181,8 +209,7 @@
 
 - (void)dealloc
 {
-    manager.delegate = nil;
-    map.delegate = nil;
+    _map.delegate = nil;
 }
 
 @end

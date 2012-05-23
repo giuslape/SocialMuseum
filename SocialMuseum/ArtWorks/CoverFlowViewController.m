@@ -88,7 +88,7 @@
         
     _flowView = (AFOpenFlowView *)[[self.view subviews] objectAtIndex:0];
 
-    _artWorks = (NSMutableDictionary *)[self.dao loadArtWorks];
+    _artWorks = (NSMutableDictionary *)[self.dao loadArtWorksInRegion];
     
     int numberOfImages = [_artWorks count];
         

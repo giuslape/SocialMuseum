@@ -14,7 +14,7 @@
 @implementation OpereDaoXML
 
 
--(id)loadArtWorks{
+-(id)loadArtWorksInRegion{
     
     NSMutableDictionary* artWorksToReturn = [[NSMutableDictionary alloc] init];
     
@@ -39,12 +39,16 @@
             
             // get the filename attribute from the artwork element
             NSString* fileName = [TBXML valueOfAttributeNamed:@"filename" forElement:artWork];
-			
-							
+            
+            NSNumber* latitude = [NSNumber numberWithDouble:[[TBXML valueOfAttributeNamed:@"lat" forElement:artWork] doubleValue]];
+            
+            NSNumber* longitude = [NSNumber numberWithDouble:[[TBXML valueOfAttributeNamed:@"long" forElement:artWork] doubleValue]];
+        
             // find the description child element of the artwork element
             TBXMLElement * desc = [TBXML childElementNamed:@"description" parentElement:artWork];
 				
             NSString* description = nil;
+            
             // if we found a description
             if (desc != nil) {
 					// obtain the text from the description element
@@ -54,6 +58,8 @@
             [artWorkDictionary setObject:title forKey:@"title"];
             [artWorkDictionary setObject:fileName forKey:@"filename"];
             [artWorkDictionary setObject:description forKey:@"description"];
+            [artWorkDictionary setObject:latitude forKey:@"latitude"];
+            [artWorkDictionary setObject:longitude forKey:@"longitude"];
             
             [artWorksToReturn setObject:artWorkDictionary forKey:[NSNumber numberWithInt:indexArtWork]];
             

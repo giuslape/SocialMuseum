@@ -11,14 +11,14 @@
 
 @protocol OpereDao <NSObject>
 
-- (id)loadArtWorks;
+- (id)loadArtWorksInRegion;
 
 @end
 
 @interface OpereDaoXML : NSObject <OpereDao>
 
 
--(id)loadArtWorks;
+-(id)loadArtWorksInRegion;
 
 
 @end
