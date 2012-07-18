@@ -50,7 +50,7 @@
                 <tapGestureRecognizer id="nu6-gs-h9s">
                     <connections>
                         <action selector="showImage:" destination="dCz-YK-UWR" id="D7j-qS-uyV"/>
-                        <segue destination="8aS-Cd-p6R" kind="push" id="FXi-gd-o0x"/>
+                        <segue destination="mLZ-QK-4Bi" kind="push" id="7Zm-WG-D5k"/>
                     </connections>
                 </tapGestureRecognizer>
                 <viewController id="dCz-YK-UWR" customClass="OperaViewController" sceneMemberID="viewController">
@@ -207,38 +207,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="3551" y="480"/>
-        </scene>
-        <!--Foto View Controller - Foto-->
-        <scene sceneID="mrW-h9-BMz">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="g5M-DB-is2" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <viewController id="8aS-Cd-p6R" customClass="FotoViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="CGU-Il-rHe">
-                        <rect key="frame" x="0.0" y="44" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="lXP-el-AB7">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Foto" id="sfW-Os-QIL">
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="vue-PY-S34">
-                            <connections>
-                                <action selector="takePicture:" destination="8aS-Cd-p6R" id="cqE-aa-eBS"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="imageView" destination="lXP-el-AB7" id="Yis-ih-f25"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="1878" y="-476"/>
+            <point key="canvasLocation" x="3263" y="480"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QCV-XL-Bdc">
@@ -276,9 +245,223 @@
             </objects>
             <point key="canvasLocation" x="2537" y="560"/>
         </scene>
+        <!--Login Screen-->
+        <scene sceneID="dZy-Tf-u2y">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fi5-dy-XZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="sBl-uM-nAa" customClass="LoginScreen" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JQA-Cn-pnF">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Social Museum Login" lineBreakMode="tailTruncation" minimumFontSize="10" id="uDI-hB-Umz">
+                                <rect key="frame" x="78" y="5" width="165" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" id="JUG-NP-xW0">
+                                <rect key="frame" x="56" y="34" width="208" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" id="Cnv-sK-tUV">
+                                <rect key="frame" x="56" y="73" width="208" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Zjn-fz-UB9">
+                                <rect key="frame" x="80" y="112" width="161" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnLoginRegisterTapped:" destination="sBl-uM-nAa" eventType="touchUpInside" id="53o-06-Iek"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="or" lineBreakMode="tailTruncation" minimumFontSize="10" id="H0D-TQ-UeS">
+                                <rect key="frame" x="150" y="157" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cS3-wJ-TA1">
+                                <rect key="frame" x="80" y="186" width="161" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Register">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnLoginRegisterTapped:" destination="sBl-uM-nAa" eventType="touchUpInside" id="Ojt-W7-lDR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ASR-2W-8h6">
+                                <rect key="frame" x="80" y="231" width="161" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnLoginRegisterTapped:" destination="sBl-uM-nAa" eventType="touchUpInside" id="3SS-Kz-LQq"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="fldPassword" destination="Cnv-sK-tUV" id="r3s-hh-LOJ"/>
+                        <outlet property="fldUsername" destination="JUG-NP-xW0" id="CNE-Ri-WLe"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2826" y="-420"/>
+        </scene>
+        <!--Stream Screen-->
+        <scene sceneID="jTH-8o-95b">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="mLZ-QK-4Bi" customClass="StreamScreen" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lEl-gX-lg8">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="dNb-wM-KOA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="eGd-1B-Ib6"/>
+                    <connections>
+                        <outlet property="btnCompose" destination="ZCw-qA-sDH" id="ooz-Ab-Y77"/>
+                        <outlet property="btnRefresh" destination="iEK-2i-JFH" id="Hxh-qb-YNi"/>
+                        <outlet property="listView" destination="dNb-wM-KOA" id="1j8-0s-hxQ"/>
+                        <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="oQE-wf-5dZ"/>
+                    </connections>
+                </viewController>
+                <barButtonItem systemItem="compose" id="ZCw-qA-sDH">
+                    <connections>
+                        <segue destination="aGw-4W-P2W" kind="push" id="7qP-rR-HgT"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="refresh" id="iEK-2i-JFH">
+                    <connections>
+                        <action selector="btnRefreshTapped" destination="mLZ-QK-4Bi" id="u3J-ov-FNH"/>
+                    </connections>
+                </barButtonItem>
+            </objects>
+            <point key="canvasLocation" x="1810" y="-1096"/>
+        </scene>
+        <!--Stream Photo Screen-->
+        <scene sceneID="F2E-d4-wLV">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="Fau-h8-meB" customClass="StreamPhotoScreen" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="v11-S2-y6v">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="yJ0-Wj-8OE">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" text="Loading description..." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="70W-co-f7m">
+                                <rect key="frame" x="0.0" y="374" width="320" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                        <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="8Ub-Y2-1rB"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="lblTitle" destination="70W-co-f7m" id="k0e-76-pBt"/>
+                        <outlet property="photoView" destination="yJ0-Wj-8OE" id="A8G-Jb-dxg"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2350" y="-440"/>
+        </scene>
+        <!--Photo Screen-->
+        <scene sceneID="lK0-lk-Kch">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kzz-Xw-dqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="aGw-4W-P2W" customClass="PhotoScreen" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2vR-m9-MKB">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="placeholder.png" id="UsQ-Fs-zcf">
+                                <rect key="frame" x="10" y="84" width="300" height="300"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.85587211279999997" green="0.85587211279999997" blue="0.85587211279999997" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Photo title" minimumFontSize="17" id="el2-1k-wrl">
+                                <rect key="frame" x="10" y="26" width="300" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="aGw-4W-P2W" id="qz3-Db-0NL"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                        <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                        <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="aUG-np-swO"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="btnAction" destination="9e2-CJ-qp5" id="XJH-aN-iDb"/>
+                        <outlet property="fldTitle" destination="el2-1k-wrl" id="SjE-FU-isR"/>
+                        <outlet property="photo" destination="UsQ-Fs-zcf" id="MM0-hh-wi2"/>
+                        <segue destination="sBl-uM-nAa" kind="modal" identifier="ShowLogin" id="s3d-uD-nGg"/>
+                    </connections>
+                </viewController>
+                <barButtonItem systemItem="action" id="9e2-CJ-qp5">
+                    <connections>
+                        <action selector="btnActionTapped:" destination="aGw-4W-P2W" id="tVs-7y-Ff1"/>
+                    </connections>
+                </barButtonItem>
+            </objects>
+            <point key="canvasLocation" x="2813" y="-1096"/>
+        </scene>
     </scenes>
     <resources>
         <image name="1Star.png" width="38" height="38"/>
+        <image name="placeholder.png" width="300" height="300"/>
     </resources>
     <classes>
         <class className="AddCommentViewController" superclassName="UIViewController">
@@ -286,13 +469,6 @@
             <relationships>
                 <relationship kind="action" name="cancel:"/>
                 <relationship kind="action" name="done:"/>
-            </relationships>
-        </class>
-        <class className="FotoViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FotoViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="takePicture:"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="LocationViewController" superclassName="UIViewController">
@@ -303,11 +479,44 @@
                 <relationship kind="outlet" name="myPosition" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
+        <class className="LoginScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginScreen.h"/>
+            <relationships>
+                <relationship kind="action" name="btnLoginRegisterTapped:"/>
+                <relationship kind="outlet" name="fldPassword" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="fldUsername" candidateClass="UITextField"/>
+            </relationships>
+        </class>
         <class className="OperaViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OperaViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="artworkImage" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="containerView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="PhotoScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoScreen.h"/>
+            <relationships>
+                <relationship kind="action" name="btnActionTapped:"/>
+                <relationship kind="outlet" name="btnAction" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="fldTitle" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="StreamPhotoScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamPhotoScreen.h"/>
+            <relationships>
+                <relationship kind="outlet" name="lblTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="photoView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="StreamScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamScreen.h"/>
+            <relationships>
+                <relationship kind="action" name="btnRefreshTapped"/>
+                <relationship kind="outlet" name="btnCompose" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnRefresh" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="listView" candidateClass="UIScrollView"/>
             </relationships>
         </class>
         <class className="UpdateViewController" superclassName="UIViewController">
