@@ -13,14 +13,17 @@
     
     NSString* _title;
     NSString* _subTitle;
+    __weak NSString* _description;
+     UIImage*  _image;
+
     
 }
 
 @property (nonatomic, readonly)             CLLocationCoordinate2D coordinate;
-@property (nonatomic, readonly)             NSString * description;
-@property (nonatomic, readonly)             UIImage  * image;
-@property (nonatomic, copy, readwrite)      NSString* title;
-@property (nonatomic, copy, readwrite)      NSString* subTitle;
+@property (weak, nonatomic, readonly)       NSString * description;
+@property (nonatomic, copy,readwrite)       UIImage  * image;
+@property (nonatomic, copy, readwrite)      NSString * title;
+@property (nonatomic, copy, readwrite)      NSString * subTitle;
 
 
 +(id)initWithLocation:(CLLocationCoordinate2D)c;

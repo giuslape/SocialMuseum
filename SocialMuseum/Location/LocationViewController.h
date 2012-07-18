@@ -7,18 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MapKit/MapKit.h>
-#import "OpereDaoXML.h"
 
 
 @interface LocationViewController : UIViewController <MKMapViewDelegate>{
     
     IBOutlet MKMapView* _map;
     IBOutlet UIBarButtonItem* myPosition;
-    id <OpereDao> dao;
     NSMutableArray* _artWorks;
-    MKCoordinateRegion _regionVisible;
     NSInteger _tagAnnotation;
+    
+    bool _isLoad;
 }
 
 -(IBAction)adjustedRegion:(id)sender;

@@ -8,27 +8,21 @@
 
 #import "LocationViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "MBProgressHUD.h"
 #import "SMAnnotation.h"
-#import "SMAnnotationView.h"
+#import "ArtWork.h"
+#import "OperaViewController.h"
+#import "API.h"
+#import "UIAlertView+error.h"
+
 
 @interface LocationViewController ()
 
--(void)reuseAnnotation;
+-(void)refreshAnnotations;
 
 @end
 
 @implementation LocationViewController
-
-
--(id<OpereDao>)dao{
-    
-    if (!dao) {
-        
-        dao = [[OpereDaoXML alloc] init];
-    }
-    
-    return dao;
-}
 
 
 + (CGFloat)annotationPadding;
@@ -47,11 +41,10 @@
 
 -(IBAction)adjustedRegion:(id)sender{
     
-    _regionVisible =
+    MKCoordinateRegion _regionVisible =
     MKCoordinateRegionMakeWithDistance(_map.userLocation.coordinate, 1000, 1000);
-    MKCoordinateRegion adjustedRegion = [_map regionThatFits:_regionVisible];
-    [_map setRegion:adjustedRegion animated:YES];
-    [self reuseAnnotation];
+    MKCoordinateRegion region = [_map regionThatFits:_regionVisible];
+    [_map setRegion:region animated:YES];
 }
 
 - (void)viewDidLoad
@@ -64,16 +57,18 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-   // [manager stopUpdatingLocation];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     
     [super viewDidAppear:animated];
-        
-    //Aspetto il caricamento della vista prima modificare l'area di interesse
     
-    [self performSelector:@selector(adjustedRegion:) withObject:self afterDelay:0.5f];
+    //Aspetto il caricamento della vista prima modificare l'area di interesse
+    _isLoad = false;
+
+    [self performSelector:@selector(adjustedRegion:) withObject:self afterDelay:0.2f];
+    
+    [self performSelector:@selector(refreshAnnotations) withObject:nil afterDelay:2.0f];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -88,41 +83,47 @@
 }
 
 
--(void)reuseAnnotation{
+-(void)refreshAnnotations{
     
     for (id<MKAnnotation> annotation in _map.annotations) {
         if ([annotation isKindOfClass:[MKUserLocation class]]) {
+            _isLoad = true;
             continue;
         }
         [_map removeAnnotation:annotation];
     }
     
-    
     [_artWorks removeAllObjects];
-
-    NSDictionary* artworks = [self.dao loadArtWorksInRegion];
+    
+    MKCoordinateRegion region = _map.region;
+    
+    NSLog(@"%f", region.center.latitude  -region.span.latitudeDelta);
+    NSLog(@"%f", region.center.latitude  +region.span.latitudeDelta);
+    NSLog(@"%f", region.center.longitude -region.span.longitudeDelta);
+    NSLog(@"%f", region.center.longitude +region.span.longitudeDelta);
+    
+    
+    NSString* latMin  = [NSString stringWithFormat:@"%f",region.center.latitude-region.span.latitudeDelta/2];
+    NSString* latMax  = [NSString stringWithFormat:@"%f",region.center.latitude+region.span.latitudeDelta/2];
+    NSString* longMin = [NSString stringWithFormat:@"%f",region.center.longitude-region.span.longitudeDelta/2];
+    NSString* longMax = [NSString stringWithFormat:@"%f",region.center.longitude+region.span.longitudeDelta/2];
+    
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading";
+    
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"artwork", @"command",latMax,@"lat_max", longMax,@"long_max",latMin,@"lat_min",longMin,@"long_min",nil] 
+                               onCompletion:^(NSDictionary *json) {
         
-    for (id index in artworks) {
-        
-        id object = [artworks objectForKey:index];
-        
-        CLLocationDegrees latitude =  [[object valueForKey:@"latitude"]  doubleValue];
-        CLLocationDegrees longitude = [[object valueForKey:@"longitude"] doubleValue];
-        
-        CLLocationCoordinate2D coordinate ;
-        
-        coordinate.latitude = latitude;
-        coordinate.longitude = longitude;
-        
-        SMAnnotation* annotation = [[SMAnnotation alloc] initWithLocation:coordinate];
-        
-        annotation.title = [object objectForKey:@"title"];
-        
-        [_map addAnnotation:(id)annotation];
-        
-        [_artWorks addObject:object];
-    }
-        
+        if (![json objectForKey:@"error"]) {
+            //Carica i punti di interesse
+            [self opereCaricate:[json objectForKey:@"result"]];
+		} else {
+			//Errore
+			NSString* errorMsg = [json objectForKey:@"error"];
+			[UIAlertView error:errorMsg];
+		}
+        [hud hide:YES];
+	}];
 }
 
 #pragma mark -
@@ -140,19 +141,19 @@
     if (annotation == mapView.userLocation) 
         return nil;
     
+    SMAnnotation* smAnnotation = (SMAnnotation *)annotation;
     
     static NSString* SMAnnotationIdentifier = @"SMAnnotationIdentifier";
     MKPinAnnotationView* pinView =
     (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:SMAnnotationIdentifier];
     if (!pinView)
     {
-    MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation 
+    MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:smAnnotation 
                                                                           reuseIdentifier:SMAnnotationIdentifier];
     
     annotationView.canShowCallout = YES;
     annotationView.rightCalloutAccessoryView = 
         [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    annotationView.tag = _tagAnnotation++;
         
      return annotationView;
 
@@ -168,26 +169,62 @@
     
     [self performSegueWithIdentifier:@"Opera" sender:view];
 
+    [mapView deselectAnnotation:view.annotation animated:YES];
+    
 }
 
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
-    
-    
-
+                
+    if (_isLoad) [self refreshAnnotations];
 }
 
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
     
-    
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);    
 
 }
 
+#pragma mark -
+#pragma mark ===  Opere Caricate  ===
+#pragma mark -
 
+
+-(void)opereCaricate:(NSArray *)artworks{
+            
+    for (int index = 0; index < [artworks count]; index++) {
+        
+        id object = [artworks objectAtIndex:index];
+                
+        CLLocationDegrees latitude =  [[object objectForKey:@"latitude"]  doubleValue];
+        CLLocationDegrees longitude = [[object valueForKey:@"longitude"] doubleValue];
+        
+        CLLocationCoordinate2D coordinate ;
+        
+        coordinate.latitude = latitude;
+        coordinate.longitude = longitude;
+        
+        SMAnnotation* annotation = [[SMAnnotation alloc] initWithLocation:coordinate];
+        
+        annotation.title = [object objectForKey:@"Nome"];
+        
+        NSURL* imageUrl = [NSURL URLWithString:[object objectForKey:@"Foto"]];
+        
+        NSLog(@"%@",imageUrl.absoluteString);
+                
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
+              
+        annotation.image = image;
+        
+        [_map addAnnotation:(id)annotation];
+        
+        [_artWorks insertObject:object atIndex:_tagAnnotation];
+        _tagAnnotation++;
+        
+    }
+
+}
 
 
 #pragma mark -
@@ -197,6 +234,22 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
     NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+        
+    MKAnnotationView* annotationView = (MKAnnotationView *)sender;
+    
+    SMAnnotation* annotation = (SMAnnotation *)annotationView.annotation;
+    
+    ArtWork* artWork = [[ArtWork alloc] init];
+    
+    [artWork setImage:annotation.image];
+    [artWork setDescription:annotation.description];
+    [artWork setTitle:annotation.title];
+        
+    OperaViewController* viewController = [segue destinationViewController];
+    
+    viewController.artWork = [[ArtWork alloc] init];
+        
+    [viewController setArtWork:artWork];
     
 }
 

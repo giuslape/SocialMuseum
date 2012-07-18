@@ -11,8 +11,8 @@
 @implementation SMAnnotation
 
 @synthesize coordinate;
-@synthesize description;
-@synthesize image;
+@synthesize description = _description;
+@synthesize image = _image;
 @synthesize title = _title;
 @synthesize subTitle = _subTitle;
 
@@ -29,7 +29,7 @@
     if (self = [super init]) {
         
         coordinate = c;
-        image = nil;
+        _image = nil;
     }
     return self;
 }
@@ -51,7 +51,7 @@
 
 - (UIImage *)image{
     
-    return image;
+    return _image;
 }
 
 
