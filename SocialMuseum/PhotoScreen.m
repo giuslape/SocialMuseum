@@ -20,6 +20,8 @@
 
 @implementation PhotoScreen
 
+@synthesize IdOpera;
+
 #pragma mark - View lifecycle
 -(void)viewDidLoad {
     [super viewDidLoad];
@@ -75,7 +77,7 @@
 -(void)uploadPhoto {
         
     //Carica l'img e il titolo sul server
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"upload", @"command", UIImageJPEGRepresentation(photo.image,70), @"file", fldTitle.text, @"title", nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"upload", @"command", UIImageJPEGRepresentation(photo.image,70), @"file", fldTitle.text, @"title",IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
 			//Successo

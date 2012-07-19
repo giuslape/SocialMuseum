@@ -15,6 +15,7 @@
     IBOutlet UIScrollView* listView;
 }
 
+@property(nonatomic, weak) NSNumber* IdOpera;
 //refresh the photo stream
 -(IBAction)btnRefreshTapped;
 

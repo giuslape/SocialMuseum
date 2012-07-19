@@ -50,7 +50,7 @@
                 <tapGestureRecognizer id="nu6-gs-h9s">
                     <connections>
                         <action selector="showImage:" destination="dCz-YK-UWR" id="D7j-qS-uyV"/>
-                        <segue destination="mLZ-QK-4Bi" kind="push" id="7Zm-WG-D5k"/>
+                        <segue destination="mLZ-QK-4Bi" kind="push" identifier="ShowStream" id="7Zm-WG-D5k"/>
                     </connections>
                 </tapGestureRecognizer>
                 <viewController id="dCz-YK-UWR" customClass="OperaViewController" sceneMemberID="viewController">
@@ -355,24 +355,23 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="eGd-1B-Ib6"/>
+                    <navigationItem key="navigationItem" id="eGd-1B-Ib6">
+                        <connections>
+                            <outlet property="backBarButtonItem" destination="WQ7-PW-PsX" id="jMD-Qf-Oeo"/>
+                        </connections>
+                    </navigationItem>
                     <connections>
                         <outlet property="btnCompose" destination="ZCw-qA-sDH" id="ooz-Ab-Y77"/>
-                        <outlet property="btnRefresh" destination="iEK-2i-JFH" id="Hxh-qb-YNi"/>
                         <outlet property="listView" destination="dNb-wM-KOA" id="1j8-0s-hxQ"/>
                         <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="oQE-wf-5dZ"/>
                     </connections>
                 </viewController>
                 <barButtonItem systemItem="compose" id="ZCw-qA-sDH">
                     <connections>
-                        <segue destination="aGw-4W-P2W" kind="push" id="7qP-rR-HgT"/>
+                        <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="7qP-rR-HgT"/>
                     </connections>
                 </barButtonItem>
-                <barButtonItem systemItem="refresh" id="iEK-2i-JFH">
-                    <connections>
-                        <action selector="btnRefreshTapped" destination="mLZ-QK-4Bi" id="u3J-ov-FNH"/>
-                    </connections>
-                </barButtonItem>
+                <barButtonItem title="Item" id="WQ7-PW-PsX"/>
             </objects>
             <point key="canvasLocation" x="1810" y="-1096"/>
         </scene>

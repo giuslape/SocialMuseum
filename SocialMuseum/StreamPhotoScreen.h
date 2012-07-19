@@ -14,6 +14,7 @@
     IBOutlet UILabel* lblTitle;
 }
 
-@property (assign, nonatomic) NSNumber* IdPhoto;
+@property (weak, nonatomic) NSNumber* IdPhoto;
+@property (weak, nonatomic) NSNumber* IdOpera;
 
 @end

@@ -15,6 +15,7 @@
     NSString* _subTitle;
     __weak NSString* _description;
      UIImage*  _image;
+    NSNumber* _IdOpera;
 
     
 }
@@ -24,7 +25,7 @@
 @property (nonatomic, copy,readwrite)       UIImage  * image;
 @property (nonatomic, copy, readwrite)      NSString * title;
 @property (nonatomic, copy, readwrite)      NSString * subTitle;
-
+@property (nonatomic, copy, readwrite)      NSNumber* IdOpera;
 
 +(id)initWithLocation:(CLLocationCoordinate2D)c;
 -(id)initWithLocation:(CLLocationCoordinate2D)c;

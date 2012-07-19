@@ -10,6 +10,7 @@
 #import "API.h"
 #import "PhotoView.h"
 #import "StreamPhotoScreen.h"
+#import "PhotoScreen.h"
 
 @interface StreamScreen(private)
 
@@ -20,18 +21,21 @@
 
 @implementation StreamScreen
 
+@synthesize IdOpera;
+
 #pragma mark - View lifecycle
 
 -(void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"Social Museum stream";
     self.navigationItem.rightBarButtonItem = btnCompose;
-   // self.navigationItem.leftBarButtonItem = btnRefresh;
-    
+    self.navigationItem.title = @"Foto";
     //Mostra lo stream delle foto
 	[self refreshStream];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    
+}
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -43,7 +47,7 @@
 
 -(void)refreshStream {
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command", nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		[self showStream:[json objectForKey:@"result"]];
 	}];
@@ -76,6 +80,10 @@
     if ([@"ShowPhoto" compare: segue.identifier]==NSOrderedSame) {
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
         streamPhotoScreen.IdPhoto = sender;
+    }
+    if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
+        PhotoScreen* photoScreen = segue.destinationViewController;
+        photoScreen.IdOpera = self.IdOpera;
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "OperaViewController.h"
+#import "StreamScreen.h"
 
 @interface OperaViewController ()
 
@@ -37,9 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.navigationItem.title = self.artWork.title;
-    
+        
     self.artworkImage.image = self.artWork.image;
         
 }
@@ -53,7 +52,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
- 
+    
+    self.navigationItem.title = self.artWork.title;
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -100,6 +101,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
+    
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([@"ShowStream" compare:[segue identifier]] == NSOrderedSame) {
+        
+        StreamScreen* stream = [segue destinationViewController];
+        stream.navigationItem.title = _artWork.title;
+        [stream setIdOpera:_artWork.IdOpera];
+        
+        self.navigationItem.title = nil;
+    }
     
 }
 

@@ -15,6 +15,7 @@
 @synthesize image = _image;
 @synthesize title = _title;
 @synthesize subTitle = _subTitle;
+@synthesize IdOpera = _IdOpera;
 
 
 

@@ -18,5 +18,7 @@
 //Mostra il menu dell'app
 -(IBAction)btnActionTapped:(id)sender;
 
+@property(nonatomic, weak)NSNumber* IdOpera;
+
 
 @end

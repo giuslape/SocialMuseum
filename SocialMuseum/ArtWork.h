@@ -13,5 +13,6 @@
 @property (strong, nonatomic, readwrite) NSString* title;
 @property (strong, nonatomic, readwrite) NSString* description;
 @property (strong, nonatomic, readwrite) UIImage*  image;
+@property (strong, nonatomic, readwrite) NSNumber* IdOpera;
 
 @end

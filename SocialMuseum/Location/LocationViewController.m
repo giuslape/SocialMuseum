@@ -66,7 +66,7 @@
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
 
-    [self performSelector:@selector(adjustedRegion:) withObject:self afterDelay:0.2f];
+    [self performSelector:@selector(adjustedRegion:) withObject:self afterDelay:0.5f];
     
     [self performSelector:@selector(refreshAnnotations) withObject:nil afterDelay:2.0f];
 }
@@ -210,12 +210,12 @@
         annotation.title = [object objectForKey:@"Nome"];
         
         NSURL* imageUrl = [NSURL URLWithString:[object objectForKey:@"Foto"]];
-        
-        NSLog(@"%@",imageUrl.absoluteString);
-                
+                        
         UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
               
         annotation.image = image;
+        
+        annotation.IdOpera = [object objectForKey:@"IdOpera"];
         
         [_map addAnnotation:(id)annotation];
         
@@ -244,6 +244,7 @@
     [artWork setImage:annotation.image];
     [artWork setDescription:annotation.description];
     [artWork setTitle:annotation.title];
+    [artWork setIdOpera:annotation.IdOpera];
         
     OperaViewController* viewController = [segue destinationViewController];
     
