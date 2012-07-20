@@ -8,19 +8,23 @@
 
 #import "OperaViewController.h"
 #import "StreamScreen.h"
+#import "API.h"
 
 @interface OperaViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *containerView;
+-(void)showPhotos:(NSArray *)stream;
 
 @end
 
-@implementation OperaViewController
 
-@synthesize containerView = _containerView;
+#define kThumb 30
+#define kPad 3
+
+@implementation OperaViewController
 
 @synthesize artworkImage = _artworkImage;
 
+@synthesize photoView = _photoView;
 @synthesize artWork = _artWork;
 
 
@@ -40,13 +44,16 @@
     [super viewDidLoad];
         
     self.artworkImage.image = self.artWork.image;
-        
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+        //Mostra lo stream
+		[self showPhotos:[json objectForKey:@"result"]];
+	}];
 }
 
 - (void)viewDidUnload
 {
     [self setArtworkImage:nil];
-    [self setContainerView:nil];
+    [self setPhotoView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -115,6 +122,38 @@
         self.navigationItem.title = nil;
     }
     
+}
+
+
+#pragma mark -
+#pragma mark ===  Stream Photo  ===
+#pragma mark -
+
+-(void)showPhotos:(NSArray *)stream{
+    
+    for (UIView* view in _photoView.subviews) {
+        [view removeFromSuperview];
+    }
+    API* api = [API sharedInstance];
+    
+    
+    
+    for (int i=0;i<[stream count];i++) {
+        
+        NSDictionary* photo = [stream objectAtIndex:i];
+        
+		int IdPhoto = [[photo objectForKey:@"IdPhoto"] intValue];
+        int col = i%5;
+        NSURL* imageURL = [api urlForImageWithId:[NSNumber numberWithInt: IdPhoto] isThumb:YES];
+		AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
+			//Crea ImageView e l'aggiunge alla vista
+			UIImageView* thumbView = [[UIImageView alloc] initWithImage: image];
+            thumbView.frame = CGRectMake(1.5*kPad+col*(kThumb+kPad), kPad, kThumb, kThumb);
+			[_photoView addSubview:thumbView];
+		}];
+		NSOperationQueue* queue = [[NSOperationQueue alloc] init];
+		[queue addOperation:imageOperation];
+    }      
 }
 
 @end

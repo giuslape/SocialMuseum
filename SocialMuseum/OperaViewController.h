@@ -6,13 +6,14 @@
 //  Copyright (c) 2012 Lapenta. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 #import "ArtWork.h"
 
 
 @interface OperaViewController : UIViewController <UITableViewDataSource , UITableViewDelegate>
 
-
+@property (weak, nonatomic) IBOutlet UIView *photoView;
 
 @property (readwrite, copy, nonatomic) ArtWork *artWork; 
 

@@ -16,7 +16,7 @@
 -(void)viewDidLoad {
 	API* api = [API sharedInstance];
 	//load the caption of the selected photo
-	[api commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command", IdPhoto,@"IdPhoto", IdOpera, @"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+	[api commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command", IdPhoto,@"IdPhoto", nil] onCompletion:^(NSDictionary *json) {
 		//show the text in the label
 		NSArray* list = [json objectForKey:@"result"];
 		NSDictionary* photo = [list objectAtIndex:0];
@@ -34,7 +34,6 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
 }
 
 @end

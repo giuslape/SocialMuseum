@@ -33,9 +33,7 @@
 	[self refreshStream];
 }
 
--(void)viewDidAppear:(BOOL)animated{
     
-}
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -46,7 +44,6 @@
 }
 
 -(void)refreshStream {
-    
     [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		[self showStream:[json objectForKey:@"result"]];

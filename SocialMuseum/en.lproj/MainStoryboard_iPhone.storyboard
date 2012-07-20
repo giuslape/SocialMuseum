@@ -63,29 +63,20 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="52O-wt-T0g">
-                                <rect key="frame" x="0.0" y="164" width="320" height="41"/>
+                                <rect key="frame" x="0.0" y="165" width="320" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Foto" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="l6Z-1L-JMd">
-                                        <rect key="frame" x="20" y="3" width="280" height="38"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="nu6-gs-h9s" appends="YES" id="Kfz-eN-cUm"/>
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" id="9xg-Yy-f1u">
-                                <rect key="frame" x="0.0" y="205" width="320" height="43"/>
+                                <rect key="frame" x="0.0" y="201" width="320" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Aggiornamenti" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="DzR-U1-fv4">
-                                        <rect key="frame" x="20" y="4" width="280" height="34"/>
+                                        <rect key="frame" x="20" y="4" width="280" height="27"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <gestureRecognizers/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -93,14 +84,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="hc9-wa-syy" appends="YES" id="1bA-F4-ht0"/>
                                 </connections>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gVb-g4-f4s">
-                                <rect key="frame" x="0.0" y="248" width="320" height="168"/>
+                                <rect key="frame" x="0.0" y="237" width="320" height="179"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -114,6 +105,7 @@
                     <navigationItem key="navigationItem" id="Q7b-0w-AES"/>
                     <connections>
                         <outlet property="artworkImage" destination="bi4-Am-tDK" id="23Q-JW-q3u"/>
+                        <outlet property="photoView" destination="52O-wt-T0g" id="wuV-b9-P7R"/>
                     </connections>
                 </viewController>
                 <tapGestureRecognizer id="hc9-wa-syy">
@@ -251,7 +243,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fi5-dy-XZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="sBl-uM-nAa" customClass="LoginScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JQA-Cn-pnF">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="44" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Social Museum Login" lineBreakMode="tailTruncation" minimumFontSize="10" id="uDI-hB-Umz">
@@ -344,7 +336,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="mLZ-QK-4Bi" customClass="StreamScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lEl-gX-lg8">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="dNb-wM-KOA">
@@ -381,7 +373,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Fau-h8-meB" customClass="StreamPhotoScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="v11-S2-y6v">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="44" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="yJ0-Wj-8OE">
@@ -418,7 +410,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzz-Xw-dqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="aGw-4W-P2W" customClass="PhotoScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2vR-m9-MKB">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="44" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="placeholder.png" id="UsQ-Fs-zcf">
@@ -490,7 +482,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OperaViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="artworkImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="containerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="photoView" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="PhotoScreen" superclassName="UIViewController">
