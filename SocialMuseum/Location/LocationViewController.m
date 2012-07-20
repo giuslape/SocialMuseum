@@ -56,6 +56,7 @@
     [super viewDidLoad];
     _map.delegate = self;
     _tagAnnotation = 0;
+    offsetRect = MKMapRectNull;
     
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
@@ -91,17 +92,27 @@
     
     [_artWorks removeAllObjects];
     
-    MKCoordinateRegion region = _map.region;
+    //Definisco il quadrato che contiene la mappa
+    MKMapPoint p11 = MKMapPointMake(MKMapRectGetMinX(offsetRect), MKMapRectGetMinY(offsetRect));
+    MKMapPoint p22 = MKMapPointMake(MKMapRectGetMaxX(offsetRect), MKMapRectGetMaxY(offsetRect));
+    
+    
+    NSString* latMin = [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p22).latitude];
+    NSString* latMax = [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p11).latitude];
+    NSString* longMin= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p11).longitude];
+    NSString* longMax= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p22).longitude];
+    
+    /*MKCoordinateRegion region = _map.region;
     
     NSString* latMin  = [NSString stringWithFormat:@"%f",region.center.latitude-region.span.latitudeDelta/2];
     NSString* latMax  = [NSString stringWithFormat:@"%f",region.center.latitude+region.span.latitudeDelta/2];
     NSString* longMin = [NSString stringWithFormat:@"%f",region.center.longitude-region.span.longitudeDelta/2];
-    NSString* longMax = [NSString stringWithFormat:@"%f",region.center.longitude+region.span.longitudeDelta/2];
+    NSString* longMax = [NSString stringWithFormat:@"%f",region.center.longitude+region.span.longitudeDelta/2];*/
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"artwork", @"command",latMax,@"lat_max", longMax,@"long_max",latMin,@"lat_min",longMin,@"long_min",nil] 
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"artwork", @"command",latMax,@"lat_max",longMax,@"long_max",latMin,@"lat_min",longMin,@"long_min",nil] 
                                onCompletion:^(NSDictionary *json) {
         
         if (![json objectForKey:@"error"]) {
@@ -177,19 +188,10 @@
     }
 }
 
-- (void)mapViewWillStartLoadingMap:(MKMapView *)mapView{
-        
-    [self refreshAnnotations];
-}
-
--(void)mapViewDidStopLocatingUser:(MKMapView *)mapView{
-    
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
-
-}
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+    if (!MKMapRectIsNull(offsetRect))[self refreshAnnotations];
     [self adjustedRegion:self];
     _isLoad = true;
 }

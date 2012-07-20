@@ -1,9 +1,9 @@
  //
 //  LoginScreen.m
-//  iReporter
+//  Social Museum
 //
-//  Created by Marin Todorov on 09/02/2012.
-//  Copyright (c) 2012 Marin Todorov. All rights reserved.
+//  Created by Giuseppe Lapenta on 09/02/2012.
+//  Copyright (c) 2012 Giuseppe Lapenta. All rights reserved.
 //
 
 #import "LoginScreen.h"

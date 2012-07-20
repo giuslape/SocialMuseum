@@ -1,6 +1,6 @@
 //
 //  StreamPhotoScreen.h
-//  iReporter
+//  Social Museum
 //
 //  Created by Giuseppe Lapenta on 10/02/2012.
 //  Copyright (c) 2012 Giuseppe Lapenta. All rights reserved.

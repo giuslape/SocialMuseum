@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define kOffsetRect 3000
+#define kOffsetRect 50000
 
 
 @interface LocationViewController : UIViewController <MKMapViewDelegate>{
