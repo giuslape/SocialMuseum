@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="372" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem title="My position" id="jm8-Il-GT3">
+                                    <barButtonItem systemItem="refresh" id="jm8-Il-GT3">
                                         <connections>
                                             <action selector="adjustedRegion:" destination="acY-cr-O7L" id="bxJ-Lf-HfR"/>
                                         </connections>

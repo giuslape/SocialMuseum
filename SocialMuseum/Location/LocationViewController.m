@@ -18,12 +18,14 @@
 
 @interface LocationViewController ()
 
+@property MKMapRect offsetRect;
 -(void)refreshAnnotations;
 
 @end
 
 @implementation LocationViewController
 
+@synthesize offsetRect;
 
 + (CGFloat)annotationPadding;
 {
@@ -45,6 +47,8 @@
     MKCoordinateRegionMakeWithDistance(_map.userLocation.coordinate, 1000, 1000);
     MKCoordinateRegion region = [_map regionThatFits:_regionVisible];
     [_map setRegion:region animated:YES];
+    
+    offsetRect = MKMapRectMake(_map.visibleMapRect.origin.x - kOffsetRect, _map.visibleMapRect.origin.y - kOffsetRect, _map.visibleMapRect.size.width + 2*kOffsetRect, _map.visibleMapRect.size.height + 2*kOffsetRect);
 }
 
 - (void)viewDidLoad
@@ -66,9 +70,6 @@
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
 
-    [self performSelector:@selector(adjustedRegion:) withObject:self afterDelay:0.5f];
-    
-    [self performSelector:@selector(refreshAnnotations) withObject:nil afterDelay:2.0f];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -96,12 +97,6 @@
     [_artWorks removeAllObjects];
     
     MKCoordinateRegion region = _map.region;
-    
-    NSLog(@"%f", region.center.latitude  -region.span.latitudeDelta);
-    NSLog(@"%f", region.center.latitude  +region.span.latitudeDelta);
-    NSLog(@"%f", region.center.longitude -region.span.longitudeDelta);
-    NSLog(@"%f", region.center.longitude +region.span.longitudeDelta);
-    
     
     NSString* latMin  = [NSString stringWithFormat:@"%f",region.center.latitude-region.span.latitudeDelta/2];
     NSString* latMax  = [NSString stringWithFormat:@"%f",region.center.latitude+region.span.latitudeDelta/2];
@@ -175,14 +170,39 @@
 
 
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-                
-    if (_isLoad) [self refreshAnnotations];
+          
+    MKMapRect rect = mapView.visibleMapRect;
+    
+    if (!MKMapRectContainsRect(offsetRect, rect) && _isLoad) {
+        
+        [self refreshAnnotations];
+        
+        offsetRect.origin = MKMapPointMake(rect.origin.x - kOffsetRect, rect.origin.y - kOffsetRect);
+        
+    }
+}
+
+- (void)mapViewWillStartLoadingMap:(MKMapView *)mapView{
+        
+    [self refreshAnnotations];
+}
+
+-(void)mapViewDidStopLocatingUser:(MKMapView *)mapView{
+    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+
+}
+
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+    [self adjustedRegion:self];
+    _isLoad = true;
 }
 
 
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
-    
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
+
 
 }
 
