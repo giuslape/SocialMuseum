@@ -44,11 +44,8 @@
     [super viewDidLoad];
         
     self.artworkImage.image = self.artWork.image;
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
-        //Mostra lo stream
-		[self showPhotos:[json objectForKey:@"result"]];
-	}];
 }
+
 
 - (void)viewDidUnload
 {
@@ -61,6 +58,10 @@
 - (void)viewWillAppear:(BOOL)animated{
     
     self.navigationItem.title = self.artWork.title;
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+        //Mostra lo stream
+		[self showPhotos:[json objectForKey:@"result"]];
+	}];
 
 }
 

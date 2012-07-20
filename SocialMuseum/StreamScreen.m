@@ -30,13 +30,17 @@
     self.navigationItem.rightBarButtonItem = btnCompose;
     self.navigationItem.title = @"Foto";
     //Mostra lo stream delle foto
-	[self refreshStream];
 }
 
     
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self refreshStream];
 }
 
 -(IBAction)btnRefreshTapped {

@@ -56,6 +56,9 @@
     [super viewDidLoad];
     _map.delegate = self;
     _tagAnnotation = 0;
+    
+    //Aspetto il caricamento della vista prima modificare l'area di interesse
+    _isLoad = false;
 }
 
 - (void)viewDidUnload
@@ -63,14 +66,6 @@
     [super viewDidUnload];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    
-    [super viewDidAppear:animated];
-    
-    //Aspetto il caricamento della vista prima modificare l'area di interesse
-    _isLoad = false;
-
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
