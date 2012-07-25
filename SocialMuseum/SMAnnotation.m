@@ -16,6 +16,8 @@
 @synthesize title = _title;
 @synthesize subTitle = _subTitle;
 @synthesize IdOpera = _IdOpera;
+@synthesize chunkDescription = _chunkDescription;
+@synthesize imageUrl = _imageUrl;
 
 
 
@@ -55,5 +57,9 @@
     return _image;
 }
 
+-(NSArray *)chunkDescription{
+    
+    return _chunkDescription;
+}
 
 @end

@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 
 #define kOffsetRect 50000
+#define khorizontalAccuracy 100
 
 
 @interface LocationViewController : UIViewController <MKMapViewDelegate>{
     
     IBOutlet MKMapView* _map;
     IBOutlet UIBarButtonItem* myPosition;
-    NSMutableArray* _artWorks;
     NSInteger _tagAnnotation;
     
     bool _isLoad;

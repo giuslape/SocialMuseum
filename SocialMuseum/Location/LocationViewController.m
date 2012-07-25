@@ -57,7 +57,6 @@
     _map.delegate = self;
     _tagAnnotation = 0;
     offsetRect = MKMapRectNull;
-    
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
 }
@@ -89,25 +88,15 @@
         }
         [_map removeAnnotation:annotation];
     }
-    
-    [_artWorks removeAllObjects];
-    
+        
     //Definisco il quadrato che contiene la mappa
     MKMapPoint p11 = MKMapPointMake(MKMapRectGetMinX(offsetRect), MKMapRectGetMinY(offsetRect));
     MKMapPoint p22 = MKMapPointMake(MKMapRectGetMaxX(offsetRect), MKMapRectGetMaxY(offsetRect));
-    
     
     NSString* latMin = [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p22).latitude];
     NSString* latMax = [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p11).latitude];
     NSString* longMin= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p11).longitude];
     NSString* longMax= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p22).longitude];
-    
-    /*MKCoordinateRegion region = _map.region;
-    
-    NSString* latMin  = [NSString stringWithFormat:@"%f",region.center.latitude-region.span.latitudeDelta/2];
-    NSString* latMax  = [NSString stringWithFormat:@"%f",region.center.latitude+region.span.latitudeDelta/2];
-    NSString* longMin = [NSString stringWithFormat:@"%f",region.center.longitude-region.span.longitudeDelta/2];
-    NSString* longMax = [NSString stringWithFormat:@"%f",region.center.longitude+region.span.longitudeDelta/2];*/
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
@@ -174,7 +163,6 @@
     
 }
 
-
 -(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
           
     MKMapRect rect = mapView.visibleMapRect;
@@ -184,23 +172,38 @@
         [self refreshAnnotations];
         
         offsetRect.origin = MKMapPointMake(rect.origin.x - kOffsetRect, rect.origin.y - kOffsetRect);
+    }
+}
+
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
+    
+    if (!_isLoad) {
         
+        [self adjustedRegion:self];
+        _isLoad = true;
+        [self refreshAnnotations];
+
     }
 }
 
 
--(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
-    if (!MKMapRectIsNull(offsetRect))[self refreshAnnotations];
-    [self adjustedRegion:self];
-    _isLoad = true;
-}
-
-
 -(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
-
-
+    
+    SMAnnotation* annotation = (SMAnnotation *)view.annotation;
+    
+    AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:annotation.imageUrl] success:^(UIImage *image) {
+        [annotation setImage:image];
+        
+    }];
+    NSOperationQueue* queue = [[NSOperationQueue alloc] init];
+    [queue addOperation:imageOperation];
+    
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"content", @"command",annotation.IdOpera,@"IdOpera", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   annotation.chunkDescription = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                  // annotation.chunkDescription = [[annotation.chunkDescription reverseObjectEnumerator] allObjects];
+                               }];
 }
 
 #pragma mark -
@@ -214,8 +217,8 @@
         
         id object = [artworks objectAtIndex:index];
                 
-        CLLocationDegrees latitude =  [[object objectForKey:@"latitude"]  doubleValue];
-        CLLocationDegrees longitude = [[object valueForKey:@"longitude"] doubleValue];
+        CLLocationDegrees latitude =  [[object valueForKey:@"latitude"]  doubleValue];
+        CLLocationDegrees longitude = [[object valueForKey:@"longitude"]  doubleValue];
         
         CLLocationCoordinate2D coordinate ;
         
@@ -225,18 +228,15 @@
         SMAnnotation* annotation = [[SMAnnotation alloc] initWithLocation:coordinate];
         
         annotation.title = [object objectForKey:@"Nome"];
-        
+                
         NSURL* imageUrl = [NSURL URLWithString:[object objectForKey:@"Foto"]];
-                        
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageUrl]];
-              
-        annotation.image = image;
+                                      
+        annotation.imageUrl = imageUrl;
         
         annotation.IdOpera = [object objectForKey:@"IdOpera"];
         
         [_map addAnnotation:(id)annotation];
         
-        [_artWorks insertObject:object atIndex:_tagAnnotation];
         _tagAnnotation++;
         
     }
@@ -249,26 +249,26 @@
 #pragma mark -
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), self);
-        
+            
     MKAnnotationView* annotationView = (MKAnnotationView *)sender;
     
     SMAnnotation* annotation = (SMAnnotation *)annotationView.annotation;
     
     ArtWork* artWork = [[ArtWork alloc] init];
     
-    [artWork setImage:annotation.image];
     [artWork setDescription:annotation.description];
     [artWork setTitle:annotation.title];
     [artWork setIdOpera:annotation.IdOpera];
-        
+    [artWork setImage:annotation.image];
+    
     OperaViewController* viewController = [segue destinationViewController];
     
     viewController.artWork = [[ArtWork alloc] init];
         
     [viewController setArtWork:artWork];
     
+    [viewController setDescription:annotation.chunkDescription];
+        
 }
 
 

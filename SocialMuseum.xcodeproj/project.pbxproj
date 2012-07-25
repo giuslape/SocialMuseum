@@ -42,6 +42,8 @@
 		2058DC3314975AF300E3B0B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2058DC0614975AF200E3B0B1 /* Foundation.framework */; };
 		2058DC3B14975AF300E3B0B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2058DC3914975AF300E3B0B1 /* InfoPlist.strings */; };
 		2058DC3E14975AF300E3B0B1 /* SocialMuseumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2058DC3D14975AF300E3B0B1 /* SocialMuseumTests.m */; };
+		207EE7F415C03E440085F153 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F315C03E440085F153 /* location@2x.png */; };
+		207EE7F715C03F020085F153 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F615C03F020085F153 /* location.png */; };
 		208D887B15B619430018BE2F /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D886315B619430018BE2F /* NSObject+SBJson.m */; };
 		208D887C15B619430018BE2F /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D886615B619430018BE2F /* SBJsonParser.m */; };
 		208D887D15B619430018BE2F /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D886815B619430018BE2F /* SBJsonStreamParser.m */; };
@@ -86,7 +88,6 @@
 		20BD119314A0A7C200B0F775 /* Players.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD117B14A0A7C200B0F775 /* Players.png */; };
 		20BD119414A0A7C200B0F775 /* Players@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD117C14A0A7C200B0F775 /* Players@2x.png */; };
 		20BD119714A0A83900B0F775 /* MoodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20BD119614A0A83900B0F775 /* MoodCell.m */; };
-		20C8506F1557D4080065FB75 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 20C8506E1557D4080065FB75 /* location.png */; };
 		20C850711557D4A60065FB75 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C850701557D4A60065FB75 /* MapKit.framework */; };
 		20C850741557D67F0065FB75 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C850731557D67F0065FB75 /* LocationViewController.m */; };
 		20C850791557E00E0065FB75 /* SMAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C850781557E00E0065FB75 /* SMAnnotation.m */; };
@@ -170,6 +171,8 @@
 		2058DC3A14975AF300E3B0B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2058DC3C14975AF300E3B0B1 /* SocialMuseumTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialMuseumTests.h; sourceTree = "<group>"; };
 		2058DC3D14975AF300E3B0B1 /* SocialMuseumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocialMuseumTests.m; sourceTree = "<group>"; };
+		207EE7F315C03E440085F153 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
+		207EE7F615C03F020085F153 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		208D886215B619430018BE2F /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
 		208D886315B619430018BE2F /* NSObject+SBJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJson.m"; sourceTree = "<group>"; };
 		208D886415B619430018BE2F /* SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJson.h; sourceTree = "<group>"; };
@@ -233,7 +236,6 @@
 		20BD117C14A0A7C200B0F775 /* Players@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Players@2x.png"; sourceTree = "<group>"; };
 		20BD119514A0A83900B0F775 /* MoodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodCell.h; sourceTree = "<group>"; };
 		20BD119614A0A83900B0F775 /* MoodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodCell.m; sourceTree = "<group>"; };
-		20C8506E1557D4080065FB75 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		20C850701557D4A60065FB75 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		20C850721557D67F0065FB75 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationViewController.h; path = Location/LocationViewController.h; sourceTree = "<group>"; };
 		20C850731557D67F0065FB75 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationViewController.m; path = Location/LocationViewController.m; sourceTree = "<group>"; };
@@ -531,12 +533,13 @@
 		20E7D4A31497A23D00F68D1D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				207EE7F615C03F020085F153 /* location.png */,
+				207EE7F315C03E440085F153 /* location@2x.png */,
 				208D888715B6BBC90018BE2F /* placeholder.png */,
 				2058DC2814975AF300E3B0B1 /* second@2x.png */,
 				2058DC2614975AF300E3B0B1 /* second.png */,
 				2058DC2114975AF300E3B0B1 /* first@2x.png */,
 				2058DC1F14975AF300E3B0B1 /* first.png */,
-				20C8506E1557D4080065FB75 /* location.png */,
 				20BD116414A0A7B100B0F775 /* Mood */,
 			);
 			name = Resources;
@@ -643,8 +646,9 @@
 				20BD119214A0A7C200B0F775 /* Gestures@2x.png in Resources */,
 				20BD119314A0A7C200B0F775 /* Players.png in Resources */,
 				20BD119414A0A7C200B0F775 /* Players@2x.png in Resources */,
-				20C8506F1557D4080065FB75 /* location.png in Resources */,
 				208D888815B6BBC90018BE2F /* placeholder.png in Resources */,
+				207EE7F415C03E440085F153 /* location@2x.png in Resources */,
+				207EE7F715C03F020085F153 /* location.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

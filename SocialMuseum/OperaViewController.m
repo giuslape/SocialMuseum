@@ -23,7 +23,7 @@
 @implementation OperaViewController
 
 @synthesize artworkImage = _artworkImage;
-
+@synthesize description = _description;
 @synthesize photoView = _photoView;
 @synthesize artWork = _artWork;
 
@@ -42,7 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
+
     self.artworkImage.image = self.artWork.image;
 }
 
@@ -58,11 +58,13 @@
 - (void)viewWillAppear:(BOOL)animated{
     
     self.navigationItem.title = self.artWork.title;
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+   
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil]
+                               onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		[self showPhotos:[json objectForKey:@"result"]];
-	}];
-
+                                   
+        }];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -87,7 +89,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return _description.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -99,8 +101,14 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"Cell %d", indexPath.row];
+    //cell.textLabel.text = @"Cell";
     
+    if (indexPath.row < _description.count) {
+        
+        NSDictionary* dictionary = [_description objectAtIndex:indexPath.row];
+        cell.textLabel.text = [dictionary objectForKey:@"testo"];
+        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:10];
+    }
     return cell;
 }
 
@@ -125,6 +133,11 @@
     
 }
 
+-(void)setDescription:(NSArray *)desc{
+    
+    _description = desc;
+}
+
 
 #pragma mark -
 #pragma mark ===  Stream Photo  ===
@@ -136,8 +149,6 @@
         [view removeFromSuperview];
     }
     API* api = [API sharedInstance];
-    
-    
     
     for (int i=0;i<[stream count];i++) {
         

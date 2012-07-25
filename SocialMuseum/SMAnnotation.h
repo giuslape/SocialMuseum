@@ -25,7 +25,9 @@
 @property (nonatomic, copy,readwrite)       UIImage  * image;
 @property (nonatomic, copy, readwrite)      NSString * title;
 @property (nonatomic, copy, readwrite)      NSString * subTitle;
-@property (nonatomic, copy, readwrite)      NSNumber* IdOpera;
+@property (nonatomic, copy, readwrite)      NSNumber * IdOpera;
+@property (nonatomic, copy, readwrite)      NSArray  * chunkDescription;
+@property (nonatomic, copy, readwrite)      NSURL    * imageUrl; 
 
 +(id)initWithLocation:(CLLocationCoordinate2D)c;
 -(id)initWithLocation:(CLLocationCoordinate2D)c;

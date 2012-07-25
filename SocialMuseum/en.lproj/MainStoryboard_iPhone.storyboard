@@ -19,7 +19,7 @@
                                 <rect key="frame" x="0.0" y="372" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem systemItem="refresh" id="jm8-Il-GT3">
+                                    <barButtonItem image="location.png" id="jm8-Il-GT3">
                                         <connections>
                                             <action selector="adjustedRegion:" destination="acY-cr-O7L" id="bxJ-Lf-HfR"/>
                                         </connections>
@@ -75,7 +75,7 @@
                                 <rect key="frame" x="0.0" y="201" width="320" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Aggiornamenti" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="DzR-U1-fv4">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Aggiornamenti" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="DzR-U1-fv4">
                                         <rect key="frame" x="20" y="4" width="280" height="27"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <gestureRecognizers/>
@@ -452,6 +452,7 @@
     </scenes>
     <resources>
         <image name="1Star.png" width="38" height="38"/>
+        <image name="location.png" width="20" height="20"/>
         <image name="placeholder.png" width="300" height="300"/>
     </resources>
     <classes>

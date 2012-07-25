@@ -19,5 +19,6 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *artworkImage;
 
+@property (nonatomic, strong) NSArray* description; 
 
 @end
