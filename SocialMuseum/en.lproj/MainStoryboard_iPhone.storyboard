@@ -106,6 +106,7 @@
                     <connections>
                         <outlet property="artworkImage" destination="bi4-Am-tDK" id="23Q-JW-q3u"/>
                         <outlet property="photoView" destination="52O-wt-T0g" id="wuV-b9-P7R"/>
+                        <segue destination="uFZ-yn-T5N" kind="push" identifier="ShowContent" id="edF-tU-RZ6"/>
                     </connections>
                 </viewController>
                 <tapGestureRecognizer id="hc9-wa-syy">
@@ -115,6 +116,42 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1353" y="27"/>
+        </scene>
+        <!--Chunk View Controller - Chunk-->
+        <scene sceneID="oK0-Qx-TnI">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TYg-8k-tgz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="uFZ-yn-T5N" customClass="ChunkViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="CGA-wp-Y7v">
+                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="LjH-la-rBG">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.49803921580314636" green="0.49803921580314636" blue="0.49803921580314636" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Chunk" id="sRV-ld-3Nf">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yT9-uT-NQW">
+                            <connections>
+                                <segue destination="dJg-zj-0Xk" kind="push" identifier="AddComment" id="eeJ-zZ-CuV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="textView" destination="LjH-la-rBG" id="bfb-Pj-cBV"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1905" y="1372"/>
         </scene>
         <!--Update View Controller - Commenti-->
         <scene sceneID="e81-2B-b7w">
@@ -157,7 +194,7 @@
                     <navigationItem key="navigationItem" title="Commenti" id="kuT-la-2sV">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="FYz-oL-VmH">
                             <connections>
-                                <segue destination="bwT-8i-8lT" kind="modal" identifier="AddComment" id="KDB-mi-9Ba"/>
+                                <segue destination="dJg-zj-0Xk" kind="push" identifier="AddComment" id="Xbb-Kz-GWO"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -172,7 +209,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXY-l4-jd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="dJg-zj-0Xk" customClass="AddCommentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Yzf-DW-4bK">
-                        <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="top" borderStyle="line" placeholder="Inserisci il tuo commento" minimumFontSize="17" id="yXk-t4-Wvy">
@@ -197,9 +234,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <segue destination="sBl-uM-nAa" kind="modal" identifier="ShowLogin" id="uhA-Sf-OXs"/>
+                    </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="3263" y="480"/>
+            <point key="canvasLocation" x="3323" y="848"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QCV-XL-Bdc">
@@ -219,31 +259,13 @@
             </objects>
             <point key="canvasLocation" x="286" y="27"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="wql-er-QIJ">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5gH-u8-YoC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationController id="bwT-8i-8lT" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="fXc-Xi-Zfh">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="dJg-zj-0Xk" kind="relationship" relationship="rootViewController" id="ybK-TC-EVW"/>
-                    </connections>
-                </navigationController>
-            </objects>
-            <point key="canvasLocation" x="2537" y="560"/>
-        </scene>
         <!--Login Screen-->
         <scene sceneID="dZy-Tf-u2y">
             <objects>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fi5-dy-XZI" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="sBl-uM-nAa" customClass="LoginScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JQA-Cn-pnF">
-                        <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Social Museum Login" lineBreakMode="tailTruncation" minimumFontSize="10" id="uDI-hB-Umz">
@@ -328,7 +350,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2826" y="-420"/>
+            <point key="canvasLocation" x="3842" y="-344"/>
         </scene>
         <!--Stream Screen-->
         <scene sceneID="jTH-8o-95b">
@@ -402,7 +424,7 @@
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="2350" y="-440"/>
+            <point key="canvasLocation" x="2354" y="-216"/>
         </scene>
         <!--Photo Screen-->
         <scene sceneID="lK0-lk-Kch">
@@ -455,66 +477,6 @@
         <image name="location.png" width="20" height="20"/>
         <image name="placeholder.png" width="300" height="300"/>
     </resources>
-    <classes>
-        <class className="AddCommentViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddCommentViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="done:"/>
-            </relationships>
-        </class>
-        <class className="LocationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="adjustedRegion:"/>
-                <relationship kind="outlet" name="_map" candidateClass="MKMapView"/>
-                <relationship kind="outlet" name="myPosition" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="LoginScreen" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginScreen.h"/>
-            <relationships>
-                <relationship kind="action" name="btnLoginRegisterTapped:"/>
-                <relationship kind="outlet" name="fldPassword" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="fldUsername" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="OperaViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OperaViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="artworkImage" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="photoView" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="PhotoScreen" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoScreen.h"/>
-            <relationships>
-                <relationship kind="action" name="btnActionTapped:"/>
-                <relationship kind="outlet" name="btnAction" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="fldTitle" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="StreamPhotoScreen" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamPhotoScreen.h"/>
-            <relationships>
-                <relationship kind="outlet" name="lblTitle" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="photoView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="StreamScreen" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamScreen.h"/>
-            <relationships>
-                <relationship kind="action" name="btnRefreshTapped"/>
-                <relationship kind="outlet" name="btnCompose" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="btnRefresh" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="listView" candidateClass="UIScrollView"/>
-            </relationships>
-        </class>
-        <class className="UpdateViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

@@ -7,6 +7,8 @@
 //
 
 #import "AddCommentViewController.h"
+#import "API.h"
+#import "UIAlertView+error.h"
 
 @interface AddCommentViewController ()
 
@@ -29,6 +31,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    if (![[API sharedInstance] isAuthorized]) {
+		[self performSegueWithIdentifier:@"ShowLogin" sender:nil];
+	}
+
 }
 
 - (void)viewDidUnload
@@ -45,12 +51,27 @@
 
 - (IBAction)done:(id)sender {
     
-    [self.delegate addCommentDidSave:self];
+    //Carica il commento sul server
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",nil] onCompletion:^(NSDictionary *json) {
+		//Completamento
+		if (![json objectForKey:@"error"]) {
+			//Successo
+			[[[UIAlertView alloc]initWithTitle:@"Success!" message:@"Your comment is uploaded" delegate:nil cancelButtonTitle:@"Yes!" otherButtonTitles: nil] show];
+			
+		} else {
+			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
+			NSString* errorMsg = [json objectForKey:@"error"];
+			[UIAlertView error:errorMsg];
+			if ([@"Authorization required" compare:errorMsg]==NSOrderedSame) {
+				[self performSegueWithIdentifier:@"ShowLogin" sender:nil];
+			}
+		}
+	}];
     
 }
 
 - (IBAction)cancel:(id)sender {
     
-    [self.delegate addCommentDidCancel:self];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end

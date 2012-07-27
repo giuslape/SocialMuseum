@@ -98,6 +98,7 @@
     NSString* longMin= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p11).longitude];
     NSString* longMax= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p22).longitude];
     
+    
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"Loading";
     
@@ -268,7 +269,7 @@
     [viewController setArtWork:artWork];
     
     [viewController setDescription:annotation.chunkDescription];
-        
+
 }
 
 

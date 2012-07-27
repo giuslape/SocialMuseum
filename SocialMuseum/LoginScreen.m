@@ -18,7 +18,7 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    [fldUsername becomeFirstResponder];
+   // [fldUsername becomeFirstResponder];
 }
 
 #pragma mark - View lifecycle

@@ -9,6 +9,7 @@
 #import "OperaViewController.h"
 #import "StreamScreen.h"
 #import "API.h"
+#import "ChunkViewController.h"
 
 @interface OperaViewController ()
 
@@ -100,14 +101,13 @@
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    
-    //cell.textLabel.text = @"Cell";
-    
+        
     if (indexPath.row < _description.count) {
         
         NSDictionary* dictionary = [_description objectAtIndex:indexPath.row];
         cell.textLabel.text = [dictionary objectForKey:@"testo"];
         cell.textLabel.font = [UIFont fontWithName:@"Arial" size:10];
+        cell.tag = [[dictionary objectForKey:@"IdChunk"] intValue];
     }
     return cell;
 }
@@ -116,7 +116,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"ShowContent" sender:cell];
     
 }
 
@@ -129,6 +132,14 @@
         [stream setIdOpera:_artWork.IdOpera];
         
         self.navigationItem.title = nil;
+    }
+    
+    if ([@"ShowContent" compare:segue.identifier] == NSOrderedSame) {
+        
+        UITableViewCell* cell = (UITableViewCell *)sender;
+        ChunkViewController* chunk = [segue destinationViewController];
+        chunk.chunk = cell.textLabel.text;
+        chunk.IdChunk = [NSNumber numberWithInt:cell.tag];
     }
     
 }

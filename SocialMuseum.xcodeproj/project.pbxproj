@@ -63,6 +63,7 @@
 		208D889615B6C0D90018BE2F /* LoginScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D889315B6C0D80018BE2F /* LoginScreen.m */; };
 		208D889715B6C0D90018BE2F /* PhotoScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D889515B6C0D90018BE2F /* PhotoScreen.m */; };
 		208D889915B6C0FE0018BE2F /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208D889815B6C0FE0018BE2F /* CoreImage.framework */; };
+		208EEDDB15C13B96000F5E76 /* ChunkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208EEDDA15C13B96000F5E76 /* ChunkViewController.m */; };
 		20BD117D14A0A7C200B0F775 /* 1Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116514A0A7C200B0F775 /* 1Star.png */; };
 		20BD117E14A0A7C200B0F775 /* 1Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116614A0A7C200B0F775 /* 1Star@2x.png */; };
 		20BD117F14A0A7C200B0F775 /* 1StarSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116714A0A7C200B0F775 /* 1StarSmall.png */; };
@@ -210,6 +211,8 @@
 		208D889415B6C0D80018BE2F /* PhotoScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoScreen.h; sourceTree = "<group>"; };
 		208D889515B6C0D90018BE2F /* PhotoScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoScreen.m; sourceTree = "<group>"; };
 		208D889815B6C0FE0018BE2F /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		208EEDD915C13B96000F5E76 /* ChunkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChunkViewController.h; sourceTree = "<group>"; };
+		208EEDDA15C13B96000F5E76 /* ChunkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChunkViewController.m; sourceTree = "<group>"; };
 		20BD116514A0A7C200B0F775 /* 1Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1Star.png; sourceTree = "<group>"; };
 		20BD116614A0A7C200B0F775 /* 1Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1Star@2x.png"; sourceTree = "<group>"; };
 		20BD116714A0A7C200B0F775 /* 1StarSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1StarSmall.png; sourceTree = "<group>"; };
@@ -424,6 +427,8 @@
 				20F3A558159B3BAE00A296F4 /* UpdateViewController.m */,
 				20F3A562159B516100A296F4 /* AddCommentViewController.h */,
 				20F3A563159B516100A296F4 /* AddCommentViewController.m */,
+				208EEDD915C13B96000F5E76 /* ChunkViewController.h */,
+				208EEDDA15C13B96000F5E76 /* ChunkViewController.m */,
 			);
 			path = SocialMuseum;
 			sourceTree = "<group>";
@@ -727,6 +732,7 @@
 				208D889115B6C0C00018BE2F /* StreamPhotoScreen.m in Sources */,
 				208D889615B6C0D90018BE2F /* LoginScreen.m in Sources */,
 				208D889715B6C0D90018BE2F /* PhotoScreen.m in Sources */,
+				208EEDDB15C13B96000F5E76 /* ChunkViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

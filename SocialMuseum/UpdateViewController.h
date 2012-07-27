@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AddCommentViewController.h"
 
-@interface UpdateViewController : UIViewController <AddCommentDelegate>
+
+@interface UpdateViewController : UIViewController
 
 
 @end

@@ -72,6 +72,7 @@
     
 }
 
+/*
 #pragma mark -
 #pragma mark ===  Add Comment Delegate  ===
 #pragma mark -
@@ -80,18 +81,14 @@
 {
     if ([segue.identifier isEqualToString:@"AddComment"])
     {
-        UINavigationController *navigationController =
-        segue.destinationViewController;
-        AddCommentViewController
-        *addCommentViewController =
-        [[navigationController viewControllers]
-         objectAtIndex:0];
-        addCommentViewController.delegate = self;
+        //UINavigationController *navigationController =segue.destinationViewController;
+       // AddCommentViewController*addCommentViewController =  segue.destinationViewController;
+//        [[navigationController viewControllers]objectAtIndex:0];
+        //addCommentViewController.delegate = self;
     }
 }
 
 - (void)addCommentDidSave:(AddCommentViewController *)viewController{
-    
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -99,5 +96,6 @@
     
     [self dismissModalViewControllerAnimated:YES];
 }
+*/
 
 @end
