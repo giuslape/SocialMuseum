@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (nonatomic, strong, readwrite) NSString* chunk;
 @property (nonatomic, strong, readwrite) NSNumber* IdChunk;
+@property (nonatomic, strong, readwrite) NSNumber* IdOpera;
 
 @end

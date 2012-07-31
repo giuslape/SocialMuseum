@@ -17,6 +17,9 @@
 @implementation AddCommentViewController
 
 @synthesize delegate;
+@synthesize commentView;
+@synthesize IdChunk = _IdChunk;
+@synthesize IdOpera = _IdOpera;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,6 +43,7 @@
 - (void)viewDidUnload
 {
     delegate = nil;
+    [self setCommentView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -52,11 +56,11 @@
 - (IBAction)done:(id)sender {
     
     //Carica il commento sul server
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",commentView.text,@"testo",_IdOpera,@"IdOpera",_IdChunk,@"IdChunk",nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
 			//Successo
-			[[[UIAlertView alloc]initWithTitle:@"Success!" message:@"Your comment is uploaded" delegate:nil cancelButtonTitle:@"Yes!" otherButtonTitles: nil] show];
+			[[[UIAlertView alloc]initWithTitle:@"Success!" message:@"Your comment is uploaded" delegate:nil cancelButtonTitle:@"Ok!" otherButtonTitles: nil] show];
 			
 		} else {
 			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
@@ -73,5 +77,18 @@
 - (IBAction)cancel:(id)sender {
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark ===  Set Methods  ===
+#pragma mark -
+
+-(void)setIdChunk:(NSNumber *)IdChunk{
+    
+    _IdChunk = IdChunk;
+}
+
+-(void)setIdOpera:(NSNumber *)IdOpera{
+    _IdOpera = IdOpera;
 }
 @end

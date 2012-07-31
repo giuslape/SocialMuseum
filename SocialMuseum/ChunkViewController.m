@@ -7,6 +7,7 @@
 //
 
 #import "ChunkViewController.h"
+#import "AddCommentViewController.h"
 
 #define MAX_HEIGHT 2000
 
@@ -16,6 +17,7 @@
 
 @implementation ChunkViewController
 @synthesize textView, chunk = _chunk, IdChunk = _IdChunk;
+@synthesize IdOpera = _IdOpera;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -67,7 +69,12 @@
     
 }
 
-/*
+-(void)setIdOpera:(NSNumber *)IdOpera{
+    
+    _IdOpera = IdOpera;
+}
+
+
 #pragma mark -
 #pragma mark ===  Add Comment Delegate  ===
 #pragma mark -
@@ -75,16 +82,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"AddComment"])
-    {
-        //UINavigationController *navigationController =segue.destinationViewController;
-        //AddCommentViewController*addCommentViewController =        segue.destinationViewController;
+    {        
+        AddCommentViewController*addCommentViewController = segue.destinationViewController;
+        [addCommentViewController setIdChunk:_IdChunk];
+        [addCommentViewController setIdOpera:_IdOpera];
         
-        //addCommentViewController.delegate = self;
+       // addCommentViewController.delegate = self;
     }
 }
 
 
-
+/*
 -(void)addCommentDidCancel:(AddCommentViewController *)viewController{
     
     [self dismissModalViewControllerAnimated:YES];

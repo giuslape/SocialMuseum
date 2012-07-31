@@ -100,13 +100,14 @@
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell.textLabel.font = [UIFont systemFontOfSize:10];
+        cell.textLabel.numberOfLines = 0;
     }
         
     if (indexPath.row < _description.count) {
         
         NSDictionary* dictionary = [_description objectAtIndex:indexPath.row];
         cell.textLabel.text = [dictionary objectForKey:@"testo"];
-        cell.textLabel.font = [UIFont fontWithName:@"Arial" size:10];
         cell.tag = [[dictionary objectForKey:@"IdChunk"] intValue];
     }
     return cell;
@@ -122,6 +123,22 @@
     [self performSegueWithIdentifier:@"ShowContent" sender:cell];
     
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSDictionary* dictionary = [_description objectAtIndex:indexPath.row];
+    CGSize size = [[dictionary objectForKey:@"testo"] 
+                   sizeWithFont:[UIFont systemFontOfSize:10] 
+                   constrainedToSize:CGSizeMake(300, CGFLOAT_MAX)];
+    return size.height + 5;
+}
+
+
+
+#pragma mark -
+#pragma mark ===  Storyboard  ===
+#pragma mark -
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
@@ -140,6 +157,7 @@
         ChunkViewController* chunk = [segue destinationViewController];
         chunk.chunk = cell.textLabel.text;
         chunk.IdChunk = [NSNumber numberWithInt:cell.tag];
+        chunk.IdOpera = _artWork.IdOpera;
     }
     
 }

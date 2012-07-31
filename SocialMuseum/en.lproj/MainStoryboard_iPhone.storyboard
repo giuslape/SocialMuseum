@@ -235,6 +235,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="commentView" destination="yXk-t4-Wvy" id="gwH-hu-9UX"/>
                         <segue destination="sBl-uM-nAa" kind="modal" identifier="ShowLogin" id="uhA-Sf-OXs"/>
                     </connections>
                 </viewController>
@@ -477,9 +478,80 @@
         <image name="location.png" width="20" height="20"/>
         <image name="placeholder.png" width="300" height="300"/>
     </resources>
+    <classes>
+        <class className="AddCommentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddCommentViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="done:"/>
+                <relationship kind="outlet" name="commentView" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="ChunkViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ChunkViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="LocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="adjustedRegion:"/>
+                <relationship kind="outlet" name="_map" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="myPosition" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="LoginScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginScreen.h"/>
+            <relationships>
+                <relationship kind="action" name="btnLoginRegisterTapped:"/>
+                <relationship kind="outlet" name="fldPassword" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="fldUsername" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="OperaViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OperaViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="artworkImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="photoView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="PhotoScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoScreen.h"/>
+            <relationships>
+                <relationship kind="action" name="btnActionTapped:"/>
+                <relationship kind="outlet" name="btnAction" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="fldTitle" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="StreamPhotoScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamPhotoScreen.h"/>
+            <relationships>
+                <relationship kind="outlet" name="lblTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="photoView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="StreamScreen" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamScreen.h"/>
+            <relationships>
+                <relationship kind="action" name="btnRefreshTapped"/>
+                <relationship kind="outlet" name="btnCompose" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="btnRefresh" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="listView" candidateClass="UIScrollView"/>
+            </relationships>
+        </class>
+        <class className="UpdateViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="eeJ-zZ-CuV"/>
+        <segue reference="uhA-Sf-OXs"/>
+    </inferredMetricsTieBreakers>
 </document>
