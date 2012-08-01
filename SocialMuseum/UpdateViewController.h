@@ -9,7 +9,13 @@
 #import <UIKit/UIKit.h>
 
 
-@interface UpdateViewController : UIViewController
+@interface UpdateViewController : UIViewController{
+    
+    NSArray* _comments;
+}
 
+@property (strong, nonatomic, readwrite)NSNumber* IdOpera;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableview;
 
 @end

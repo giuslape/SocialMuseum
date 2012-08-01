@@ -7,6 +7,9 @@
 //
 
 #import "UpdateViewController.h"
+#import "AddCommentViewController.h"
+#import "API.h"
+#import "MBProgressHUD.h"
 
 @interface UpdateViewController ()
 
@@ -14,23 +17,41 @@
 
 @implementation UpdateViewController
 
+@synthesize IdOpera = _IdOpera;
+@synthesize tableview = _tableview;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [hud setLabelText:@"Loading..."];
+    [hud setDimBackground:YES];
+    
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",_IdOpera,@"IdOpera", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                    _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                   [_tableview reloadData];
+                                   [hud hide:YES];
+                                   
+                               }];
 }
 
 - (void)viewDidUnload
 {
+    [self setTableview:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -48,7 +69,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return _comments.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -58,21 +79,39 @@
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell.textLabel.font = [UIFont systemFontOfSize:10];
+        cell.textLabel.numberOfLines = 0;
+
     }
     
-   // cell.textLabel.text = [NSString stringWithFormat:@"UserCell %d", indexPath.row];
-    
+    NSDictionary * dictionary= [_comments objectAtIndex:indexPath.row];
+    NSString* text = [dictionary objectForKey:@"testo"];
+    cell.textLabel.text = text;
+        
     return cell;
 }
 
 #pragma mark - UITableView Delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
+
 }
 
-/*
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSDictionary* dictionary = [_comments objectAtIndex:indexPath.row];
+    CGSize size = [[dictionary objectForKey:@"testo"] 
+                   sizeWithFont:[UIFont systemFontOfSize:10] 
+                   constrainedToSize:CGSizeMake(300, CGFLOAT_MAX)];
+    return size.height + 15;
+}
+
+-(void)setIdOpera:(NSNumber *)IdOpera{
+    
+    _IdOpera = IdOpera;
+}
+
+
 #pragma mark -
 #pragma mark ===  Add Comment Delegate  ===
 #pragma mark -
@@ -82,12 +121,13 @@
     if ([segue.identifier isEqualToString:@"AddComment"])
     {
         //UINavigationController *navigationController =segue.destinationViewController;
-       // AddCommentViewController*addCommentViewController =  segue.destinationViewController;
-//        [[navigationController viewControllers]objectAtIndex:0];
+        AddCommentViewController*addCommentViewController =  segue.destinationViewController;
+        [addCommentViewController setIdOpera:_IdOpera];
         //addCommentViewController.delegate = self;
     }
 }
 
+/*
 - (void)addCommentDidSave:(AddCommentViewController *)viewController{
     [self dismissModalViewControllerAnimated:YES];
 }

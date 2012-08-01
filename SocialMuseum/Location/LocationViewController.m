@@ -192,6 +192,7 @@
     
     SMAnnotation* annotation = (SMAnnotation *)view.annotation;
     
+    if ([annotation isKindOfClass:[MKUserLocation class]])return;
     AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:annotation.imageUrl] success:^(UIImage *image) {
         [annotation setImage:image];
         

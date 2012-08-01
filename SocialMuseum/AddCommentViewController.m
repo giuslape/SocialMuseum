@@ -56,11 +56,13 @@
 - (IBAction)done:(id)sender {
     
     //Carica il commento sul server
+    
     [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",commentView.text,@"testo",_IdOpera,@"IdOpera",_IdChunk,@"IdChunk",nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
 			//Successo
 			[[[UIAlertView alloc]initWithTitle:@"Success!" message:@"Your comment is uploaded" delegate:nil cancelButtonTitle:@"Ok!" otherButtonTitles: nil] show];
+            [self.navigationController popViewControllerAnimated:YES];
 			
 		} else {
 			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
@@ -84,7 +86,6 @@
 #pragma mark -
 
 -(void)setIdChunk:(NSNumber *)IdChunk{
-    
     _IdChunk = IdChunk;
 }
 

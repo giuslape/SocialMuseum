@@ -10,6 +10,7 @@
 #import "StreamScreen.h"
 #import "API.h"
 #import "ChunkViewController.h"
+#import "UpdateViewController.h"
 
 @interface OperaViewController ()
 
@@ -147,7 +148,7 @@
         StreamScreen* stream = [segue destinationViewController];
         stream.navigationItem.title = _artWork.title;
         [stream setIdOpera:_artWork.IdOpera];
-        
+
         self.navigationItem.title = nil;
     }
     
@@ -158,6 +159,11 @@
         chunk.chunk = cell.textLabel.text;
         chunk.IdChunk = [NSNumber numberWithInt:cell.tag];
         chunk.IdOpera = _artWork.IdOpera;
+    }
+    
+    if ([@"StreamComment" compare:segue.identifier] == NSOrderedSame) {
+        UpdateViewController* update = segue.destinationViewController;
+        [update setIdOpera:_artWork.IdOpera];
     }
     
 }
