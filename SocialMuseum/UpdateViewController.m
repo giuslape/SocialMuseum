@@ -10,6 +10,7 @@
 #import "AddCommentViewController.h"
 #import "API.h"
 #import "MBProgressHUD.h"
+#import "PullToRefreshView.h"
 
 @interface UpdateViewController ()
 
@@ -39,14 +40,26 @@
     [hud setLabelText:@"Loading..."];
     [hud setDimBackground:YES];
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",_IdOpera,@"IdOpera", nil]
-                               onCompletion:^(NSDictionary *json) {
-                                   
-                                    _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
-                                   [_tableview reloadData];
-                                   [hud hide:YES];
-                                   
-                               }];
+    [self.tableview addPullToRefreshWithActionHandler:^{
+        NSLog(@"refresh dataSource");
+        [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",_IdOpera,@"IdOpera", nil]
+                                   onCompletion:^(NSDictionary *json) {
+                                       
+                                       _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                       [_tableview reloadData];
+                                       [hud hide:YES];
+                                        [_tableview.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:2];
+                                       
+                                   }];
+    }];
+    
+    [self.tableview addInfiniteScrollingWithActionHandler:^{
+        NSLog(@"load more data");
+    }];
+    
+    // trigger the refresh manually at the end of viewDidLoad
+    //[_tableview.pullToRefreshView triggerRefresh];
+
 }
 
 - (void)viewDidUnload
@@ -75,7 +88,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"UserCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [_tableview dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];

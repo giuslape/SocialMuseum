@@ -42,6 +42,7 @@
 		2058DC3314975AF300E3B0B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2058DC0614975AF200E3B0B1 /* Foundation.framework */; };
 		2058DC3B14975AF300E3B0B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2058DC3914975AF300E3B0B1 /* InfoPlist.strings */; };
 		2058DC3E14975AF300E3B0B1 /* SocialMuseumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2058DC3D14975AF300E3B0B1 /* SocialMuseumTests.m */; };
+		206763E815C98BB400447E72 /* PullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 206763E715C98BB300447E72 /* PullToRefreshView.m */; };
 		207EE7F415C03E440085F153 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F315C03E440085F153 /* location@2x.png */; };
 		207EE7F715C03F020085F153 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F615C03F020085F153 /* location.png */; };
 		208D887B15B619430018BE2F /* NSObject+SBJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D886315B619430018BE2F /* NSObject+SBJson.m */; };
@@ -172,6 +173,8 @@
 		2058DC3A14975AF300E3B0B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2058DC3C14975AF300E3B0B1 /* SocialMuseumTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialMuseumTests.h; sourceTree = "<group>"; };
 		2058DC3D14975AF300E3B0B1 /* SocialMuseumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocialMuseumTests.m; sourceTree = "<group>"; };
+		206763E615C98BB300447E72 /* PullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshView.h; sourceTree = "<group>"; };
+		206763E715C98BB300447E72 /* PullToRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullToRefreshView.m; sourceTree = "<group>"; };
 		207EE7F315C03E440085F153 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
 		207EE7F615C03F020085F153 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		208D886215B619430018BE2F /* NSObject+SBJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJson.h"; sourceTree = "<group>"; };
@@ -429,6 +432,8 @@
 				20F3A563159B516100A296F4 /* AddCommentViewController.m */,
 				208EEDD915C13B96000F5E76 /* ChunkViewController.h */,
 				208EEDDA15C13B96000F5E76 /* ChunkViewController.m */,
+				206763E615C98BB300447E72 /* PullToRefreshView.h */,
+				206763E715C98BB300447E72 /* PullToRefreshView.m */,
 			);
 			path = SocialMuseum;
 			sourceTree = "<group>";
@@ -733,6 +738,7 @@
 				208D889615B6C0D90018BE2F /* LoginScreen.m in Sources */,
 				208D889715B6C0D90018BE2F /* PhotoScreen.m in Sources */,
 				208EEDDB15C13B96000F5E76 /* ChunkViewController.m in Sources */,
+				206763E815C98BB400447E72 /* PullToRefreshView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
