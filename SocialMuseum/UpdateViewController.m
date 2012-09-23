@@ -36,21 +36,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [hud setLabelText:@"Loading..."];
-    [hud setDimBackground:YES];
+   
+    [self streamCommenti];
     
     [self.tableview addPullToRefreshWithActionHandler:^{
         NSLog(@"refresh dataSource");
-        [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",_IdOpera,@"IdOpera", nil]
-                                   onCompletion:^(NSDictionary *json) {
-                                       
-                                       _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
-                                       [_tableview reloadData];
-                                       [hud hide:YES];
-                                        [_tableview.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:2];
-                                       
-                                   }];
+        [self streamCommenti];
     }];
     
     [self.tableview addInfiniteScrollingWithActionHandler:^{
@@ -60,6 +51,21 @@
     // trigger the refresh manually at the end of viewDidLoad
     //[_tableview.pullToRefreshView triggerRefresh];
 
+}
+
+-(void)streamCommenti{
+    
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [hud setLabelText:@"Loading..."];
+    [hud setDimBackground:YES];
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",_IdOpera,@"IdOpera", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                   [_tableview reloadData];
+                                   [_tableview.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.5f];
+                                   [hud hide:YES];
+                               }];
 }
 
 - (void)viewDidUnload
@@ -123,7 +129,6 @@
     
     _IdOpera = IdOpera;
 }
-
 
 #pragma mark -
 #pragma mark ===  Add Comment Delegate  ===

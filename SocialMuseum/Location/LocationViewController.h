@@ -7,18 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoginViewController.h"
 
-#define kOffsetRect 50000
+extern NSString *const SMSessionStateChangedNotification;
+
+
 #define khorizontalAccuracy 100
 
 
-@interface LocationViewController : UIViewController <MKMapViewDelegate>{
+@interface LocationViewController : UIViewController <MKMapViewDelegate, LoginViewControllerDelegate>{
     
     IBOutlet MKMapView* _map;
     IBOutlet UIBarButtonItem* myPosition;
     NSInteger _tagAnnotation;
     
     bool _isLoad;
+    
+    double distanceOffset;
+    double levelZoom;
+    
+    CLLocationDistance minLatitudinalMeters;
+    CLLocationDistance minLongitudinalMeters;
 }
 
 -(IBAction)adjustedRegion:(id)sender;

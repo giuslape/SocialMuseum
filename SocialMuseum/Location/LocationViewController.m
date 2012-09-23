@@ -14,7 +14,11 @@
 #import "OperaViewController.h"
 #import "API.h"
 #import "UIAlertView+error.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "ProfileViewController.h"
 
+NSString *const SMSessionStateChangedNotification = 
+@"com.tadaa.Login:FBSessionStateChangedNotification";
 
 @interface LocationViewController ()
 
@@ -43,12 +47,13 @@
 
 -(IBAction)adjustedRegion:(id)sender{
     
+    
     MKCoordinateRegion _regionVisible =
-    MKCoordinateRegionMakeWithDistance(_map.userLocation.coordinate, 1000, 1000);
+    MKCoordinateRegionMakeWithDistance(_map.userLocation.coordinate, levelZoom*2, levelZoom*2);
     MKCoordinateRegion region = [_map regionThatFits:_regionVisible];
     [_map setRegion:region animated:YES];
     
-    offsetRect = MKMapRectMake(_map.visibleMapRect.origin.x - kOffsetRect, _map.visibleMapRect.origin.y - kOffsetRect, _map.visibleMapRect.size.width + 2*kOffsetRect, _map.visibleMapRect.size.height + 2*kOffsetRect);
+    offsetRect = MKMapRectMake(_map.visibleMapRect.origin.x - distanceOffset, _map.visibleMapRect.origin.y - distanceOffset, _map.visibleMapRect.size.width + 2*distanceOffset, _map.visibleMapRect.size.height + 2*distanceOffset);
 }
 
 - (void)viewDidLoad
@@ -57,13 +62,44 @@
     _map.delegate = self;
     _tagAnnotation = 0;
     offsetRect = MKMapRectNull;
+    distanceOffset = 5000;
+    levelZoom = 500;
+    
+    // See if we have a valid token for the current state.
+    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+        // To-do, show logged in view
+        [self openSession];
+    } else {
+        // No, display the login page.
+        [self showLoginView];
+    }
+
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
+    
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(sessionStateChanged:) 
+     name:SMSessionStateChangedNotification
+     object:nil];
+    
 }
+
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    _map.delegate = nil;
+
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    if (![[API sharedInstance] isAuthorized]) {
+        
+        [self showLoginView];
+    }
 }
 
 
@@ -169,17 +205,15 @@
     MKMapRect rect = mapView.visibleMapRect;
     
     if (!MKMapRectContainsRect(offsetRect, rect) && _isLoad) {
-        
+                
+        offsetRect.origin = MKMapPointMake(rect.origin.x - distanceOffset, rect.origin.y - distanceOffset);
         [self refreshAnnotations];
-        
-        offsetRect.origin = MKMapPointMake(rect.origin.x - kOffsetRect, rect.origin.y - kOffsetRect);
     }
 }
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     
     if (!_isLoad) {
-        
         [self adjustedRegion:self];
         _isLoad = true;
         [self refreshAnnotations];
@@ -240,8 +274,17 @@
         [_map addAnnotation:(id)annotation];
         
         _tagAnnotation++;
-        
+                
+        levelZoom =  MAX(levelZoom,MKMetersBetweenMapPoints(MKMapPointForCoordinate(_map.userLocation.coordinate), MKMapPointForCoordinate(coordinate)));
     }
+    
+    if ([artworks count] == 0) {
+        
+        distanceOffset = distanceOffset * 10;
+        [self refreshAnnotations];        
+    }
+    
+    [self adjustedRegion:self];
 
 }
 
@@ -251,7 +294,22 @@
 #pragma mark -
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-            
+    
+    if ([@"ShowLogin" compare:segue.identifier] == NSOrderedSame) {
+        
+        LoginViewController* login = [segue destinationViewController];
+        
+        login.delegate = self;
+        
+        return;
+    }
+    
+    if ([@"ShowProfile" compare:segue.identifier] == NSOrderedSame)return;
+    
+    if ([@"Opera" compare:segue.identifier] == NSOrderedSame) {
+        
+    
+    
     MKAnnotationView* annotationView = (MKAnnotationView *)sender;
     
     SMAnnotation* annotation = (SMAnnotation *)annotationView.annotation;
@@ -270,7 +328,7 @@
     [viewController setArtWork:artWork];
     
     [viewController setDescription:annotation.chunkDescription];
-
+    }
 }
 
 
@@ -282,7 +340,126 @@
 
 - (void)dealloc
 {
-    _map.delegate = nil;
+    
 }
+
+#pragma mark -
+#pragma mark ===  Login Handler  ===
+#pragma mark -
+
+- (void)showLoginView 
+{    
+    UIViewController *modalViewController = [self presentedViewController];
+    
+    // If the login screen is not already displayed, display it. If the login screen is 
+    // displayed, then getting back here means the login in progress did not successfully 
+    // complete. In that case, notify the login view so it can update its UI appropriately.
+    
+    if (![modalViewController isKindOfClass:[LoginViewController class]]) {
+        
+        [self performSegueWithIdentifier:@"ShowLogin" sender:self];
+        
+    } else {
+        LoginViewController* loginViewController = 
+        (LoginViewController*)modalViewController;
+        [loginViewController loginFailed];
+    }
+}
+
+- (void)sessionStateChanged:(FBSession *)session 
+                      state:(FBSessionState) state
+                      error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen: {
+            if ([[self presentedViewController] 
+                 isKindOfClass:[LoginViewController class]]) {
+                [self dismissModalViewControllerAnimated:YES];
+            }
+        }
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            // Once the user has logged in, we want them to 
+            // be looking at the root view.
+            
+            [FBSession.activeSession closeAndClearTokenInformation];
+            
+            [self showLoginView];
+            break;
+        default:
+            break;
+    }
+    
+    [[NSNotificationCenter defaultCenter] 
+     postNotificationName:SMSessionStateChangedNotification 
+     object:session];
+    
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:error.localizedDescription
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }    
+}
+
+- (void)openSession
+{
+    [FBSession openActiveSessionWithPermissions:nil
+                                   allowLoginUI:YES
+                              completionHandler:
+     ^(FBSession *session, 
+       FBSessionState state, NSError *error) {
+         [self sessionStateChanged:session 
+                             state:state
+                             error:error];
+     }];
+}
+
+-(void)loginButtonDidPressed:(LoginViewController *)sender{
+    
+    [self openSession];
+    sender.delegate = nil;
+    
+    
+}
+
+- (void)sessionStateChanged:(NSNotification*)notification {
+    [self populateUserDetails];
+}
+
+-(void)populateUserDetails{
+    
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection, 
+           NSDictionary<FBGraphUser> *user, 
+           NSError *error) {
+             if (!error) {
+                 NSString* command = @"loginWithFB";
+                 NSMutableDictionary* params =[NSMutableDictionary dictionaryWithObjectsAndKeys:command, @"command", user.name, @"username", user.id, @"FBId", nil];
+                 //chiama l'API web
+                 [[API sharedInstance] commandWithParams:params onCompletion:^(NSDictionary *json) {
+                     //Risultato
+                     NSDictionary* res = [[json objectForKey:@"result"] objectAtIndex:0];
+                     if ([json objectForKey:@"error"]==nil && [[res objectForKey:@"IdUser"] intValue]>0) {
+                         [[API sharedInstance] setUser: res];
+                         //Mostra Messaggio
+                         [[[UIAlertView alloc] initWithTitle:@"Logged in" message:[NSString stringWithFormat:@"Welcome %@",[res objectForKey:@"username"]] delegate:nil cancelButtonTitle:@"Close" otherButtonTitles: nil] show];
+                     } else {
+                         //error
+                         [UIAlertView error:[json objectForKey:@"error"]];
+                     }
+                 }];
+                 
+             }
+         }];      
+    }
+
+}
+
 
 @end

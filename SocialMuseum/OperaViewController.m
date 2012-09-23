@@ -75,7 +75,7 @@
 }
 
 -(void)setArtWork:(ArtWork *)art{
-        
+
     _artWork = art;
 
 }
@@ -190,7 +190,7 @@
         NSDictionary* photo = [stream objectAtIndex:i];
         
 		int IdPhoto = [[photo objectForKey:@"IdPhoto"] intValue];
-        int col = i%5;
+        int col = i%8;
         NSURL* imageURL = [api urlForImageWithId:[NSNumber numberWithInt: IdPhoto] isThumb:YES];
 		AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
 			//Crea ImageView e l'aggiunge alla vista
