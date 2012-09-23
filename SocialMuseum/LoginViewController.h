@@ -26,8 +26,8 @@
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (weak, nonatomic) id <LoginViewControllerDelegate> delegate;
-- (IBAction)performLogin:(id)sender;
 
+- (IBAction)performLogin:(id)sender;
 -(void)loginFailed;
 
 @end

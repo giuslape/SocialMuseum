@@ -54,7 +54,6 @@
 		208D888B15B6BE280018BE2F /* StreamScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D888A15B6BE280018BE2F /* StreamScreen.m */; };
 		208D888E15B6C09D0018BE2F /* PhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D888D15B6C09D0018BE2F /* PhotoView.m */; };
 		208D889115B6C0C00018BE2F /* StreamPhotoScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D889015B6C0BF0018BE2F /* StreamPhotoScreen.m */; };
-		208D889615B6C0D90018BE2F /* LoginScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D889315B6C0D80018BE2F /* LoginScreen.m */; };
 		208D889715B6C0D90018BE2F /* PhotoScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D889515B6C0D90018BE2F /* PhotoScreen.m */; };
 		208D889915B6C0FE0018BE2F /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208D889815B6C0FE0018BE2F /* CoreImage.framework */; };
 		208EEDDB15C13B96000F5E76 /* ChunkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208EEDDA15C13B96000F5E76 /* ChunkViewController.m */; };
@@ -184,8 +183,6 @@
 		208D888D15B6C09D0018BE2F /* PhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoView.m; sourceTree = "<group>"; };
 		208D888F15B6C0BE0018BE2F /* StreamPhotoScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamPhotoScreen.h; sourceTree = "<group>"; };
 		208D889015B6C0BF0018BE2F /* StreamPhotoScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamPhotoScreen.m; sourceTree = "<group>"; };
-		208D889215B6C0D80018BE2F /* LoginScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginScreen.h; sourceTree = "<group>"; };
-		208D889315B6C0D80018BE2F /* LoginScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginScreen.m; sourceTree = "<group>"; };
 		208D889415B6C0D80018BE2F /* PhotoScreen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoScreen.h; sourceTree = "<group>"; };
 		208D889515B6C0D90018BE2F /* PhotoScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoScreen.m; sourceTree = "<group>"; };
 		208D889815B6C0FE0018BE2F /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
@@ -388,19 +385,10 @@
 		2058DC0A14975AF200E3B0B1 /* SocialMuseum */ = {
 			isa = PBXGroup;
 			children = (
+				208FC325160FB29E00418BB8 /* ViewControllers */,
 				202B8BC21602268A008CF5EE /* Profile */,
-				20304B3415F9EE920079FF13 /* LoginViewController.h */,
-				20304B3515F9EE920079FF13 /* LoginViewController.m */,
-				208D889215B6C0D80018BE2F /* LoginScreen.h */,
-				208D889315B6C0D80018BE2F /* LoginScreen.m */,
-				208D889415B6C0D80018BE2F /* PhotoScreen.h */,
-				208D889515B6C0D90018BE2F /* PhotoScreen.m */,
-				208D888F15B6C0BE0018BE2F /* StreamPhotoScreen.h */,
-				208D889015B6C0BF0018BE2F /* StreamPhotoScreen.m */,
 				208D888C15B6C09D0018BE2F /* PhotoView.h */,
 				208D888D15B6C09D0018BE2F /* PhotoView.m */,
-				208D888915B6BE270018BE2F /* StreamScreen.h */,
-				208D888A15B6BE280018BE2F /* StreamScreen.m */,
 				2054947615B59F8900B781DD /* API.m */,
 				2054947715B59F8900B781DD /* API.h */,
 				200E136C149F888C00780689 /* Moods */,
@@ -409,18 +397,8 @@
 				2058DC1414975AF300E3B0B1 /* AppDelegate.m */,
 				2058DC1614975AF300E3B0B1 /* MainStoryboard_iPhone.storyboard */,
 				2058DC0B14975AF200E3B0B1 /* Supporting Files */,
-				20C850721557D67F0065FB75 /* LocationViewController.h */,
-				20C850731557D67F0065FB75 /* LocationViewController.m */,
 				20C850771557E00E0065FB75 /* SMAnnotation.h */,
 				20C850781557E00E0065FB75 /* SMAnnotation.m */,
-				200450C9157E0A6D00708E03 /* OperaViewController.h */,
-				200450CA157E0A6E00708E03 /* OperaViewController.m */,
-				20F3A557159B3BAE00A296F4 /* UpdateViewController.h */,
-				20F3A558159B3BAE00A296F4 /* UpdateViewController.m */,
-				20F3A562159B516100A296F4 /* AddCommentViewController.h */,
-				20F3A563159B516100A296F4 /* AddCommentViewController.m */,
-				208EEDD915C13B96000F5E76 /* ChunkViewController.h */,
-				208EEDDA15C13B96000F5E76 /* ChunkViewController.m */,
 				206763E615C98BB300447E72 /* PullToRefreshView.h */,
 				206763E715C98BB300447E72 /* PullToRefreshView.m */,
 			);
@@ -455,6 +433,31 @@
 				2058DC3914975AF300E3B0B1 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		208FC325160FB29E00418BB8 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				200450C9157E0A6D00708E03 /* OperaViewController.h */,
+				200450CA157E0A6E00708E03 /* OperaViewController.m */,
+				20F3A557159B3BAE00A296F4 /* UpdateViewController.h */,
+				20F3A558159B3BAE00A296F4 /* UpdateViewController.m */,
+				20F3A562159B516100A296F4 /* AddCommentViewController.h */,
+				20F3A563159B516100A296F4 /* AddCommentViewController.m */,
+				208EEDD915C13B96000F5E76 /* ChunkViewController.h */,
+				208EEDDA15C13B96000F5E76 /* ChunkViewController.m */,
+				208D888915B6BE270018BE2F /* StreamScreen.h */,
+				208D888A15B6BE280018BE2F /* StreamScreen.m */,
+				208D889415B6C0D80018BE2F /* PhotoScreen.h */,
+				208D889515B6C0D90018BE2F /* PhotoScreen.m */,
+				208D888F15B6C0BE0018BE2F /* StreamPhotoScreen.h */,
+				208D889015B6C0BF0018BE2F /* StreamPhotoScreen.m */,
+				20C850721557D67F0065FB75 /* LocationViewController.h */,
+				20C850731557D67F0065FB75 /* LocationViewController.m */,
+				20304B3415F9EE920079FF13 /* LoginViewController.h */,
+				20304B3515F9EE920079FF13 /* LoginViewController.m */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		20BD116414A0A7B100B0F775 /* Mood */ = {
@@ -683,7 +686,6 @@
 				208D888B15B6BE280018BE2F /* StreamScreen.m in Sources */,
 				208D888E15B6C09D0018BE2F /* PhotoView.m in Sources */,
 				208D889115B6C0C00018BE2F /* StreamPhotoScreen.m in Sources */,
-				208D889615B6C0D90018BE2F /* LoginScreen.m in Sources */,
 				208D889715B6C0D90018BE2F /* PhotoScreen.m in Sources */,
 				208EEDDB15C13B96000F5E76 /* ChunkViewController.m in Sources */,
 				206763E815C98BB400447E72 /* PullToRefreshView.m in Sources */,

@@ -45,7 +45,7 @@
 -(IBAction)btnActionTapped:(id)sender {
 	[fldTitle resignFirstResponder];
     
-	[[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Close" destructiveButtonTitle:nil otherButtonTitles:@"Take photo", @"Effects!", @"Post Photo", @"Logout", nil] 
+	[[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Close" destructiveButtonTitle:nil otherButtonTitles:@"Take photo", @"Effects!", @"Post Photo", nil] 
 	 showInView:self.view];
 
 }
@@ -94,14 +94,6 @@
 	}];
 }
 
--(void)logout {
-	//Logout dal server 
-	[[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"logout", @"command", nil] onCompletion:^(NSDictionary *json) {
-
-        [API sharedInstance].user = nil;
-	   [self performSegueWithIdentifier:@"ShowLogin" sender:nil];
-	}];
-}
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
@@ -113,9 +105,6 @@
 			break;
         case 2:
             [self uploadPhoto]; 
-			break;
-        case 3:
-            [self logout]; 
 			break;
     }
 }

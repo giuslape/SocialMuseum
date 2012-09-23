@@ -63,6 +63,7 @@
     //Form di validazione
 	if (fldUsername.text.length < 4 || fldPassword.text.length < 4) {
 		[UIAlertView error:@"Enter username and password over 4 chars each."];
+        [spinner stopAnimating];
 		return;
 	}
     //Password
