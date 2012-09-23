@@ -21,4 +21,6 @@
 
 @property (nonatomic, strong) NSArray* description; 
 
+- (IBAction)singleTapHandler:(UITapGestureRecognizer *)sender;
+
 @end

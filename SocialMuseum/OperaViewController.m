@@ -203,4 +203,25 @@
     }      
 }
 
+
+- (IBAction)singleTapHandler:(UITapGestureRecognizer *)sender {
+    
+    CGPoint location = [sender locationInView:self.view];
+    
+    UIView* hitView = [self.view hitTest:location withEvent:nil];
+    
+    switch (hitView.tag) {
+        
+        case 1:
+            [self performSegueWithIdentifier:@"ShowStream" sender:self];
+            break;
+        case 2:
+            [self performSegueWithIdentifier:@"StreamComment" sender:self];
+            break;
+        default:
+            //NSLog(@"Default");
+            break;
+    }
+    
+}
 @end
