@@ -351,7 +351,7 @@
                     <connections>
                         <outlet property="btnCompose" destination="ZCw-qA-sDH" id="ooz-Ab-Y77"/>
                         <outlet property="listView" destination="dNb-wM-KOA" id="1j8-0s-hxQ"/>
-                        <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="BIz-Vu-QGv"/>
+                        <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="tqw-Ju-24n"/>
                     </connections>
                 </viewController>
                 <barButtonItem systemItem="compose" id="ZCw-qA-sDH">
@@ -359,7 +359,7 @@
                         <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="bF1-JT-EhV"/>
                     </connections>
                 </barButtonItem>
-                <barButtonItem title="Opera" id="WQ7-PW-PsX"/>
+                <barButtonItem title="Stream" id="WQ7-PW-PsX"/>
             </objects>
             <point key="canvasLocation" x="1810" y="-1096"/>
         </scene>
@@ -373,12 +373,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="yJ0-Wj-8OE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="345"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="325"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" text="Loading description..." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="70W-co-f7m">
-                                <rect key="frame" x="0.0" y="345" width="320" height="42"/>
+                                <rect key="frame" x="0.0" y="325" width="320" height="42"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -390,8 +390,7 @@
                         <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                         <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     </view>
-                    <navigationItem key="navigationItem" id="8Ub-Y2-1rB"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationItem key="navigationItem" id="juA-4M-2l5"/>
                     <connections>
                         <outlet property="lblTitle" destination="70W-co-f7m" id="k0e-76-pBt"/>
                         <outlet property="photoView" destination="yJ0-Wj-8OE" id="A8G-Jb-dxg"/>

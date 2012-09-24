@@ -57,6 +57,9 @@
 		208D889715B6C0D90018BE2F /* PhotoScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D889515B6C0D90018BE2F /* PhotoScreen.m */; };
 		208D889915B6C0FE0018BE2F /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208D889815B6C0FE0018BE2F /* CoreImage.framework */; };
 		208EEDDB15C13B96000F5E76 /* ChunkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208EEDDA15C13B96000F5E76 /* ChunkViewController.m */; };
+		208FC32F1610611C00418BB8 /* DynamicGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC32E1610611C00418BB8 /* DynamicGridViewController.m */; };
+		208FC3341610666D00418BB8 /* DynamicGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC3331610666D00418BB8 /* DynamicGridCell.m */; };
+		208FC337161068E900418BB8 /* RowInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC336161068E800418BB8 /* RowInfo.m */; };
 		20BD117D14A0A7C200B0F775 /* 1Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116514A0A7C200B0F775 /* 1Star.png */; };
 		20BD117E14A0A7C200B0F775 /* 1Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116614A0A7C200B0F775 /* 1Star@2x.png */; };
 		20BD117F14A0A7C200B0F775 /* 1StarSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116714A0A7C200B0F775 /* 1StarSmall.png */; };
@@ -188,6 +191,13 @@
 		208D889815B6C0FE0018BE2F /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		208EEDD915C13B96000F5E76 /* ChunkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChunkViewController.h; sourceTree = "<group>"; };
 		208EEDDA15C13B96000F5E76 /* ChunkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChunkViewController.m; sourceTree = "<group>"; };
+		208FC32D1610611C00418BB8 /* DynamicGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicGridViewController.h; sourceTree = "<group>"; };
+		208FC32E1610611C00418BB8 /* DynamicGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicGridViewController.m; sourceTree = "<group>"; };
+		208FC330161063F100418BB8 /* DynamicGridViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicGridViewDelegate.h; sourceTree = "<group>"; };
+		208FC3321610666D00418BB8 /* DynamicGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicGridCell.h; sourceTree = "<group>"; };
+		208FC3331610666D00418BB8 /* DynamicGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicGridCell.m; sourceTree = "<group>"; };
+		208FC335161068E800418BB8 /* RowInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowInfo.h; sourceTree = "<group>"; };
+		208FC336161068E800418BB8 /* RowInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowInfo.m; sourceTree = "<group>"; };
 		20BD116514A0A7C200B0F775 /* 1Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1Star.png; sourceTree = "<group>"; };
 		20BD116614A0A7C200B0F775 /* 1Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1Star@2x.png"; sourceTree = "<group>"; };
 		20BD116714A0A7C200B0F775 /* 1StarSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1StarSmall.png; sourceTree = "<group>"; };
@@ -385,22 +395,13 @@
 		2058DC0A14975AF200E3B0B1 /* SocialMuseum */ = {
 			isa = PBXGroup;
 			children = (
+				208FC32716105CDA00418BB8 /* Singleton */,
+				208FC32616105CB500418BB8 /* Utility */,
 				208FC325160FB29E00418BB8 /* ViewControllers */,
-				202B8BC21602268A008CF5EE /* Profile */,
-				208D888C15B6C09D0018BE2F /* PhotoView.h */,
-				208D888D15B6C09D0018BE2F /* PhotoView.m */,
-				2054947615B59F8900B781DD /* API.m */,
-				2054947715B59F8900B781DD /* API.h */,
 				200E136C149F888C00780689 /* Moods */,
 				200E1367149F84CB00780689 /* Artworks */,
-				2058DC1314975AF300E3B0B1 /* AppDelegate.h */,
-				2058DC1414975AF300E3B0B1 /* AppDelegate.m */,
 				2058DC1614975AF300E3B0B1 /* MainStoryboard_iPhone.storyboard */,
 				2058DC0B14975AF200E3B0B1 /* Supporting Files */,
-				20C850771557E00E0065FB75 /* SMAnnotation.h */,
-				20C850781557E00E0065FB75 /* SMAnnotation.m */,
-				206763E615C98BB300447E72 /* PullToRefreshView.h */,
-				206763E715C98BB300447E72 /* PullToRefreshView.m */,
 			);
 			path = SocialMuseum;
 			sourceTree = "<group>";
@@ -438,6 +439,7 @@
 		208FC325160FB29E00418BB8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				202B8BC21602268A008CF5EE /* Profile */,
 				200450C9157E0A6D00708E03 /* OperaViewController.h */,
 				200450CA157E0A6E00708E03 /* OperaViewController.m */,
 				20F3A557159B3BAE00A296F4 /* UpdateViewController.h */,
@@ -458,6 +460,45 @@
 				20304B3515F9EE920079FF13 /* LoginViewController.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		208FC32616105CB500418BB8 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				208FC3311610661400418BB8 /* DynamicGrid */,
+				20C850771557E00E0065FB75 /* SMAnnotation.h */,
+				20C850781557E00E0065FB75 /* SMAnnotation.m */,
+				206763E615C98BB300447E72 /* PullToRefreshView.h */,
+				206763E715C98BB300447E72 /* PullToRefreshView.m */,
+				208D888C15B6C09D0018BE2F /* PhotoView.h */,
+				208D888D15B6C09D0018BE2F /* PhotoView.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		208FC32716105CDA00418BB8 /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				2054947615B59F8900B781DD /* API.m */,
+				2054947715B59F8900B781DD /* API.h */,
+				2058DC1314975AF300E3B0B1 /* AppDelegate.h */,
+				2058DC1414975AF300E3B0B1 /* AppDelegate.m */,
+			);
+			name = Singleton;
+			sourceTree = "<group>";
+		};
+		208FC3311610661400418BB8 /* DynamicGrid */ = {
+			isa = PBXGroup;
+			children = (
+				208FC32D1610611C00418BB8 /* DynamicGridViewController.h */,
+				208FC32E1610611C00418BB8 /* DynamicGridViewController.m */,
+				208FC330161063F100418BB8 /* DynamicGridViewDelegate.h */,
+				208FC3321610666D00418BB8 /* DynamicGridCell.h */,
+				208FC3331610666D00418BB8 /* DynamicGridCell.m */,
+				208FC335161068E800418BB8 /* RowInfo.h */,
+				208FC336161068E800418BB8 /* RowInfo.m */,
+			);
+			name = DynamicGrid;
 			sourceTree = "<group>";
 		};
 		20BD116414A0A7B100B0F775 /* Mood */ = {
@@ -691,6 +732,9 @@
 				206763E815C98BB400447E72 /* PullToRefreshView.m in Sources */,
 				20304B3615F9EE920079FF13 /* LoginViewController.m in Sources */,
 				202B8BC61602269E008CF5EE /* ProfileViewController.m in Sources */,
+				208FC32F1610611C00418BB8 /* DynamicGridViewController.m in Sources */,
+				208FC3341610666D00418BB8 /* DynamicGridCell.m in Sources */,
+				208FC337161068E900418BB8 /* RowInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
