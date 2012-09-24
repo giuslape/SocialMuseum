@@ -60,6 +60,11 @@
 		208FC32F1610611C00418BB8 /* DynamicGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC32E1610611C00418BB8 /* DynamicGridViewController.m */; };
 		208FC3341610666D00418BB8 /* DynamicGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC3331610666D00418BB8 /* DynamicGridCell.m */; };
 		208FC337161068E900418BB8 /* RowInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC336161068E800418BB8 /* RowInfo.m */; };
+		208FC33A16106FA200418BB8 /* StreamScreen+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC33916106FA100418BB8 /* StreamScreen+Private.m */; };
+		208FC33D1610713C00418BB8 /* placeholder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 208FC33C1610713C00418BB8 /* placeholder2.png */; };
+		208FC39E16109F0900418BB8 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC39D16109F0900418BB8 /* CollectionViewCell.m */; };
+		208FC3A11610A18C00418BB8 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC3A01610A18C00418BB8 /* CollectionView.m */; };
+		208FC3A41610A96600418BB8 /* SMPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC3A31610A96500418BB8 /* SMPhotoView.m */; };
 		20BD117D14A0A7C200B0F775 /* 1Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116514A0A7C200B0F775 /* 1Star.png */; };
 		20BD117E14A0A7C200B0F775 /* 1Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116614A0A7C200B0F775 /* 1Star@2x.png */; };
 		20BD117F14A0A7C200B0F775 /* 1StarSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116714A0A7C200B0F775 /* 1StarSmall.png */; };
@@ -198,6 +203,15 @@
 		208FC3331610666D00418BB8 /* DynamicGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicGridCell.m; sourceTree = "<group>"; };
 		208FC335161068E800418BB8 /* RowInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowInfo.h; sourceTree = "<group>"; };
 		208FC336161068E800418BB8 /* RowInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowInfo.m; sourceTree = "<group>"; };
+		208FC33816106F9F00418BB8 /* StreamScreen+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StreamScreen+Private.h"; sourceTree = "<group>"; };
+		208FC33916106FA100418BB8 /* StreamScreen+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "StreamScreen+Private.m"; sourceTree = "<group>"; };
+		208FC33C1610713C00418BB8 /* placeholder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder2.png; sourceTree = "<group>"; };
+		208FC39C16109F0900418BB8 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		208FC39D16109F0900418BB8 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		208FC39F1610A18C00418BB8 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionView.h; sourceTree = "<group>"; };
+		208FC3A01610A18C00418BB8 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionView.m; sourceTree = "<group>"; };
+		208FC3A21610A96500418BB8 /* SMPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPhotoView.h; sourceTree = "<group>"; };
+		208FC3A31610A96500418BB8 /* SMPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMPhotoView.m; sourceTree = "<group>"; };
 		20BD116514A0A7C200B0F775 /* 1Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1Star.png; sourceTree = "<group>"; };
 		20BD116614A0A7C200B0F775 /* 1Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1Star@2x.png"; sourceTree = "<group>"; };
 		20BD116714A0A7C200B0F775 /* 1StarSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1StarSmall.png; sourceTree = "<group>"; };
@@ -409,6 +423,7 @@
 		2058DC0B14975AF200E3B0B1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				208FC33B1610712F00418BB8 /* images */,
 				2058DC0C14975AF200E3B0B1 /* SocialMuseum-Info.plist */,
 				2058DC0D14975AF200E3B0B1 /* InfoPlist.strings */,
 				2058DC1014975AF200E3B0B1 /* main.m */,
@@ -465,6 +480,7 @@
 		208FC32616105CB500418BB8 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				208FC39B16109EC100418BB8 /* CollectionView */,
 				208FC3311610661400418BB8 /* DynamicGrid */,
 				20C850771557E00E0065FB75 /* SMAnnotation.h */,
 				20C850781557E00E0065FB75 /* SMAnnotation.m */,
@@ -490,6 +506,8 @@
 		208FC3311610661400418BB8 /* DynamicGrid */ = {
 			isa = PBXGroup;
 			children = (
+				208FC33816106F9F00418BB8 /* StreamScreen+Private.h */,
+				208FC33916106FA100418BB8 /* StreamScreen+Private.m */,
 				208FC32D1610611C00418BB8 /* DynamicGridViewController.h */,
 				208FC32E1610611C00418BB8 /* DynamicGridViewController.m */,
 				208FC330161063F100418BB8 /* DynamicGridViewDelegate.h */,
@@ -499,6 +517,27 @@
 				208FC336161068E800418BB8 /* RowInfo.m */,
 			);
 			name = DynamicGrid;
+			sourceTree = "<group>";
+		};
+		208FC33B1610712F00418BB8 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				208FC33C1610713C00418BB8 /* placeholder2.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		208FC39B16109EC100418BB8 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				208FC39C16109F0900418BB8 /* CollectionViewCell.h */,
+				208FC39D16109F0900418BB8 /* CollectionViewCell.m */,
+				208FC39F1610A18C00418BB8 /* CollectionView.h */,
+				208FC3A01610A18C00418BB8 /* CollectionView.m */,
+				208FC3A21610A96500418BB8 /* SMPhotoView.h */,
+				208FC3A31610A96500418BB8 /* SMPhotoView.m */,
+			);
+			name = CollectionView;
 			sourceTree = "<group>";
 		};
 		20BD116414A0A7B100B0F775 /* Mood */ = {
@@ -663,6 +702,7 @@
 				207EE7F715C03F020085F153 /* location.png in Resources */,
 				20304B3B15F9FA570079FF13 /* FacebookSDKResources.bundle in Resources */,
 				202B8BC816023816008CF5EE /* select-location.png in Resources */,
+				208FC33D1610713C00418BB8 /* placeholder2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,6 +775,10 @@
 				208FC32F1610611C00418BB8 /* DynamicGridViewController.m in Sources */,
 				208FC3341610666D00418BB8 /* DynamicGridCell.m in Sources */,
 				208FC337161068E900418BB8 /* RowInfo.m in Sources */,
+				208FC33A16106FA200418BB8 /* StreamScreen+Private.m in Sources */,
+				208FC39E16109F0900418BB8 /* CollectionViewCell.m in Sources */,
+				208FC3A11610A18C00418BB8 /* CollectionView.m in Sources */,
+				208FC3A41610A96600418BB8 /* SMPhotoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

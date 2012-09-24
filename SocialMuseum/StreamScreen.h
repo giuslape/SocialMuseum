@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PhotoView.h"
+#import "CollectionView.h"
 
-@interface StreamScreen : UIViewController <PhotoViewDelegate> {
+@interface StreamScreen : UIViewController <CollectionViewDelegate, CollectionViewDataSource> {
     IBOutlet UIBarButtonItem* btnCompose;
     IBOutlet UIBarButtonItem* btnRefresh;
-    IBOutlet UIScrollView* listView;
 }
 
 @property(nonatomic, weak) NSNumber* IdOpera;

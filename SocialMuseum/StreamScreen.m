@@ -8,28 +8,78 @@
 
 #import "StreamScreen.h"
 #import "API.h"
-#import "PhotoView.h"
 #import "StreamPhotoScreen.h"
 #import "PhotoScreen.h"
+#import "SMPhotoView.h"
 
-@interface StreamScreen(private)
+@interface StreamScreen()
 
--(void)refreshStream;
--(void)showStream:(NSArray*)stream;
+@property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, strong) CollectionView *collectionView;
 
 @end
 
 @implementation StreamScreen
 
-@synthesize IdOpera;
+@synthesize IdOpera, items = _items,collectionView = _collectionView;
+
+
+#pragma mark -
+#pragma mark ===  dealloc  ===
+#pragma mark -
+
+- (void)dealloc {
+    self.collectionView.delegate = nil;
+    self.collectionView.collectionViewDelegate = nil;
+    self.collectionView.collectionViewDataSource = nil;
+    
+    self.collectionView = nil;
+    self.items = nil;
+}
 
 #pragma mark - View lifecycle
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.items = [NSMutableArray array];
+    }
+    return self;
+}
+
 -(void)viewDidLoad {
+    
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = btnCompose;
     self.navigationItem.title = @"Foto";
-    //Mostra lo stream delle foto
+    self.view.backgroundColor = [UIColor lightGrayColor];
+    
+    self.collectionView = [[CollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:self.collectionView];
+    self.collectionView.collectionViewDelegate = self;
+    self.collectionView.collectionViewDataSource = self;
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+       
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:self.collectionView.bounds];
+    loadingLabel.text = @"Loading...";
+    loadingLabel.textAlignment = UITextAlignmentCenter;
+    self.collectionView.loadingView = loadingLabel;
+    
+    self.collectionView.numColsPortrait = 2;
+    self.collectionView.numColsLandscape = 3;
+    
+    [self loadDataSource];
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    
+    self.collectionView.delegate = nil;
+    self.collectionView.collectionViewDelegate = nil;
+    self.collectionView.collectionViewDataSource = nil;
+    
+    self.collectionView = nil;
 }
 
     
@@ -40,41 +90,66 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     
-    [self refreshStream];
 }
 
 -(IBAction)btnRefreshTapped {
-	[self refreshStream];
 }
 
--(void)refreshStream {
+- (void)loadDataSource {
+    
     [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
-		[self showStream:[json objectForKey:@"result"]];
+		self.items = [json objectForKey:@"result"];
+        if ([self.items count] > 0)
+            [self dataSourceDidLoad];
+        else 
+            [self dataSourceDidError];
+        
 	}];
+        
 }
 
--(void)showStream:(NSArray*)stream {
-    // Rimuove le vecchie foto
-    for (UIView* view in listView.subviews) {
-        [view removeFromSuperview];
+- (void)dataSourceDidLoad {
+    [self.collectionView reloadData];
+}
+
+- (void)dataSourceDidError {
+    [self.collectionView reloadData];
+}
+
+#pragma mark -
+#pragma mark ===  Delegate Methods  ===
+#pragma mark -
+
+
+- (NSInteger)numberOfViewsInCollectionView:(CollectionView *)collectionView {
+    return [self.items count];
+}
+
+- (CollectionViewCell *)collectionView:(CollectionView *)collectionView viewAtIndex:(NSInteger)index {
+    NSDictionary *item = [self.items objectAtIndex:index];
+    
+    SMPhotoView *v = (SMPhotoView *)[self.collectionView dequeueReusableView];
+    if (!v) {
+        v = [[SMPhotoView alloc] initWithFrame:CGRectZero];
     }
-    // Aggiunge le nuove
-    for (int i=0;i<[stream count];i++) {
-        NSDictionary* photo = [stream objectAtIndex:i];
-        PhotoView* photoView = [[PhotoView alloc] initWithIndex:i andData:photo];
-        photoView.delegate = self;
-        [listView addSubview: photoView];
-    }    
-    // Aggiorna la lista degli scroll
-    int listHeight = ([stream count]/3 + 1)*(kThumbSide+kPadding);
-    [listView setContentSize:CGSizeMake(320, listHeight)];
-    [listView scrollRectToVisible:CGRectMake(0, 0, 10, 10) animated:YES];
+    
+    [v fillViewWithObject:item];
+    
+    return v;
 }
 
--(void)didSelectPhoto:(PhotoView*)sender {
-    //Foto selezionata mostra in full screen
-    [self performSegueWithIdentifier:@"ShowPhoto" sender:[NSNumber numberWithInt:sender.tag]];   
+- (CGFloat)heightForViewAtIndex:(NSInteger)index {
+    NSDictionary *item = [self.items objectAtIndex:index];
+    
+    return [SMPhotoView heightForViewWithObject:item inColumnWidth:self.collectionView.colWidth];
+}
+
+- (void)collectionView:(CollectionView *)collectionView didSelectView:(CollectionViewCell *)view atIndex:(NSInteger)index {
+    
+    //    NSDictionary *item = [self.items objectAtIndex:index];
+    
+    // You can do something when the user taps on a collectionViewCell here
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -89,3 +164,6 @@
 }
 
 @end
+
+
+
