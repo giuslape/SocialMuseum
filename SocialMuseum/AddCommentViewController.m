@@ -57,7 +57,7 @@
     
     //Carica il commento sul server
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",commentView.text,@"testo",_IdOpera,@"IdOpera",_IdChunk,@"IdChunk",nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",[NSString stringWithUTF8String:[commentView.text UTF8String]],@"testo",_IdOpera,@"IdOpera",_IdChunk,@"IdChunk",nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
 			//Successo

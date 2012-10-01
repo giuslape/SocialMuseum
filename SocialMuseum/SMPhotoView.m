@@ -7,6 +7,7 @@
 //
 
 #import "SMPhotoView.h"
+#import "API.h"
 
 #define MARGIN 4.0
 
@@ -52,6 +53,7 @@ captionLabel = _captionLabel;
 }
 
 - (void)layoutSubviews {
+    
     [super layoutSubviews];
     
     CGFloat width = self.frame.size.width - MARGIN * 2;
@@ -59,8 +61,8 @@ captionLabel = _captionLabel;
     CGFloat left = MARGIN;
     
     // Image
-    CGFloat objectWidth = [[self.object objectForKey:@"width"] floatValue];
-    CGFloat objectHeight = [[self.object objectForKey:@"height"] floatValue];
+    CGFloat objectWidth = 100; //[[self.object objectForKey:@"width"] floatValue];
+    CGFloat objectHeight = 100; //[[self.object objectForKey:@"height"] floatValue];
     CGFloat scaledHeight = floorf(objectHeight / (objectWidth / width));
     self.imageView.frame = CGRectMake(left, top, width, scaledHeight);
     
@@ -73,13 +75,18 @@ captionLabel = _captionLabel;
 }
 
 - (void)fillViewWithObject:(id)object {
+    
     [super fillViewWithObject:object];
     
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"http://imgur.com/%@%@", [object objectForKey:@"hash"], [object objectForKey:@"ext"]]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        self.imageView.image = [UIImage imageWithData:data];
+    API* api = [API sharedInstance];
+    int IdPhoto = [[object objectForKey:@"IdPhoto"] intValue];
+    NSURL* imageURL = [api urlForImageWithId:[NSNumber numberWithInt: IdPhoto] isThumb:YES];
+    AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
+        //Crea ImageView e l'aggiunge alla vista
+        self.imageView.image = image;
     }];
+    NSOperationQueue* queue = [[NSOperationQueue alloc] init];
+    [queue addOperation:imageOperation];
     
     self.captionLabel.text = [object objectForKey:@"title"];
 }
@@ -91,8 +98,8 @@ captionLabel = _captionLabel;
     height += MARGIN;
     
     // Image
-    CGFloat objectWidth = [[object objectForKey:@"width"] floatValue];
-    CGFloat objectHeight = [[object objectForKey:@"height"] floatValue];
+    CGFloat objectWidth = 100; //[[object objectForKey:@"width"] floatValue];
+    CGFloat objectHeight = 100; //[[object objectForKey:@"height"] floatValue];
     CGFloat scaledHeight = floorf(objectHeight / (objectWidth / width));
     height += scaledHeight;
     

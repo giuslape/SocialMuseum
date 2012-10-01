@@ -63,7 +63,7 @@
        
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:self.collectionView.bounds];
     loadingLabel.text = @"Loading...";
-    loadingLabel.textAlignment = UITextAlignmentCenter;
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
     self.collectionView.loadingView = loadingLabel;
     
     self.collectionView.numColsPortrait = 2;

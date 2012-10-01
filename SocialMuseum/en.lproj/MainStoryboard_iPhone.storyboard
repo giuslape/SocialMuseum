@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Gj8-TB-pva">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="11G56" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Gj8-TB-pva">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
-        <development version="4300" defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <deployment defaultVersion="1536" identifier="iOS"/>
+        <development version="4300" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
         <!--Profile View Controller-->
         <scene sceneID="0ej-Jl-CxT">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IL4-6z-JDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="tHX-LK-o6I" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DQh-dt-aPI">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
@@ -56,13 +55,13 @@
                         <outlet property="userProfileImage" destination="p2C-1D-LyG" id="paI-Qu-Dyw"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IL4-6z-JDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1240" y="628"/>
         </scene>
         <!--Location View Controller-->
         <scene sceneID="2On-9h-VCp">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="49c-jv-HkR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Mcy-t8-hAA" customClass="LocationViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="c4y-rY-565">
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
@@ -94,13 +93,13 @@
                         <segue destination="oSz-QX-69I" kind="modal" identifier="ShowLogin" id="7qS-Cc-bYz"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="49c-jv-HkR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1240" y="63"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="HQI-Yg-Akz">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TVc-Lk-uwj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tabBarController definesPresentationContext="YES" id="Gj8-TB-pva" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="wLa-lR-KbO">
@@ -113,13 +112,13 @@
                         <segue destination="wEt-cj-RdR" kind="relationship" relationship="viewControllers" id="vPb-PP-FVZ"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TVc-Lk-uwj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="180" y="346"/>
         </scene>
         <!--Opera View Controller-->
         <scene sceneID="Q1m-kt-u6S">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bhY-g2-WpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="dCz-YK-UWR" customClass="OperaViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1g2-1M-WUa">
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
@@ -178,6 +177,7 @@
                         <segue destination="r8b-2k-3Yk" kind="push" identifier="StreamComment" id="KJL-Xb-WmH"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bhY-g2-WpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="Btl-QF-3A0">
                     <connections>
                         <action selector="singleTapHandler:" destination="dCz-YK-UWR" id="sv7-Qz-ti6"/>
@@ -194,7 +194,6 @@
         <!--Chunk View Controller - Chunk-->
         <scene sceneID="oK0-Qx-TnI">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TYg-8k-tgz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="uFZ-yn-T5N" customClass="ChunkViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CGA-wp-Y7v">
                         <rect key="frame" x="0.0" y="44" width="320" height="392"/>
@@ -245,13 +244,13 @@
                         <outlet property="textView" destination="LjH-la-rBG" id="bfb-Pj-cBV"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TYg-8k-tgz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1905" y="1372"/>
         </scene>
         <!--Update View Controller - Commenti-->
         <scene sceneID="e81-2B-b7w">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="urG-Sh-I4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="r8b-2k-3Yk" customClass="UpdateViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="135" sectionHeaderHeight="22" sectionFooterHeight="22" id="tEY-1D-QIw">
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
@@ -285,13 +284,13 @@
                         <outlet property="tableview" destination="tEY-1D-QIw" id="fHp-oW-iyV"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="urG-Sh-I4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3256" y="528"/>
         </scene>
         <!--Add Comment View Controller-->
         <scene sceneID="D6X-tP-FyI">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cXY-l4-jd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="dJg-zj-0Xk" customClass="AddCommentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Yzf-DW-4bK">
                         <rect key="frame" x="0.0" y="44" width="320" height="392"/>
@@ -323,13 +322,13 @@
                         <outlet property="commentView" destination="yXk-t4-Wvy" id="gwH-hu-9UX"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cXY-l4-jd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3849" y="848"/>
         </scene>
         <!--Stream Screen-->
         <scene sceneID="jTH-8o-95b">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="mLZ-QK-4Bi" customClass="StreamScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lEl-gX-lg8">
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
@@ -346,6 +345,7 @@
                         <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="tqw-Ju-24n"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="compose" id="ZCw-qA-sDH">
                     <connections>
                         <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="bF1-JT-EhV"/>
@@ -358,7 +358,6 @@
         <!--Stream Photo Screen-->
         <scene sceneID="F2E-d4-wLV">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Fau-h8-meB" customClass="StreamPhotoScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="v11-S2-y6v">
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
@@ -388,13 +387,13 @@
                         <outlet property="photoView" destination="yJ0-Wj-8OE" id="A8G-Jb-dxg"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2880" y="-216"/>
         </scene>
         <!--Photo Screen-->
         <scene sceneID="lK0-lk-Kch">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kzz-Xw-dqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="aGw-4W-P2W" customClass="PhotoScreen" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2vR-m9-MKB">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -427,6 +426,7 @@
                         <outlet property="photo" destination="UsQ-Fs-zcf" id="MM0-hh-wi2"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kzz-Xw-dqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="action" id="9e2-CJ-qp5">
                     <connections>
                         <action selector="btnActionTapped:" destination="aGw-4W-P2W" id="tVs-7y-Ff1"/>
@@ -438,10 +438,9 @@
         <!--Login View Controller-->
         <scene sceneID="Tj9-SG-qHP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fw2-AO-Kzx" sceneMemberID="firstResponder"/>
                 <viewController id="oSz-QX-69I" customClass="LoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yLT-Ut-nT2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="dJq-HT-2On">
@@ -522,13 +521,13 @@
                         <outlet property="spinner" destination="Qx0-2h-DP7" id="mHn-Iz-e8R"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fw2-AO-Kzx" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1240" y="-565"/>
         </scene>
         <!--Navigation Controller - Esplora-->
         <scene sceneID="30F-eh-GB8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="B7f-D6-60K" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="YOS-Ww-AyQ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Esplora" id="5Tv-OK-DN8"/>
                     <toolbarItems/>
@@ -542,13 +541,13 @@
                         <segue destination="Mcy-t8-hAA" kind="relationship" relationship="rootViewController" id="axd-em-qEK"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B7f-D6-60K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="714" y="63"/>
         </scene>
         <!--Navigation Controller - Profilo-->
         <scene sceneID="CpN-wD-fEK">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="beo-lb-Dmx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="wEt-cj-RdR" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profilo" id="Aw4-Kj-HdO"/>
                     <toolbarItems/>
@@ -562,6 +561,7 @@
                         <segue destination="tHX-LK-o6I" kind="relationship" relationship="rootViewController" id="hBP-7E-fC3"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="beo-lb-Dmx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="714" y="628"/>
         </scene>
@@ -585,9 +585,6 @@
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
             </relationships>
-        </class>
-        <class className="DynamicGridViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DynamicGridViewController.h"/>
         </class>
         <class className="FBProfilePictureView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FBProfilePictureView.h"/>
@@ -642,7 +639,7 @@
                 <relationship kind="outlet" name="photoView" candidateClass="UIImageView"/>
             </relationships>
         </class>
-        <class className="StreamScreen" superclassName="DynamicGridViewController">
+        <class className="StreamScreen" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamScreen.h"/>
             <relationships>
                 <relationship kind="action" name="btnRefreshTapped"/>
