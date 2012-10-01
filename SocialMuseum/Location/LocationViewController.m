@@ -408,13 +408,11 @@ NSString *const SMSessionStateChangedNotification =
 
 - (void)openSession
 {
-    [FBSession openActiveSessionWithPermissions:nil
-                                   allowLoginUI:YES
-                              completionHandler:
-     ^(FBSession *session, 
-       FBSessionState state, NSError *error) {
+    [FBSession openActiveSessionWithReadPermissions:nil
+                                       allowLoginUI:YES
+                                  completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
          [self sessionStateChanged:session 
-                             state:state
+                             state:status
                              error:error];
      }];
 }
