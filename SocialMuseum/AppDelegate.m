@@ -7,16 +7,37 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "LocationViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+
+NSString *const SMSessionStateChangedNotification =
+@"com.tadaa.SocialMuseum:FBSessionStateChangedNotification";
+
+@interface AppDelegate ()
+
+@property (strong, nonatomic) LocationViewController *mainViewController;
+@property (strong, nonatomic) LoginViewController *loginViewController;
+@end
 
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize mainViewController = _mainViewController;
+@synthesize loginViewController = _loginViewController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [FBProfilePictureView class];
+    
+    // See if we have a valid token for the current state.
+    if (![self openSessionWithAllowLoginUI:NO]) {
+        // No? Display the login page.
+        [self showLoginView];
+    }
+
     return YES;
 }
 							
@@ -48,9 +69,9 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-    if (FBSession.activeSession.state == FBSessionStateCreatedOpening) {    
-        [FBSession.activeSession close]; // so we close our session and start over  
-    }
+    
+    [FBSession.activeSession handleDidBecomeActive];
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -60,13 +81,124 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+    [FBSession.activeSession close];
 }
-- (BOOL)application:(UIApplication *)application 
+- (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication 
-         annotation:(id)annotation 
-{
-    return [FBSession.activeSession handleOpenURL:url]; 
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    // FBSample logic
+    // We need to handle URLs by passing them to FBSession in order for SSO authentication
+    // to work.
+    return [FBSession.activeSession handleOpenURL:url];
 }
+
+- (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI {
+    return [FBSession openActiveSessionWithReadPermissions:nil
+                                              allowLoginUI:allowLoginUI
+                                         completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+                                             [self sessionStateChanged:session state:state error:error];
+                                         }];
+}
+
+- (void)showLoginView {
+    if (self.loginViewController == nil) {
+        [self createAndPresentLoginView];
+    } else {
+        [self.loginViewController loginFailed];
+    }
+}
+
+- (void)createAndPresentLoginView {
+    
+    if (self.loginViewController == nil) {
+        
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+        self.loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        
+        self.window.rootViewController = self.loginViewController;
+    }
+}
+
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState)state
+                      error:(NSError *)error
+{
+    // FBSample logic
+    // Any time the session is closed, we want to display the login controller (the user
+    // cannot use the application unless they are logged in to Facebook). When the session
+    // is opened successfully, hide the login controller and show the main UI.
+    switch (state) {
+        case FBSessionStateOpen: {
+            if (self.loginViewController != nil) {
+                [self showInitialViewController];
+                
+                [self.loginViewController dismissViewControllerAnimated:YES completion:^{
+                    
+                    self.loginViewController = nil;
+
+                }];
+            }
+            
+            // FBSample logic
+            // Pre-fetch and cache the friends for the friend picker as soon as possible to improve
+            // responsiveness when the user tags their friends.
+            FBCacheDescriptor *cacheDescriptor = [FBFriendPickerViewController cacheDescriptor];
+            [cacheDescriptor prefetchAndCacheForSession:session];
+        }
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed: {
+            // FBSample logic
+            // Once the user has logged out, we want them to be looking at the root view.
+            [self showInitialViewController];
+            
+            UINavigationController* navController = (UINavigationController *)[[(UITabBarController *) self.window.rootViewController viewControllers]objectAtIndex:0];
+            
+            if (self.loginViewController != nil) {
+                [self.loginViewController dismissViewControllerAnimated:YES completion:^{
+                    self.loginViewController = nil;
+                }];
+            }
+            [navController popToRootViewControllerAnimated:NO];
+            
+            [FBSession.activeSession closeAndClearTokenInformation];
+            
+            // if the token goes invalid we want to switch right back to
+            // the login view, however we do it with a slight delay in order to
+            // account for a race between this and the login view dissappearing
+            // a moment before
+            [self performSelector:@selector(showLoginView)
+                       withObject:nil
+                       afterDelay:0.3f];
+        }
+            break;
+        default:
+            break;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:SMSessionStateChangedNotification
+                                                        object:session];
+    
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:error.localizedDescription
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+
+-(void)showInitialViewController{
+    
+    UIStoryboard* storyBoard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    UITabBarController* tbc = [storyBoard instantiateInitialViewController];
+    
+    self.window.rootViewController = tbc;
+
+}
+
 
 @end

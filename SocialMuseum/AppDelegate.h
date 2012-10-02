@@ -8,8 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const SMSessionStateChangedNotification;
+
+@class LocationViewController;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+// AppDelegate è il responsabile del mantenimento della sessione con Facebook.
+// se la FBSession non è valida viene visualizzata la schermata di login.
+
+- (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
+- (void)showInitialViewController;
 
 @end

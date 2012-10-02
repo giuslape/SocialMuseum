@@ -8,13 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class LoginViewController;
 
-@protocol LoginViewControllerDelegate
-
--(void)loginButtonDidPressed:(LoginViewController *)sender;
-
-@end
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate>{
     
@@ -25,7 +19,6 @@
 
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
-@property (weak, nonatomic) id <LoginViewControllerDelegate> delegate;
 
 - (IBAction)performLogin:(id)sender;
 -(void)loginFailed;

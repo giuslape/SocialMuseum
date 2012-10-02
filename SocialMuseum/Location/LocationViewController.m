@@ -16,9 +16,8 @@
 #import "UIAlertView+error.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "ProfileViewController.h"
+#import "AppDelegate.h"
 
-NSString *const SMSessionStateChangedNotification = 
-@"com.tadaa.Login:FBSessionStateChangedNotification";
 
 @interface LocationViewController ()
 
@@ -65,23 +64,14 @@ NSString *const SMSessionStateChangedNotification =
     distanceOffset = 5000;
     levelZoom = 500;
     
-    // See if we have a valid token for the current state.
-    if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-        // To-do, show logged in view
-        [self openSession];
-    } else {
-        // No, display the login page.
-        [self showLoginView];
-    }
-
+   
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
     
-    [[NSNotificationCenter defaultCenter] 
-     addObserver:self 
-     selector:@selector(sessionStateChanged:) 
-     name:SMSessionStateChangedNotification
-     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(sessionStateChanged:)
+                                                 name:SMSessionStateChangedNotification
+                                               object:nil];
     
 }
 
@@ -92,14 +82,6 @@ NSString *const SMSessionStateChangedNotification =
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     _map.delegate = nil;
 
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    
-    if (![[API sharedInstance] isAuthorized]) {
-        
-        [self showLoginView];
-    }
 }
 
 
@@ -295,21 +277,10 @@ NSString *const SMSessionStateChangedNotification =
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    if ([@"ShowLogin" compare:segue.identifier] == NSOrderedSame) {
-        
-        LoginViewController* login = [segue destinationViewController];
-        
-        login.delegate = self;
-        
-        return;
-    }
-    
     if ([@"ShowProfile" compare:segue.identifier] == NSOrderedSame)return;
     
     if ([@"Opera" compare:segue.identifier] == NSOrderedSame) {
         
-    
-    
     MKAnnotationView* annotationView = (MKAnnotationView *)sender;
     
     SMAnnotation* annotation = (SMAnnotation *)annotationView.annotation;
@@ -347,85 +318,10 @@ NSString *const SMSessionStateChangedNotification =
 #pragma mark ===  Login Handler  ===
 #pragma mark -
 
-- (void)showLoginView 
-{    
-    UIViewController *modalViewController = [self presentedViewController];
-    
-    // If the login screen is not already displayed, display it. If the login screen is 
-    // displayed, then getting back here means the login in progress did not successfully 
-    // complete. In that case, notify the login view so it can update its UI appropriately.
-    
-    if (![modalViewController isKindOfClass:[LoginViewController class]]) {
-        
-        [self performSegueWithIdentifier:@"ShowLogin" sender:self];
-        
-    } else {
-        LoginViewController* loginViewController = 
-        (LoginViewController*)modalViewController;
-        [loginViewController loginFailed];
-    }
-}
 
-- (void)sessionStateChanged:(FBSession *)session 
-                      state:(FBSessionState) state
-                      error:(NSError *)error
-{
-    switch (state) {
-        case FBSessionStateOpen: {
-            if ([[self presentedViewController] 
-                 isKindOfClass:[LoginViewController class]]) {
-                [self dismissModalViewControllerAnimated:YES];
-            }
-        }
-            break;
-        case FBSessionStateClosed:
-        case FBSessionStateClosedLoginFailed:
-            // Once the user has logged in, we want them to 
-            // be looking at the root view.
-            
-            [FBSession.activeSession closeAndClearTokenInformation];
-            
-            [self showLoginView];
-            break;
-        default:
-            break;
-    }
-    
-    [[NSNotificationCenter defaultCenter] 
-     postNotificationName:SMSessionStateChangedNotification 
-     object:session];
-    
-    if (error) {
-        UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:error.localizedDescription
-                                  delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-        [alertView show];
-    }    
-}
-
-- (void)openSession
-{
-    [FBSession openActiveSessionWithReadPermissions:nil
-                                       allowLoginUI:YES
-                                  completionHandler:^(FBSession *session, FBSessionState status, NSError *error) {
-         [self sessionStateChanged:session 
-                             state:status
-                             error:error];
-     }];
-}
-
--(void)loginButtonDidPressed:(LoginViewController *)sender{
-    
-    [self openSession];
-    sender.delegate = nil;
-    
-    
-}
 
 - (void)sessionStateChanged:(NSNotification*)notification {
+    
     [self populateUserDetails];
 }
 

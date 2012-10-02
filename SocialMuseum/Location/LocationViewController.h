@@ -9,13 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
 
-extern NSString *const SMSessionStateChangedNotification;
-
-
 #define khorizontalAccuracy 100
 
 
-@interface LocationViewController : UIViewController <MKMapViewDelegate, LoginViewControllerDelegate>{
+@interface LocationViewController : UIViewController <MKMapViewDelegate>{
     
     IBOutlet MKMapView* _map;
     IBOutlet UIBarButtonItem* myPosition;
