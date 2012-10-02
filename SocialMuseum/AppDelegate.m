@@ -102,6 +102,7 @@ NSString *const SMSessionStateChangedNotification =
 }
 
 - (void)showLoginView {
+    
     if (self.loginViewController == nil) {
         [self createAndPresentLoginView];
     } else {
@@ -130,15 +131,10 @@ NSString *const SMSessionStateChangedNotification =
     // is opened successfully, hide the login controller and show the main UI.
     switch (state) {
         case FBSessionStateOpen: {
-            if (self.loginViewController != nil) {
+            if (self.loginViewController != nil)
+                self.loginViewController = nil;                
                 [self showInitialViewController];
-                
-                [self.loginViewController dismissViewControllerAnimated:YES completion:^{
-                    
-                    self.loginViewController = nil;
-
-                }];
-            }
+            
             
             // FBSample logic
             // Pre-fetch and cache the friends for the friend picker as soon as possible to improve
@@ -151,26 +147,10 @@ NSString *const SMSessionStateChangedNotification =
         case FBSessionStateClosedLoginFailed: {
             // FBSample logic
             // Once the user has logged out, we want them to be looking at the root view.
-            [self showInitialViewController];
-            
-            UINavigationController* navController = (UINavigationController *)[[(UITabBarController *) self.window.rootViewController viewControllers]objectAtIndex:0];
-            
-            if (self.loginViewController != nil) {
-                [self.loginViewController dismissViewControllerAnimated:YES completion:^{
-                    self.loginViewController = nil;
-                }];
-            }
-            [navController popToRootViewControllerAnimated:NO];
             
             [FBSession.activeSession closeAndClearTokenInformation];
+            [self logoutHandler];
             
-            // if the token goes invalid we want to switch right back to
-            // the login view, however we do it with a slight delay in order to
-            // account for a race between this and the login view dissappearing
-            // a moment before
-            [self performSelector:@selector(showLoginView)
-                       withObject:nil
-                       afterDelay:0.3f];
         }
             break;
         default:
@@ -198,6 +178,23 @@ NSString *const SMSessionStateChangedNotification =
     
     self.window.rootViewController = tbc;
 
+}
+
+- (void)logoutHandler{
+    
+    UINavigationController* navController = (UINavigationController *)[[(UITabBarController *) self.window.rootViewController viewControllers]objectAtIndex:0];
+    [navController popToRootViewControllerAnimated:NO];
+
+    if (self.loginViewController != nil)
+            self.loginViewController = nil;
+        
+    // if the token goes invalid we want to switch right back to
+    // the login view, however we do it with a slight delay in order to
+    // account for a race between this and the login view dissappearing
+    // a moment before
+    [self performSelector:@selector(showLoginView)
+               withObject:nil
+               afterDelay:0.5f];
 }
 
 

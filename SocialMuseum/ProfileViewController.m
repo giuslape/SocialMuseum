@@ -9,6 +9,7 @@
 #import "ProfileViewController.h"
 #import "API.h"
 #import "UIAlertView+error.h"
+#import "AppDelegate.h"
 @interface ProfileViewController ()
 
 @end
@@ -119,7 +120,10 @@
             [[API sharedInstance] setUser:nil];
             self.userNameLabel.text = nil;
             
-            [(UITabBarController *)[[self parentViewController] parentViewController] setSelectedIndex:0];
+            AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+            
+            [delegate logoutHandler];
+            
         }];
     
     }

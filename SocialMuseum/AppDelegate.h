@@ -21,5 +21,6 @@ extern NSString *const SMSessionStateChangedNotification;
 
 - (BOOL)openSessionWithAllowLoginUI:(BOOL)allowLoginUI;
 - (void)showInitialViewController;
+- (void)logoutHandler;
 
 @end
