@@ -187,7 +187,7 @@ NSString *const SMSessionStateChangedNotification =
 
     if (self.loginViewController != nil)
             self.loginViewController = nil;
-        
+    
     // if the token goes invalid we want to switch right back to
     // the login view, however we do it with a slight delay in order to
     // account for a race between this and the login view dissappearing

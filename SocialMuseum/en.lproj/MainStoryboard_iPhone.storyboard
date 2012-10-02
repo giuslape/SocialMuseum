@@ -346,12 +346,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="compose" id="ZCw-qA-sDH">
                     <connections>
-                        <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="bF1-JT-EhV"/>
+                        <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="tKH-8h-5my"/>
                     </connections>
                 </barButtonItem>
                 <barButtonItem title="Stream" id="WQ7-PW-PsX"/>
             </objects>
-            <point key="canvasLocation" x="1810" y="-1096"/>
+            <point key="canvasLocation" x="2218" y="-1080"/>
         </scene>
         <!--Stream Photo Screen-->
         <scene sceneID="F2E-d4-wLV">

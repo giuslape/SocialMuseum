@@ -147,12 +147,15 @@
 
 - (void)collectionView:(CollectionView *)collectionView didSelectView:(CollectionViewCell *)view atIndex:(NSInteger)index {
     
-    //    NSDictionary *item = [self.items objectAtIndex:index];
+    NSDictionary *item = [self.items objectAtIndex:index];
+    
+    [self performSegueWithIdentifier:@"ShowPhoto" sender:[NSNumber numberWithInt:[[item objectForKey:@"IdPhoto"]intValue]]];
     
     // You can do something when the user taps on a collectionViewCell here
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
     if ([@"ShowPhoto" compare: segue.identifier]==NSOrderedSame) {
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
         streamPhotoScreen.IdPhoto = sender;
