@@ -11,7 +11,8 @@
 #import "StreamPhotoScreen.h"
 #import "PhotoScreen.h"
 #import "SMPhotoView.h"
-
+#import "MBProgressHUD.h"
+#import "PullToRefreshView.h"
 @interface StreamScreen()
 
 @property (nonatomic, strong) NSMutableArray *items;
@@ -21,7 +22,7 @@
 
 @implementation StreamScreen
 
-@synthesize IdOpera, items = _items,collectionView = _collectionView;
+@synthesize IdOpera = _IdOpera, items = _items, collectionView = _collectionView;
 
 
 #pragma mark -
@@ -61,15 +62,23 @@
     self.collectionView.backgroundColor = [UIColor clearColor];
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
        
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:self.collectionView.bounds];
-    loadingLabel.text = @"Loading...";
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    self.collectionView.loadingView = loadingLabel;
+    MBProgressHUD* hud = [[MBProgressHUD alloc] init];
+    [hud setLabelText:@"Loading..."];
+    [hud setDimBackground:YES];
+
+    self.collectionView.loadingView = hud;
+    [hud show:YES];
     
     self.collectionView.numColsPortrait = 2;
     self.collectionView.numColsLandscape = 3;
     
     [self loadDataSource];
+    
+    __block StreamScreen *      blockSelf = self;
+
+    [self.collectionView addPullToRefreshWithActionHandler:^{
+        [blockSelf loadDataSource];
+    }];
 }
 
 - (void)viewDidUnload {
@@ -78,8 +87,8 @@
     self.collectionView.delegate = nil;
     self.collectionView.collectionViewDelegate = nil;
     self.collectionView.collectionViewDataSource = nil;
-    
     self.collectionView = nil;
+    self.collectionView.pullToRefreshView = nil;
 }
 
     
@@ -97,14 +106,15 @@
 
 - (void)loadDataSource {
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		self.items = [json objectForKey:@"result"];
         if ([self.items count] > 0)
             [self dataSourceDidLoad];
         else 
             [self dataSourceDidError];
-        
+        [MBProgressHUD hideHUDForView:self.collectionView.loadingView animated:YES];
+        [self.collectionView.pullToRefreshView stopAnimating];
 	}];
         
 }
@@ -150,8 +160,6 @@
     NSDictionary *item = [self.items objectAtIndex:index];
     
     [self performSegueWithIdentifier:@"ShowPhoto" sender:[NSNumber numberWithInt:[[item objectForKey:@"IdPhoto"]intValue]]];
-    
-    // You can do something when the user taps on a collectionViewCell here
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -162,8 +170,13 @@
     }
     if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
         PhotoScreen* photoScreen = segue.destinationViewController;
-        photoScreen.IdOpera = self.IdOpera;
+        [photoScreen setIdOpera:_IdOpera];
     }
+}
+
+-(void)setIdOpera:(NSNumber *)IdOpera{
+    
+    _IdOpera = IdOpera;
 }
 
 @end

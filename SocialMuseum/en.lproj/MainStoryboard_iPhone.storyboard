@@ -346,7 +346,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <barButtonItem systemItem="compose" id="ZCw-qA-sDH">
                     <connections>
-                        <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="tKH-8h-5my"/>
+                        <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="Rqo-FL-ru5"/>
                     </connections>
                 </barButtonItem>
                 <barButtonItem title="Stream" id="WQ7-PW-PsX"/>
@@ -431,12 +431,11 @@
                     </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="2813" y="-1096"/>
+            <point key="canvasLocation" x="2905" y="-1080"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="Tj9-SG-qHP">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fw2-AO-Kzx" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="LoginViewController" id="oSz-QX-69I" customClass="LoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yLT-Ut-nT2">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
@@ -520,6 +519,7 @@
                         <outlet property="spinner" destination="Qx0-2h-DP7" id="mHn-Iz-e8R"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fw2-AO-Kzx" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1240" y="-657"/>
         </scene>

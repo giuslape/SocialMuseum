@@ -10,6 +10,6 @@
 
 @interface UIAlertView(error)
 
-+(void)error:(NSString*)msg;
++(void)error:(id)msg;
 
 @end

@@ -14,7 +14,7 @@
     NSArray* _comments;
 }
 
-@property (strong, nonatomic, readwrite)NSNumber* IdOpera;
+@property (copy, nonatomic, readwrite)NSNumber* IdOpera;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 

@@ -14,7 +14,7 @@
     IBOutlet UILabel* lblTitle;
 }
 
-@property (weak, nonatomic) NSNumber* IdPhoto;
-@property (weak, nonatomic) NSNumber* IdOpera;
+@property (copy, nonatomic, readwrite) NSNumber* IdPhoto;
+@property (copy, nonatomic, readwrite) NSNumber* IdOpera;
 
 @end

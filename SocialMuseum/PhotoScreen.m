@@ -10,7 +10,7 @@
 #import "API.h"
 #import "UIImage+Resize.h"
 #import "UIAlertView+error.h"
-
+#import "AppDelegate.h"
 @interface PhotoScreen(private)
 -(void)takePhoto;
 -(void)effects;
@@ -20,7 +20,7 @@
 
 @implementation PhotoScreen
 
-@synthesize IdOpera;
+@synthesize IdOpera = _IdOpera;
 
 #pragma mark - View lifecycle
 -(void)viewDidLoad {
@@ -28,10 +28,6 @@
     
     self.navigationItem.rightBarButtonItem = btnAction;
     self.navigationItem.title = @"Post photo";
-	if (![[API sharedInstance] isAuthorized]) {
-		[self performSegueWithIdentifier:@"ShowLogin" sender:nil];
-	}
-    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -43,10 +39,17 @@
 #pragma mark - menu
 
 -(IBAction)btnActionTapped:(id)sender {
+    
 	[fldTitle resignFirstResponder];
     
-	[[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Close" destructiveButtonTitle:nil otherButtonTitles:@"Take photo", @"Effects!", @"Post Photo", nil] 
-	 showInView:self.view];
+    AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), NSStringFromClass([delegate.window.rootViewController.view class]));
+
+    
+	[[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Close" destructiveButtonTitle:nil otherButtonTitles:@"Take photo", @"Effects!", @"Post Photo", nil]
+	 showInView:delegate.window.rootViewController.view];
+    
 
 }
 
@@ -77,7 +80,7 @@
 -(void)uploadPhoto {
         
     //Carica l'img e il titolo sul server
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"upload", @"command", UIImageJPEGRepresentation(photo.image,70), @"file", fldTitle.text, @"title",IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"upload", @"command", UIImageJPEGRepresentation(photo.image,70), @"file", fldTitle.text, @"title", _IdOpera, @"IdOpera", nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
 			//Successo
@@ -87,9 +90,7 @@
 			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
 			NSString* errorMsg = [json objectForKey:@"error"];
 			[UIAlertView error:errorMsg];
-			if ([@"Authorization required" compare:errorMsg]==NSOrderedSame) {
-				[self performSegueWithIdentifier:@"ShowLogin" sender:nil];
-			}
+			
 		}
 	}];
 }
@@ -107,6 +108,11 @@
             [self uploadPhoto]; 
 			break;
     }
+}
+
+-(void)setIdOpera:(NSNumber *)IdOpera{
+    
+    _IdOpera = IdOpera;
 }
 
 #pragma mark - Image picker delegate methods

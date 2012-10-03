@@ -14,7 +14,7 @@
     IBOutlet UIBarButtonItem* btnRefresh;
 }
 
-@property(nonatomic, weak) NSNumber* IdOpera;
+@property(nonatomic, copy, readwrite) NSNumber* IdOpera;
 //refresh the photo stream
 -(IBAction)btnRefreshTapped;
 

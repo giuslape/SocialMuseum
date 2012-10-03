@@ -15,8 +15,6 @@
     NSString* _subTitle;
     __weak NSString* _description;
      UIImage*  _image;
-    NSNumber* _IdOpera;
-
     
 }
 

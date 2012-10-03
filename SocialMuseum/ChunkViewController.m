@@ -2,7 +2,7 @@
 //  ChunkViewController.m
 //  SocialMuseum
 //
-//  Created by Vincenzo Lapenta on 26/07/12.
+//  Created by Giuseppe Lapenta on 26/07/12.
 //  Copyright (c) 2012 Lapenta. All rights reserved.
 //
 
@@ -36,7 +36,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-        
+    
     // Adatta l'altezza della Vista al testo
     CGSize size = [_chunk sizeWithFont:[UIFont systemFontOfSize:12] 
        constrainedToSize:CGSizeMake(320, MAX_HEIGHT) 

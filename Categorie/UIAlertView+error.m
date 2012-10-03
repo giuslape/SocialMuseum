@@ -2,8 +2,8 @@
 //  UIAlertView+error.m
 //  iReporter
 //
-//  Created by Marin Todorov on 09/02/2012.
-//  Copyright (c) 2012 Marin Todorov. All rights reserved.
+//  Created by Giuseppe Lapenta on 09/02/2012.
+//  Copyright (c) 2012 Lapenta. All rights reserved.
 //
 
 #import "UIAlertView+error.h"

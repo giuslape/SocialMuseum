@@ -25,8 +25,8 @@
 
 @property (nonatomic, weak) id <AddCommentDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITextField *commentView;
-@property (strong, nonatomic, readwrite) NSNumber* IdChunk;
-@property (strong, nonatomic, readwrite) NSNumber* IdOpera;
+@property (copy, nonatomic, readwrite) NSNumber* IdChunk;
+@property (copy, nonatomic, readwrite) NSNumber* IdOpera;
 
 - (IBAction)done:(id)sender;
 

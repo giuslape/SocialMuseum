@@ -220,7 +220,6 @@
                                onCompletion:^(NSDictionary *json) {
                                    
                                    annotation.chunkDescription = [NSArray arrayWithArray:[json objectForKey:@"result"]];
-                                  // annotation.chunkDescription = [[annotation.chunkDescription reverseObjectEnumerator] allObjects];
                                }];
 }
 

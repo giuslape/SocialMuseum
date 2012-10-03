@@ -158,7 +158,7 @@
         ChunkViewController* chunk = [segue destinationViewController];
         chunk.chunk = cell.textLabel.text;
         chunk.IdChunk = [NSNumber numberWithInt:cell.tag];
-        chunk.IdOpera = _artWork.IdOpera;
+        [chunk setIdOpera:_artWork.IdOpera];
     }
     
     if ([@"StreamComment" compare:segue.identifier] == NSOrderedSame) {
