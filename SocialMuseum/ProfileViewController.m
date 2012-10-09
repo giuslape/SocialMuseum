@@ -49,14 +49,14 @@
     [scroller setContentSize:CGSizeMake(320, 2000)];
     self.headerPhoto.backgroundColor = [UIColor grayColor];
     
-    self.collectionView = [[CollectionView alloc] initWithFrame:CGRectMake(0, self.headerPhoto.frame.origin.y + self.headerPhoto.frame.size.height + MARGIN, self.view.frame.size.width, self.view.frame.size.height)];
+    self.collectionView = [[CollectionView alloc] initWithFrame:CGRectMake(0, self.headerPhoto.frame.origin.y + self.headerPhoto.frame.size.height + MARGIN, self.view.frame.size.width, 0)];
     
     [scroller addSubview:self.collectionView];
     self.collectionView.collectionViewDelegate = self;
     self.collectionView.collectionViewDataSource = self;
-    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.backgroundColor = [UIColor blueColor];
     self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.collectionView.userInteractionEnabled = NO;
+    self.collectionView.scrollEnabled = NO;
     
     self.collectionView.numColsPortrait = 2;
     self.collectionView.numColsLandscape = 3;
@@ -94,6 +94,7 @@
 
 - (void)dataSourceDidLoad {
     [self.collectionView reloadData];
+    self.collectionView.frame = CGRectMake(self.collectionView.frame.origin.x, self.collectionView.frame.origin.y, self.view.frame.size.width, self.collectionView.contentSize.height);
 }
 
 - (void)dataSourceDidError {
