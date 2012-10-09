@@ -74,7 +74,7 @@
     
     [self loadDataSource];
     
-    __block StreamScreen *      blockSelf = self;
+    __block StreamScreen * blockSelf = self;
 
     [self.collectionView addPullToRefreshWithActionHandler:^{
         [blockSelf loadDataSource];
@@ -150,6 +150,7 @@
 }
 
 - (CGFloat)heightForViewAtIndex:(NSInteger)index {
+    
     NSDictionary *item = [self.items objectAtIndex:index];
     
     return [SMPhotoView heightForViewWithObject:item inColumnWidth:self.collectionView.colWidth];

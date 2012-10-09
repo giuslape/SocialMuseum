@@ -10,19 +10,33 @@
 #import "API.h"
 #import "UIAlertView+error.h"
 #import "AppDelegate.h"
-@interface ProfileViewController ()
+#import "MBProgressHUD.h"
+#import "PullToRefreshView.h"
+#import "SMPhotoView.h"
 
+#define MARGIN 30
+
+@interface ProfileViewController ()
+@property (weak, nonatomic) IBOutlet UIView *headerPhoto;
+
+@property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, strong) CollectionView *collectionView;
 @end
 
 @implementation ProfileViewController
+
 @synthesize userNameLabel;
 @synthesize userProfileImage;
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.items = [NSMutableArray array];
+
     }
     return self;
 }
@@ -33,6 +47,57 @@
 	// Do any additional setup after loading the view.
     [scroller setScrollEnabled:YES];
     [scroller setContentSize:CGSizeMake(320, 2000)];
+    self.headerPhoto.backgroundColor = [UIColor grayColor];
+    
+    self.collectionView = [[CollectionView alloc] initWithFrame:CGRectMake(0, self.headerPhoto.frame.origin.y + self.headerPhoto.frame.size.height + MARGIN, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    [scroller addSubview:self.collectionView];
+    self.collectionView.collectionViewDelegate = self;
+    self.collectionView.collectionViewDataSource = self;
+    self.collectionView.backgroundColor = [UIColor clearColor];
+    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.collectionView.userInteractionEnabled = NO;
+    
+    self.collectionView.numColsPortrait = 2;
+    self.collectionView.numColsLandscape = 3;
+    
+    __block ProfileViewController * blockSelf = self;
+    
+    [scroller addPullToRefreshWithActionHandler:^{
+        
+        [blockSelf loadDataSource];
+    }];
+    
+}
+
+- (void)loadDataSource {
+    
+    [self populateUserDetails];
+    
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStream", @"command",[[[API sharedInstance] user] objectForKey:@"IdUser"],@"IdUser", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   if (![json objectForKey:@"error"] && [[json objectForKey:@"result"] count] > 0) {
+                                       
+                                       self.items = [json objectForKey:@"result"];
+                                       if ([self.items count] > 0)
+                                           [self dataSourceDidLoad];
+                                       else
+                                           [self dataSourceDidError];
+                                      
+                                   }
+                                   [MBProgressHUD hideHUDForView:scroller animated:YES];
+                                   [scroller.pullToRefreshView stopAnimating];
+                                   
+                               }];
+}
+
+- (void)dataSourceDidLoad {
+    [self.collectionView reloadData];
+}
+
+- (void)dataSourceDidError {
+    [self.collectionView reloadData];
 }
 
 - (void)viewDidUnload
@@ -40,38 +105,29 @@
     [self setUserNameLabel:nil];
     [self setUserProfileImage:nil];
     scroller = nil;
+    self.collectionView.delegate = nil;
+    self.collectionView.collectionViewDelegate = nil;
+    self.collectionView.collectionViewDataSource = nil;
+    
+    self.collectionView = nil;
+    self.items = nil;
+
+    [self setHeaderPhoto:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    
     [super viewWillAppear:animated];
     
-        [self populateUserDetails];
-        [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStream", @"command",[[[API sharedInstance] user] objectForKey:@"IdUser"],@"IdUser", nil]
-                               onCompletion:^(NSDictionary *json) {
-                                   
-                                   if (![json objectForKey:@"error"] && [[json objectForKey:@"result"] count] > 0) {
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:scroller animated:YES];
+    [hud setLabelText:@"Loading..."];
+    [hud setDimBackground:YES];
+    [hud show:YES];
 
-                                   NSDictionary* res = [[json objectForKey:@"result"] objectAtIndex:0];
-                                   
-                                   //Mostra la griglia con le ultime foto scattate
-                                   
-                                   int IdPhoto = [[res objectForKey:@"IdPhoto"] intValue];
-                                   NSURL* imageURL = [[API sharedInstance] urlForImageWithId:[NSNumber numberWithInt: IdPhoto] isThumb:YES];
-                                   AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
-                                       //Crea ImageView e l'aggiunge alla vista
-                                       UIImageView* thumbView = [[UIImageView alloc] initWithImage: image];
-                                       [scroller addSubview:thumbView];
-                                   }];
-                                   NSOperationQueue* queue = [[NSOperationQueue alloc] init];
-                                   [queue addOperation:imageOperation];
-                                }
-                                   
-                            }];
-                               
-    
+    [self performSelector:@selector(loadDataSource) withObject:nil afterDelay:1];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -139,4 +195,41 @@
     }
     
 }
+
+#pragma mark -
+#pragma mark ===  Delegate Methods  ===
+#pragma mark -
+
+- (NSInteger)numberOfViewsInCollectionView:(CollectionView *)collectionView {
+    return [self.items count];
+}
+
+- (CollectionViewCell *)collectionView:(CollectionView *)collectionView viewAtIndex:(NSInteger)index {
+    NSDictionary *item = [self.items objectAtIndex:index];
+    
+    SMPhotoView *v = (SMPhotoView *)[self.collectionView dequeueReusableView];
+    if (!v) {
+        v = [[SMPhotoView alloc] initWithFrame:CGRectZero];
+    }
+    
+    [v fillViewWithObject:item];
+    
+    return v;
+}
+
+- (CGFloat)heightForViewAtIndex:(NSInteger)index {
+    
+    NSDictionary *item = [self.items objectAtIndex:index];
+    
+    return [SMPhotoView heightForViewWithObject:item inColumnWidth:self.collectionView.colWidth];
+}
+
+- (void)collectionView:(CollectionView *)collectionView didSelectView:(CollectionViewCell *)view atIndex:(NSInteger)index {
+    
+  /*  NSDictionary *item = [self.items objectAtIndex:index];
+    
+    [self performSegueWithIdentifier:@"ShowPhoto" sender:[NSNumber numberWithInt:[[item objectForKey:@"IdPhoto"]intValue]]];*/
+}
+
+
 @end

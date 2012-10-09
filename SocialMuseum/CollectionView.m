@@ -262,7 +262,7 @@ indexToRectMap = _indexToRectMap;
         
         // Calculate index to rect mapping
         self.colWidth = floorf((self.width - kMargin * (self.numCols + 1)) / self.numCols);
-        for (NSInteger i = 0; i < numViews; i++) {
+        for (NSInteger i = numViews - 1; i >= 0; i--) {
             NSString *key = CollectionKeyForIndex(i);
             
             // Find the shortest column

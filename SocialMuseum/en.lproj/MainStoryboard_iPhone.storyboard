@@ -36,6 +36,20 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" id="Rc5-7d-YQg">
+                                        <rect key="frame" x="0.0" y="103" width="320" height="41"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Foto" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FbI-DG-VP7">
+                                                <rect key="frame" x="139" y="10" width="35" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -49,6 +63,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="headerPhoto" destination="Rc5-7d-YQg" id="SbY-UL-ucC"/>
                         <outlet property="scroller" destination="fk0-1F-85u" id="B85-Gt-AdD"/>
                         <outlet property="userNameLabel" destination="H5O-bw-oao" id="QKS-H4-iLB"/>
                         <outlet property="userProfileImage" destination="p2C-1D-LyG" id="paI-Qu-Dyw"/>
@@ -387,7 +402,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2880" y="-216"/>
+            <point key="canvasLocation" x="2905" y="-228"/>
         </scene>
         <!--Photo Screen-->
         <scene sceneID="lK0-lk-Kch">
@@ -625,6 +640,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
             <relationships>
                 <relationship kind="action" name="logoutButtonWasPressed:"/>
+                <relationship kind="outlet" name="headerPhoto" candidateClass="UIView"/>
                 <relationship kind="outlet" name="scroller" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="userNameLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="userProfileImage" candidateClass="FBProfilePictureView"/>

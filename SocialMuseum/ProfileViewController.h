@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "CollectionView.h"
 
-@interface ProfileViewController : UIViewController{
-    
+@interface ProfileViewController : UIViewController <CollectionViewDelegate, CollectionViewDataSource>{
     
     __weak IBOutlet UIScrollView *scroller;
 }
