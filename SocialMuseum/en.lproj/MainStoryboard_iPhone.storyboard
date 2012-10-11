@@ -13,45 +13,9 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" id="fk0-1F-85u">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="gEP-GP-gam" customClass="MGScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="H5O-bw-oao">
-                                        <rect key="frame" x="103" y="20" width="210" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" id="p2C-1D-LyG" customClass="FBProfilePictureView">
-                                        <rect key="frame" x="20" y="20" width="75" height="75"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    </view>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="8sV-bt-W2P">
-                                        <rect key="frame" x="149" y="1887" width="42" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <view contentMode="scaleToFill" id="Rc5-7d-YQg">
-                                        <rect key="frame" x="0.0" y="103" width="320" height="41"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Foto" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="FbI-DG-VP7">
-                                                <rect key="frame" x="139" y="10" width="35" height="21"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.23529413339999999" blue="0.76862752440000004" alpha="1" colorSpace="deviceRGB"/>
@@ -63,16 +27,14 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="headerPhoto" destination="Rc5-7d-YQg" id="SbY-UL-ucC"/>
-                        <outlet property="scroller" destination="fk0-1F-85u" id="B85-Gt-AdD"/>
-                        <outlet property="userNameLabel" destination="H5O-bw-oao" id="QKS-H4-iLB"/>
-                        <outlet property="userProfileImage" destination="p2C-1D-LyG" id="paI-Qu-Dyw"/>
+                        <outlet property="scroller" destination="gEP-GP-gam" id="oyf-Qe-xWn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IL4-6z-JDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1240" y="628"/>
+            <point key="canvasLocation" x="1249" y="1899"/>
         </scene>
         <!--Location View Controller-->
         <scene sceneID="2On-9h-VCp">
@@ -138,7 +100,7 @@
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleToFill" id="bi4-Am-tDK">
+                            <imageView contentMode="scaleAspectFit" id="bi4-Am-tDK">
                                 <rect key="frame" x="20" y="0.0" width="280" height="165"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -260,7 +222,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TYg-8k-tgz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1905" y="1372"/>
+            <point key="canvasLocation" x="2218" y="1072"/>
         </scene>
         <!--Update View Controller - Commenti-->
         <scene sceneID="e81-2B-b7w">
@@ -300,14 +262,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="urG-Sh-I4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3256" y="528"/>
+            <point key="canvasLocation" x="2937" y="48"/>
         </scene>
         <!--Add Comment View Controller-->
         <scene sceneID="D6X-tP-FyI">
             <objects>
                 <viewController id="dJg-zj-0Xk" customClass="AddCommentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Yzf-DW-4bK">
-                        <rect key="frame" x="0.0" y="44" width="320" height="392"/>
+                        <rect key="frame" x="0.0" y="44" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="top" borderStyle="line" placeholder="Inserisci il tuo commento" minimumFontSize="17" id="yXk-t4-Wvy">
@@ -338,7 +300,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cXY-l4-jd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3849" y="848"/>
+            <point key="canvasLocation" x="3753" y="1088"/>
         </scene>
         <!--Stream Screen-->
         <scene sceneID="jTH-8o-95b">
@@ -403,7 +365,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2905" y="-228"/>
+            <point key="canvasLocation" x="2937" y="-596"/>
         </scene>
         <!--Photo Screen-->
         <scene sceneID="lK0-lk-Kch">
@@ -447,7 +409,7 @@
                     </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="2905" y="-1080"/>
+            <point key="canvasLocation" x="3949" y="-1080"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="Tj9-SG-qHP">
@@ -600,9 +562,6 @@
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
             </relationships>
         </class>
-        <class className="FBProfilePictureView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FBProfilePictureView.h"/>
-        </class>
         <class className="LocationViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LocationViewController.h"/>
             <relationships>
@@ -619,6 +578,9 @@
                 <relationship kind="outlet" name="fldUsername" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
             </relationships>
+        </class>
+        <class className="MGScrollView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MGScrollView.h"/>
         </class>
         <class className="OperaViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OperaViewController.h"/>
@@ -641,10 +603,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ProfileViewController.h"/>
             <relationships>
                 <relationship kind="action" name="logoutButtonWasPressed:"/>
-                <relationship kind="outlet" name="headerPhoto" candidateClass="UIView"/>
-                <relationship kind="outlet" name="scroller" candidateClass="UIScrollView"/>
-                <relationship kind="outlet" name="userNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="userProfileImage" candidateClass="FBProfilePictureView"/>
+                <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>
         <class className="StreamPhotoScreen" superclassName="UIViewController">
@@ -675,6 +634,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="eeJ-zZ-CuV"/>
+        <segue reference="Xbb-Kz-GWO"/>
     </inferredMetricsTieBreakers>
 </document>

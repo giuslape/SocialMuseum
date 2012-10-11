@@ -8,14 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
-#import "CollectionView.h"
 
-@interface ProfileViewController : UIViewController <CollectionViewDelegate, CollectionViewDataSource>{
-    
-    __weak IBOutlet UIScrollView *scroller;
-}
+@class MGScrollView, MGBox;
 
-@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
-@property (weak, nonatomic) IBOutlet FBProfilePictureView *userProfileImage;
+@interface ProfileViewController : UIViewController
+
+@property (nonatomic, weak) IBOutlet MGScrollView *scroller;
+@property (strong, nonatomic) UILabel *userNameLabel;
+@property (strong, nonatomic) FBProfilePictureView *userProfileImage;
 - (IBAction)logoutButtonWasPressed:(id)sender;
 @end
