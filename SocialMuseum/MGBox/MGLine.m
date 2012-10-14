@@ -312,7 +312,7 @@
     }
 
     x += self.itemPadding;
-    CGFloat y = (self.height - view.height) / 2;
+    CGFloat y = (self.height - view.height - self.bottomPadding) / 2;
 
     // MGLayoutBoxes have margins to deal with
     if ([view conformsToProtocol:@protocol(MGLayoutBox)]) {
@@ -448,8 +448,9 @@
       ? NSLineBreakByTruncatingHead
       : NSLineBreakByTruncatingTail;
   label.textAlignment = align;
-  CGSize size = [label.text sizeWithFont:label.font];
-  label.size = CGSizeMake(size.width, self.height);
+  //CGSize size = [label.text sizeWithFont:label.font];
+  //label.size = CGSizeMake(size.width, self.height);
+  [label sizeToFit];
   return label;
 }
 

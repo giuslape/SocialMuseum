@@ -25,6 +25,7 @@
 		203A56681626F63F00084A09 /* MGScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 203A565C1626F63F00084A09 /* MGScrollView.m */; };
 		203A56691626F63F00084A09 /* MGTableBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 203A565E1626F63F00084A09 /* MGTableBox.m */; };
 		203A566A1626F63F00084A09 /* MGTableBoxStyled.m in Sources */ = {isa = PBXBuildFile; fileRef = 203A56601626F63F00084A09 /* MGTableBoxStyled.m */; };
+		203A56711628128D00084A09 /* PhotoBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 203A56701628128A00084A09 /* PhotoBox.m */; };
 		2043878A161991D600A1A7B3 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20438789161991D600A1A7B3 /* Accounts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2043878D161991DB00A1A7B3 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2043878C161991DB00A1A7B3 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2043878F161991E100A1A7B3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2043878E161991E100A1A7B3 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -61,6 +62,7 @@
 		2058DC3314975AF300E3B0B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2058DC0614975AF200E3B0B1 /* Foundation.framework */; };
 		2058DC3B14975AF300E3B0B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2058DC3914975AF300E3B0B1 /* InfoPlist.strings */; };
 		2058DC3E14975AF300E3B0B1 /* SocialMuseumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2058DC3D14975AF300E3B0B1 /* SocialMuseumTests.m */; };
+		205D9106162ACBE500F65CF0 /* consigli.png in Resources */ = {isa = PBXBuildFile; fileRef = 205D9105162ACBE500F65CF0 /* consigli.png */; };
 		206763E815C98BB400447E72 /* PullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 206763E715C98BB300447E72 /* PullToRefreshView.m */; };
 		207EE7F415C03E440085F153 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F315C03E440085F153 /* location@2x.png */; };
 		207EE7F715C03F020085F153 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F615C03F020085F153 /* location.png */; };
@@ -163,6 +165,8 @@
 		203A565E1626F63F00084A09 /* MGTableBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTableBox.m; sourceTree = "<group>"; };
 		203A565F1626F63F00084A09 /* MGTableBoxStyled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGTableBoxStyled.h; sourceTree = "<group>"; };
 		203A56601626F63F00084A09 /* MGTableBoxStyled.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGTableBoxStyled.m; sourceTree = "<group>"; };
+		203A566F1628128900084A09 /* PhotoBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBox.h; sourceTree = "<group>"; };
+		203A56701628128A00084A09 /* PhotoBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoBox.m; sourceTree = "<group>"; };
 		20438789161991D600A1A7B3 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		2043878C161991DB00A1A7B3 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		2043878E161991E100A1A7B3 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -220,6 +224,7 @@
 		2058DC3A14975AF300E3B0B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2058DC3C14975AF300E3B0B1 /* SocialMuseumTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SocialMuseumTests.h; sourceTree = "<group>"; };
 		2058DC3D14975AF300E3B0B1 /* SocialMuseumTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocialMuseumTests.m; sourceTree = "<group>"; };
+		205D9105162ACBE500F65CF0 /* consigli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = consigli.png; sourceTree = "<group>"; };
 		206763E615C98BB300447E72 /* PullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshView.h; sourceTree = "<group>"; };
 		206763E715C98BB300447E72 /* PullToRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullToRefreshView.m; sourceTree = "<group>"; };
 		207EE7F315C03E440085F153 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
@@ -385,6 +390,8 @@
 				203A565E1626F63F00084A09 /* MGTableBox.m */,
 				203A565F1626F63F00084A09 /* MGTableBoxStyled.h */,
 				203A56601626F63F00084A09 /* MGTableBoxStyled.m */,
+				203A566F1628128900084A09 /* PhotoBox.h */,
+				203A56701628128A00084A09 /* PhotoBox.m */,
 			);
 			path = MGBox;
 			sourceTree = "<group>";
@@ -668,6 +675,7 @@
 		20E7D4A31497A23D00F68D1D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				205D9105162ACBE500F65CF0 /* consigli.png */,
 				202B8BC716023815008CF5EE /* select-location.png */,
 				207EE7F615C03F020085F153 /* location.png */,
 				207EE7F315C03E440085F153 /* location@2x.png */,
@@ -789,6 +797,7 @@
 				208FC33D1610713C00418BB8 /* placeholder2.png in Resources */,
 				200328D3161722E200816758 /* Default-568h@2x.png in Resources */,
 				204387931619922C00A1A7B3 /* FacebookSDKResources.bundle in Resources */,
+				205D9106162ACBE500F65CF0 /* consigli.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,6 +884,7 @@
 				203A56681626F63F00084A09 /* MGScrollView.m in Sources */,
 				203A56691626F63F00084A09 /* MGTableBox.m in Sources */,
 				203A566A1626F63F00084A09 /* MGTableBoxStyled.m in Sources */,
+				203A56711628128D00084A09 /* PhotoBox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

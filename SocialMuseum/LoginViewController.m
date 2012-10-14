@@ -83,9 +83,9 @@
 	NSString* hashedPassword = nil;
 	unsigned char hashedPasswordData[CC_SHA1_DIGEST_LENGTH];
 	
-	NSData *data = [saltedPassword dataUsingEncoding: NSUTF8StringEncoding];
+	NSData *data = [saltedPassword dataUsingEncoding:NSUTF8StringEncoding];
 	if (CC_SHA1([data bytes], [data length], hashedPasswordData)) {
-		hashedPassword = [[NSString alloc] initWithBytes:hashedPasswordData length:sizeof(hashedPasswordData) encoding:NSUTF8StringEncoding];
+		hashedPassword = [[NSString alloc] initWithBytes:hashedPasswordData length:sizeof(hashedPasswordData) encoding:NSASCIIStringEncoding];
 	} else {
 		[UIAlertView error:@"Password can't be sent"];
 		return;

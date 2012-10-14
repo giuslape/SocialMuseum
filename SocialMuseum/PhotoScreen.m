@@ -116,6 +116,7 @@
 }
 
 #pragma mark - Image picker delegate methods
+
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     // Fa il resize dell'img

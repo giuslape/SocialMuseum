@@ -65,7 +65,7 @@
                                onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		[self showPhotos:[json objectForKey:@"result"]];
-                                   
+        
         }];
 }
 
