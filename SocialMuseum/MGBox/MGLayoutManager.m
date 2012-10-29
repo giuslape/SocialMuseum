@@ -32,7 +32,8 @@
   // everyone in now please
   for (UIView <MGLayoutBox> *box in container.boxes) {
     [container addSubview:box];
-    if ([box conformsToProtocol:@protocol(MGLayoutBox)] && [container conformsToProtocol:@protocol(MGLayoutBox)]) {
+    if ([box conformsToProtocol:@protocol(MGLayoutBox)]
+        && [container conformsToProtocol:@protocol(MGLayoutBox)]) {
       box.parentBox = (id)container;
     }
   }
@@ -122,7 +123,7 @@
   // new boxes start faded out
   NSMutableSet *newNotTopBoxes = NSMutableSet.set;
   for (UIView <MGLayoutBox> *box in container.boxes) {
-    if (![container.subviews containsObject:box]) {
+    if (![container.subviews containsObject:box] && !box.replacementFor) {
       box.alpha = 0;
 
       // collect new boxes that aren't top boxes

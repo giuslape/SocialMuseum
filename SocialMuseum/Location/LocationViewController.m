@@ -14,13 +14,13 @@
 #import "OperaViewController.h"
 #import "API.h"
 #import "UIAlertView+error.h"
-#import <FacebookSDK/FacebookSDK.h>
 #import "ProfileViewController.h"
 #import "AppDelegate.h"
 
 
 @interface LocationViewController ()
 
+@property NSMutableArray* worksVisited;
 @property MKMapRect offsetRect;
 -(void)refreshAnnotations;
 
@@ -58,15 +58,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     _map.delegate = self;
     _tagAnnotation = 0;
     offsetRect = MKMapRectNull;
     distanceOffset = 5000;
     levelZoom = 500;
-    
+    self.worksVisited = [NSMutableArray arrayWithCapacity:0];
    
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.labelText = @"Loading";
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(sessionStateChanged:)
@@ -116,23 +119,28 @@
     NSString* longMin= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p11).longitude];
     NSString* longMax= [NSString stringWithFormat:@"%f",MKCoordinateForMapPoint(p22).longitude];
     
-    
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.labelText = @"Loading";
-    
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"artwork", @"command",latMax,@"lat_max",longMax,@"long_max",latMin,@"lat_min",longMin,@"long_min",nil] 
-                               onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance]commandWithParams:[NSMutableDictionary dictionaryWithObject:@"userInteractions" forKey:@"command"] onCompletion:^(NSDictionary *json) {
         
         if (![json objectForKey:@"error"]) {
-            //Carica i punti di interesse
-            [self opereCaricate:[json objectForKey:@"result"]];
-		} else {
-			//Errore
-			NSString* errorMsg = [json objectForKey:@"error"];
-			[UIAlertView error:errorMsg];
-		}
-        [hud hide:YES];
-	}];
+            
+        [self.worksVisited addObjectsFromArray:[json objectForKey:@"result"]];
+            
+        [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"artwork", @"command",latMax,@"lat_max",longMax,@"long_max",latMin,@"lat_min",longMin,@"long_min",nil] 
+                               onCompletion:^(NSDictionary *json) {
+        
+                                   if (![json objectForKey:@"error"]) {
+                                       //Carica i punti di interesse
+                                       [self opereCaricate:[json objectForKey:@"result"]];
+                                   } else {
+                                       //Errore
+                                       NSString* errorMsg = [json objectForKey:@"error"];
+                                       [UIAlertView error:errorMsg];
+                                   }
+                                   [MBProgressHUD hideHUDForView:self.view animated:YES];
+                               }];
+        }
+    }];
+
 }
 
 #pragma mark -
@@ -155,11 +163,14 @@
     static NSString* SMAnnotationIdentifier = @"SMAnnotationIdentifier";
     MKPinAnnotationView* pinView =
     (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:SMAnnotationIdentifier];
+    
     if (!pinView)
     {
+
     MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:smAnnotation 
                                                                           reuseIdentifier:SMAnnotationIdentifier];
     
+    if (smAnnotation.isSelected) annotationView.pinColor = MKPinAnnotationColorGreen;
     annotationView.canShowCallout = YES;
     annotationView.rightCalloutAccessoryView = 
         [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -169,7 +180,9 @@
     }else
         
         pinView.annotation = annotation;
-        
+    
+    if (smAnnotation.isSelected) pinView.pinColor = MKPinAnnotationColorGreen;
+    
     return pinView;
 }
 
@@ -182,16 +195,6 @@
     
 }
 
--(void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-          
-    MKMapRect rect = mapView.visibleMapRect;
-    
-    if (!MKMapRectContainsRect(offsetRect, rect) && _isLoad) {
-                
-        offsetRect.origin = MKMapPointMake(rect.origin.x - distanceOffset, rect.origin.y - distanceOffset);
-        [self refreshAnnotations];
-    }
-}
 
 -(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation{
     
@@ -199,7 +202,6 @@
         [self adjustedRegion:self];
         _isLoad = true;
         [self refreshAnnotations];
-
     }
 }
 
@@ -245,12 +247,21 @@
         SMAnnotation* annotation = [[SMAnnotation alloc] initWithLocation:coordinate];
         
         annotation.title = [object objectForKey:@"Nome"];
-                
+        
         NSURL* imageUrl = [NSURL URLWithString:[object objectForKey:@"Foto"]];
                                       
         annotation.imageUrl = imageUrl;
         
         annotation.IdOpera = [object objectForKey:@"IdOpera"];
+        
+        //Controlla se l'opera è stata già visitata
+        for (NSDictionary* dict in self.worksVisited) {
+            
+            if (annotation.isSelected) break;
+            NSNumber* idOperaVisitata = [NSNumber numberWithInt:[[dict objectForKey:@"IdOpera"] intValue]];
+            if ([idOperaVisitata intValue] == [annotation.IdOpera intValue])
+            [annotation setIsSelected:YES];
+        }
         
         [_map addAnnotation:(id)annotation];
         
@@ -321,35 +332,8 @@
 
 - (void)sessionStateChanged:(NSNotification*)notification {
     
-    [self populateUserDetails];
-}
-
--(void)populateUserDetails{
-    
-    if (FBSession.activeSession.isOpen) {
-        [[FBRequest requestForMe] startWithCompletionHandler:
-         ^(FBRequestConnection *connection, 
-           NSDictionary<FBGraphUser> *user, 
-           NSError *error) {
-             if (!error) {
-                 NSString* command = @"loginWithFB";
-                 NSMutableDictionary* params =[NSMutableDictionary dictionaryWithObjectsAndKeys:command, @"command", user.name, @"username", user.id, @"FBId", nil];
-                 //chiama l'API web
-                 [[API sharedInstance] commandWithParams:params onCompletion:^(NSDictionary *json) {
-                     //Risultato
-                     NSDictionary* res = [[json objectForKey:@"result"] objectAtIndex:0];
-                     if ([json objectForKey:@"error"]==nil && [[res objectForKey:@"IdUser"] intValue]>0) {
-                         [[API sharedInstance] setUser: res];
-                         //Mostra Messaggio
-                         [[[UIAlertView alloc] initWithTitle:@"Logged in" message:[NSString stringWithFormat:@"Welcome %@",[res objectForKey:@"username"]] delegate:nil cancelButtonTitle:@"Close" otherButtonTitles: nil] show];
-                     } else {
-                         //error
-                         [UIAlertView error:[json objectForKey:@"error"]];
-                     }
-                 }];
-                 
-             }
-         }];      
+    if (![[API sharedInstance] isAuthorized]) {
+        [[API sharedInstance] populateFacebookUserDetails];
     }
 
 }

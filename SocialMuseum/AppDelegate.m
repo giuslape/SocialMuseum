@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-#import "LocationViewController.h"
+#import "API.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 NSString *const SMSessionStateChangedNotification =
@@ -16,14 +16,12 @@ NSString *const SMSessionStateChangedNotification =
 
 @interface AppDelegate ()
 
-@property (strong, nonatomic) LocationViewController *mainViewController;
 @property (strong, nonatomic) LoginViewController *loginViewController;
 @end
 
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize mainViewController = _mainViewController;
 @synthesize loginViewController = _loginViewController;
 
 
@@ -31,7 +29,7 @@ NSString *const SMSessionStateChangedNotification =
 {
     // Override point for customization after application launch.
     [FBProfilePictureView class];
-    
+    [FBSession.activeSession closeAndClearTokenInformation];
     // See if we have a valid token for the current state.
     if (![self openSessionWithAllowLoginUI:NO]) {
         // No? Display the login page.
@@ -132,9 +130,9 @@ NSString *const SMSessionStateChangedNotification =
     switch (state) {
         case FBSessionStateOpen: {
             if (self.loginViewController != nil)
-                self.loginViewController = nil;                
-                [self showInitialViewController];
+                self.loginViewController = nil;
             
+                [[API sharedInstance] populateFacebookUserDetails];
             
             // FBSample logic
             // Pre-fetch and cache the friends for the friend picker as soon as possible to improve

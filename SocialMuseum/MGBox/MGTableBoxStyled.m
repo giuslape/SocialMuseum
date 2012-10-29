@@ -19,11 +19,11 @@
   [super setup];
 
   // size and position
-  self.width = WIDTH;
+  self.width = self.width ? self.width : WIDTH;
   self.topMargin = TOP_MARGIN;
   self.bottomMargin = BOTTOM_MARGIN;
   self.leftMargin = LEFT_MARGIN;
-    
+
   // shape and colour
   self.backgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.95 alpha:1];
   self.layer.cornerRadius = CORNER_RADIUS;
@@ -35,8 +35,8 @@
   self.layer.shadowOpacity = 1;
 
   // rasterise
-  self.layer.shouldRasterize = YES;
-  self.layer.rasterizationScale = UIScreen.mainScreen.scale;
+  //self.layer.shouldRasterize = YES;
+  //self.layer.rasterizationScale = UIScreen.mainScreen.scale;
 }
 
 - (void)layout {

@@ -7,6 +7,10 @@
 //
 
 #import "API.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "UIAlertView+error.h"
+#import "AppDelegate.h"
+
 
 //the web location of the service
 #define kAPIHost @"http://trinity.micc.unifi.it/"
@@ -78,6 +82,39 @@
 -(NSURL*)urlForImageWithId:(NSNumber*)IdPhoto isThumb:(BOOL)isThumb {
     NSString* urlString = [NSString stringWithFormat:@"%@%@upload/%@%@.jpg", kAPIHost, kAPIPath, IdPhoto, (isThumb)?@"-thumb":@""];
     return [NSURL URLWithString:urlString];
+}
+
+
+-(void)populateFacebookUserDetails{
+    
+    if (FBSession.activeSession.isOpen) {
+        [[FBRequest requestForMe] startWithCompletionHandler:
+         ^(FBRequestConnection *connection,
+           NSDictionary<FBGraphUser> *userFB,
+           NSError *error) {
+             if (!error) {
+                 NSString* command = @"loginWithFB";
+                 NSMutableDictionary* params =[NSMutableDictionary dictionaryWithObjectsAndKeys:command, @"command", userFB.name, @"username", userFB.id, @"FBId", nil];
+                 //chiama l'API web
+                 [self commandWithParams:params onCompletion:^(NSDictionary *json) {
+                     //Risultato
+                     NSDictionary* res = [[json objectForKey:@"result"] objectAtIndex:0];
+                     if ([json objectForKey:@"error"]==nil && [[res objectForKey:@"IdUser"] intValue]>0) {
+                         [self setUser:res];
+                         AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+                         [delegate showInitialViewController];
+                         //Mostra Messaggio
+                         [[[UIAlertView alloc] initWithTitle:@"Logged in" message:[NSString stringWithFormat:@"Welcome %@",[res objectForKey:@"username"]] delegate:nil cancelButtonTitle:@"Close" otherButtonTitles: nil] show];
+                     } else {
+                         //error
+                         [UIAlertView error:[json objectForKey:@"error"]];
+                     }
+                 }];
+                 
+             }
+         }];
+    }
+    
 }
 
 @end

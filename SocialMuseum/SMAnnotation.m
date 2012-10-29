@@ -18,6 +18,7 @@
 @synthesize IdOpera = _IdOpera;
 @synthesize chunkDescription = _chunkDescription;
 @synthesize imageUrl = _imageUrl;
+@synthesize isSelected;
 
 
 
@@ -33,6 +34,7 @@
         
         coordinate = c;
         _image = nil;
+        isSelected = false;
     }
     return self;
 }

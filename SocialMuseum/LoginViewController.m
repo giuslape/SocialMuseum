@@ -110,7 +110,6 @@
 			[UIAlertView error:[json objectForKey:@"error"]];
 		}
 	}];
-
 }
 
 - (void)loginFailed {

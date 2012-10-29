@@ -27,7 +27,7 @@
 
 @implementation ProfileViewController{
     MGBox *tablesGrid, *table1;
-    NSMutableArray* items;
+    NSMutableArray* streamUser;
     NSNumber* thumbPhotoId;
 }
 
@@ -39,7 +39,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    items = [[NSMutableArray alloc] initWithCapacity:0];
+    streamUser = [[NSMutableArray alloc] initWithCapacity:0];
     
     thumbPhotoId = [NSNumber numberWithInt:0];
     
@@ -47,8 +47,9 @@
     self.userNameLabel.text = @"";
     self.userProfileImage = [[FBProfilePictureView alloc] init];
     
-    self.scroller.contentLayoutMode = MGLayoutGridStyle;
+    self.scroller.contentLayoutMode = MGLayoutTableStyle;
     self.scroller.bottomPadding = 8;
+    self.scroller.delegate = self;
     
     CGSize tablesGridSize =  IPHONE_TABLES_GRID;
     tablesGrid = [MGBox boxWithSize:tablesGridSize];
@@ -60,39 +61,23 @@
     table1.sizingMode = MGResizingShrinkWrap;
     
     [tablesGrid layout];
-    
-    
-    
-    [[API sharedInstance] commandWithParams:
-     [NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStream", @"command",[[[API sharedInstance] user] objectForKey:@"IdUser"],@"IdUser", nil]
-                               onCompletion:^(NSDictionary *json) {
-                                   
-                                   if (![json objectForKey:@"error"] && [[json objectForKey:@"result"] count] > 0) {
-                                       items = [json objectForKey:@"result"];
-                                       NSDictionary* dict = [items objectAtIndex:0];
-                                       thumbPhotoId = [dict objectForKey:@"IdPhoto"];
-                                   }
-                                   
-                                   [self populateUserDetails];
-                                   
-                               }];
 }
 
 
-- (void)loadIntroSection {
+- (void)createUserInformationSection {
         
     MGTableBoxStyled *menu = MGTableBoxStyled.box;
     [table1.boxes addObject:menu];
     
     // header line
-    MGLine *header = [MGLine lineWithLeft:nil right:nil size:(CGSize){304,120}];
+    MGLine *header = [MGLine lineWithLeft:nil right:nil size:(CGSize){304,136}];
     header.font = HEADER_FONT;
     [header.leftItems addObject:[PhotoBox photoProfileBoxWithView:self.userProfileImage andSize:(CGSize){100,100}]];
     
     [header.middleItems addObject:self.userNameLabel.text];
-
-    header.leftPadding =   10;
-    header.rightPadding =  16;
+    header.topPadding = 16;
+    header.leftPadding  =   16;
+    header.rightPadding =   16;
     header.bottomPadding = 80;
     
     [menu.topLines addObject:header];
@@ -102,21 +87,125 @@
     option.font = HEADER_FONT;
     [option.leftItems addObject:[PhotoBox photoProfileOptionAdvice]];
     [option.leftItems addObject:[PhotoBox photoProfileOptionPhoto:thumbPhotoId]];
-    option.leftPadding  = 10;
-    header.rightPadding = 10;
+    option.topPadding  = 10;
+    option.leftPadding = 16;
     [menu.topLines addObject:option];
     
+    //[table1 layout];
     [self.scroller layoutWithSpeed:0.3f completion:nil];
-}
-
-
-- (void)loadDataSource {
-    
-    [self populateUserDetails];
     
 }
 
-- (void)dataSourceDidLoad {
+
+- (void)loadActivitySection{
+    
+    
+    MGTableBoxStyled* activity = MGTableBoxStyled.box;
+    [table1.boxes addObject:activity];
+        
+    MGLine* header = [MGLine lineWithLeft:@"Attività recenti" right:nil size:ROW_SIZE];
+    header.font = HEADER_FONT;
+    header.leftPadding = header.rightPadding = header.topPadding = 16;
+    [activity.topLines addObject:header];
+        
+    // Crea lo stream
+    
+    for (int i = 0; i< [streamUser count]; i++) {
+        
+        NSDictionary* dict = [streamUser objectAtIndex:i];
+        
+        MGLine *line = [MGLine line];
+        
+        if ([dict objectForKey:@"IdPhoto"]) {
+            
+            MGLine* header = [MGLine lineWithMultilineLeft:[NSString stringWithFormat:@"%@ ha pubblicato una foto nei pressi di...",[[[API sharedInstance] user] objectForKey:@"username"]] right:nil width:304 minHeight:60];
+            header.leftPadding = header.topPadding = 16;
+            header.underlineType = MGUnderlineNone;
+            
+            [activity.topLines addObject:header];
+            
+            MGBox* box = [self photoBoxFor:[NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"] intValue]]];
+            box.leftMargin = 0;
+            box.topMargin = 16;
+            [line.middleItems addObject:box];
+            line.size = (CGSize){304,144};
+        }
+        else if ([dict objectForKey:@"IdCommento"]){
+            
+            id testo = [NSString stringWithFormat:@"%@ ha scritto un commento \n \n %@",[[[API sharedInstance] user] objectForKey:@"username"],[dict objectForKey:@"testo"]];
+        
+            line.multilineLeft = testo;
+            line.padding = UIEdgeInsetsMake(16, 16, 16, 16);
+            line.size = (CGSize){304,132};
+        }
+     
+        [activity.topLines addObject:line];
+    }
+    
+    [self.scroller layoutWithSpeed:0.3 completion:nil];
+    
+}
+
+
+- (void)loadPhotoStreamUser{
+    
+    [[API sharedInstance] commandWithParams:
+     [NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStreamPhotos", @"command",[[[API sharedInstance] user] objectForKey:@"IdUser"],@"IdUser", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   if (![json objectForKey:@"error"] && [[json objectForKey:@"result"] count] > 0) {
+                                       
+                                       NSArray* itemsPhotos = [json objectForKey:@"result"];
+                                       NSDictionary* dict = [itemsPhotos objectAtIndex:0];
+                                       thumbPhotoId = [dict objectForKey:@"IdPhoto"];
+                                       
+                                       [streamUser addObjectsFromArray:itemsPhotos];
+                                       
+                                   }
+                                   
+                                   if ([json objectForKey:@"error"]) {
+                                       
+                                       UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                       [alert show];
+                                       
+                                   }
+                                   
+                                   [self populateUserDetails];
+                               }];
+
+    
+}
+
+- (void)loadUserComments {
+    
+    [[API sharedInstance] commandWithParams:
+     [NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStreamComments", @"command",[[[API sharedInstance] user] objectForKey:@"IdUser"],@"IdUser", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   if (![json objectForKey:@"error"] && [[json objectForKey:@"result"] count] > 0) {
+                                       
+                                       NSArray *itemsComments = [json objectForKey:@"result"];
+                                       
+                                       
+                                       [streamUser addObjectsFromArray:itemsComments];
+                                       
+                                   }
+                                   
+                                   if ([json objectForKey:@"error"]) {
+                                       
+                                       UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                                       [alert show];
+                                       
+                                   }
+                                   
+                                   // Ordina gli array in base alla data di inserimento degli item
+                                   NSSortDescriptor* descriptor = [NSSortDescriptor sortDescriptorWithKey:@"datetime" ascending:NO];
+                                   
+                                   [streamUser sortUsingDescriptors:[NSArray arrayWithObject:descriptor]];
+                                   
+                                   [self loadActivitySection];
+                                   
+                               }];
     
 }
 
@@ -126,12 +215,6 @@
     return YES;
 }
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orient
-                                         duration:(NSTimeInterval)duration {
-    
-    // relayout the sections
-    [self.scroller layoutWithSpeed:duration completion:nil];
-}
 
 - (void)viewDidUnload
 {
@@ -140,15 +223,33 @@
    
 }
 
+
 - (void)viewDidAppear:(BOOL)animated {
+        
     [super viewDidAppear:animated];
     [self willAnimateRotationToInterfaceOrientation:self.interfaceOrientation
                                            duration:1];
+
+    [self loadPhotoStreamUser];
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orient
+                                         duration:(NSTimeInterval)duration {
+    
+    // relayout the sections
+    [self.scroller layoutWithSpeed:duration completion:nil];
 }
 
 
 
-- (void)populateUserDetails 
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [table1.boxes removeAllObjects];
+    [streamUser removeAllObjects];
+}
+
+- (void)populateUserDetails
 {
     if (FBSession.activeSession.isOpen) {
         [[FBRequest requestForMe] startWithCompletionHandler:
@@ -159,7 +260,8 @@
                  
                  self.userNameLabel.text = user.name;
                  self.userProfileImage.profileID = user.id;
-                 [self loadIntroSection];
+                 [self createUserInformationSection];
+                 [self loadUserComments];
                  
                 }
          }];      
@@ -169,15 +271,15 @@
             NSString* nameUser = [[[API sharedInstance] user] objectForKey:@"username"];
             self.userNameLabel.text = nameUser;
             self.userProfileImage.profileID = nil;
-            [self loadIntroSection];
-
+            [self createUserInformationSection];
+            [self loadUserComments];
     }
     
 }
 
 - (IBAction)logoutButtonWasPressed:(id)sender {
     
-    [self unloadImages];
+    [self unloadTables];
 
     if (FBSession.activeSession.isOpen) {
         [FBSession.activeSession closeAndClearTokenInformation];
@@ -202,7 +304,7 @@
         
 }
 
--(void)unloadImages{
+-(void)unloadTables{
     
     /*for (UIImageView* image in scroller.subviews) {
         
@@ -210,5 +312,62 @@
         [image removeFromSuperview];
     }*/
     
+    [table1.boxes removeAllObjects];
+
 }
+
+
+-(MGBox *)photoBoxFor:(NSNumber *)idPhoto{
+    
+    // make the box
+    PhotoBox *box = [PhotoBox photoProfileOptionPhoto:idPhoto];
+    
+    
+    
+  /*  // deal with taps
+    __block MGBox *bbox = box;
+    box.onTap = ^{
+        
+        // a new photo number
+        int photo = [self randomMissingPhoto];
+        
+        // replace the add box with a photo loading box
+        int idx = [photosGrid.boxes indexOfObject:bbox];
+        [photosGrid.boxes removeObject:bbox];
+        [photosGrid.boxes insertObject:[self photoBoxFor:photo] atIndex:idx];
+        [photosGrid layout];
+        
+        // all photos are in now?
+        if (![self randomMissingPhoto]) {
+            return;
+        }
+        
+        // add another add box
+        [photosGrid.boxes addObject:self.photoAddBox];
+        
+        // animate the section and the scroller
+        [photosGrid layoutWithSpeed:0.3 completion:nil];
+        [self.scroller layoutWithSpeed:0.3 completion:nil];
+    };*/
+    
+    return box;
+
+}
+
+#pragma mark -
+#pragma mark ===  Scroll Delegate  ===
+#pragma mark -
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+
+    /*[table1 layout];
+    [self.scroller layoutWithSpeed:0.3f completion:nil];*/
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    //[table1 layout];
+    //[self.scroller layoutWithSpeed:0.3f completion:nil];
+    //[self.scroller layout];
+}
+
 @end

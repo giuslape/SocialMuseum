@@ -137,6 +137,7 @@
 }
 
 - (CollectionViewCell *)collectionView:(CollectionView *)collectionView viewAtIndex:(NSInteger)index {
+    
     NSDictionary *item = [self.items objectAtIndex:index];
     
     SMPhotoView *v = (SMPhotoView *)[self.collectionView dequeueReusableView];
@@ -165,7 +166,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([@"ShowPhoto" compare: segue.identifier]==NSOrderedSame) {
+    if ([@"ShowPhoto" compare: segue.identifier]== NSOrderedSame) {
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
         streamPhotoScreen.IdPhoto = sender;
     }

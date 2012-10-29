@@ -22,4 +22,7 @@ typedef void (^JSONResponseBlock)(NSDictionary* json);
 -(void)commandWithParams:(NSMutableDictionary*)params onCompletion:(JSONResponseBlock)completionBlock;
 -(NSURL*)urlForImageWithId:(NSNumber*)IdPhoto isThumb:(BOOL)isThumb;
 
+-(void)populateFacebookUserDetails;
+
+
 @end

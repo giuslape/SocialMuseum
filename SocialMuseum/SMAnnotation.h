@@ -25,7 +25,8 @@
 @property (nonatomic, copy, readwrite)      NSString * subTitle;
 @property (nonatomic, copy, readwrite)      NSNumber * IdOpera;
 @property (nonatomic, copy, readwrite)      NSArray  * chunkDescription;
-@property (nonatomic, copy, readwrite)      NSURL    * imageUrl; 
+@property (nonatomic, copy, readwrite)      NSURL    * imageUrl;
+@property bool isSelected;
 
 +(id)initWithLocation:(CLLocationCoordinate2D)c;
 -(id)initWithLocation:(CLLocationCoordinate2D)c;

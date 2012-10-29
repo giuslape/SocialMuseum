@@ -40,7 +40,7 @@
     PhotoBox *box = [PhotoBox boxWithSize:size];
     box.topMargin = 0;
     box.leftMargin = 0;
-        
+    
     [box addSubview:view];
     view.size = box.size;
     view.center = (CGPoint){box.width / 2, box.height / 2};
@@ -53,7 +53,7 @@
     [UIView animateWithDuration:0.2 animations:^{
         view.alpha = 1;
     }];
-
+    
     
     return box;
 }
@@ -62,8 +62,7 @@
     
     PhotoBox *box = [PhotoBox boxWithSize:IPHONE_PORTRAIT_PHOTO];
     box.topMargin = 0;
-    box.leftMargin = 40;
-    
+    box.leftMargin = 34;
     box.tag = [idPhoto integerValue];
     
     // add a loading spinner
@@ -81,6 +80,7 @@
     // do the photo loading async, because internets
     __block id bbox = box;
     box.asyncLayoutOnce = ^{
+        
         [bbox loadPhoto];
     };
     
@@ -119,7 +119,7 @@
     captionLabel.font = [UIFont boldSystemFontOfSize:12.0];
     captionLabel.textAlignment = UITextAlignmentCenter;
     captionLabel.numberOfLines = 0;
-    captionLabel.text = @"Consigli";
+    captionLabel.text = @"Percorsi";
     [view addSubview:captionLabel];
     
     [box addSubview:view];
@@ -139,34 +139,34 @@
 #pragma mark - Photo box loading
 
 - (void)loadPhoto {
-        
+    
     //Carica l'img
-        API* api = [API sharedInstance];
+    API* api = [API sharedInstance];
     
-        NSInteger IdPhoto = self.tag;
+    NSInteger IdPhoto = self.tag;
     
-        NSURL* imageURL = [api urlForImageWithId:[NSNumber numberWithInteger:IdPhoto] isThumb:YES];
+    NSURL* imageURL = [api urlForImageWithId:[NSNumber numberWithInteger:IdPhoto] isThumb:YES];
     
-        AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
-            
-            // ditch the spinner
-            UIActivityIndicatorView *spinner = self.subviews.lastObject;
-            [spinner stopAnimating];
-            [spinner removeFromSuperview];
-            
+    AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
+        
+        // Elimina lo spinner
+        UIActivityIndicatorView *spinner = self.subviews.lastObject;
+        [spinner stopAnimating];
+        [spinner removeFromSuperview];
+        
         //Crea ImageView e l'aggiunge alla vista
         UIImageView* thumbView = [[UIImageView alloc] initWithImage: image];
-            [self addSubview:thumbView];
-            thumbView.size = self.size;
-            thumbView.alpha = 0;
-            thumbView.autoresizingMask = UIViewAutoresizingFlexibleWidth
-            | UIViewAutoresizingFlexibleHeight;
-            
-            // fade the image in
-            [UIView animateWithDuration:0.2 animations:^{
-                thumbView.alpha = 1;
-            }];
-
+        [self addSubview:thumbView];
+        thumbView.size = self.size;
+        thumbView.alpha = 0;
+        thumbView.autoresizingMask = UIViewAutoresizingFlexibleWidth
+        | UIViewAutoresizingFlexibleHeight;
+        
+        // fade the image in
+        [UIView animateWithDuration:0.2 animations:^{
+            thumbView.alpha = 1;
+        }];
+        
     }];
     NSOperationQueue* queue = [[NSOperationQueue alloc] init];
     [queue addOperation:imageOperation];
