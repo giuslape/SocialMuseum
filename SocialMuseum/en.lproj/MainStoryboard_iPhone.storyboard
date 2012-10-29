@@ -310,7 +310,14 @@
                     <view key="view" contentMode="scaleToFill" id="lEl-gX-lg8">
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" id="tTH-s2-2Id" customClass="MGScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="eGd-1B-Ib6">
                         <connections>
@@ -319,6 +326,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="btnCompose" destination="ZCw-qA-sDH" id="ooz-Ab-Y77"/>
+                        <outlet property="scroller" destination="tTH-s2-2Id" id="YMP-pm-PJu"/>
                         <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="tqw-Ju-24n"/>
                     </connections>
                 </viewController>
@@ -620,6 +628,7 @@
                 <relationship kind="action" name="btnRefreshTapped"/>
                 <relationship kind="outlet" name="btnCompose" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="btnRefresh" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>
         <class className="UpdateViewController" superclassName="UIViewController">

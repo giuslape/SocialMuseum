@@ -11,18 +11,35 @@
 #import "StreamPhotoScreen.h"
 #import "PhotoScreen.h"
 #import "SMPhotoView.h"
-#import "MBProgressHUD.h"
 #import "PullToRefreshView.h"
-@interface StreamScreen()
+#import "MGScrollView.h"
+#import "MGLine.h"
+#import "PhotoBox.h"
+
+#define IPHONE_PORTRAIT_PHOTO  (CGSize){148, 148}
+#define IPHONE_LANDSCAPE_PHOTO (CGSize){152, 152}
+
+#define IPAD_PORTRAIT_PHOTO    (CGSize){128, 128}
+#define IPAD_LANDSCAPE_PHOTO   (CGSize){122, 122}
+
+#define IPHONE_PORTRAIT_GRID   (CGSize){312, 0}
+#define IPAD_PORTRAIT_GRID     (CGSize){136, 0}
+#define IPAD_LANDSCAPE_GRID    (CGSize){390, 0}
+#define IPHONE_LANDSCAPE_GRID  (CGSize){160, 0}
+
+
+
+@interface StreamScreen(){
+    
+    MGBox *photosGrid;
+}
 
 @property (nonatomic, strong) NSMutableArray *items;
-@property (nonatomic, strong) CollectionView *collectionView;
-
 @end
 
 @implementation StreamScreen
 
-@synthesize IdOpera = _IdOpera, items = _items, collectionView = _collectionView;
+@synthesize IdOpera = _IdOpera, items = _items;
 
 
 #pragma mark -
@@ -30,11 +47,7 @@
 #pragma mark -
 
 - (void)dealloc {
-    self.collectionView.delegate = nil;
-    self.collectionView.collectionViewDelegate = nil;
-    self.collectionView.collectionViewDataSource = nil;
-    
-    self.collectionView = nil;
+   
     self.items = nil;
 }
 
@@ -55,40 +68,36 @@
     self.navigationItem.title = @"Foto";
     self.view.backgroundColor = [UIColor lightGrayColor];
     
-    self.collectionView = [[CollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    [self.view addSubview:self.collectionView];
-    self.collectionView.collectionViewDelegate = self;
-    self.collectionView.collectionViewDataSource = self;
-    self.collectionView.backgroundColor = [UIColor clearColor];
-    self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-       
-    MBProgressHUD* hud = [[MBProgressHUD alloc] init];
-    [hud setLabelText:@"Loading..."];
-    [hud setDimBackground:YES];
+    UIDevice *device = UIDevice.currentDevice;
+    phone = device.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
 
-    self.collectionView.loadingView = hud;
-    [hud show:YES];
+    // setup the main scroller (using a grid layout)
+    self.scroller.contentLayoutMode = MGLayoutGridStyle;
+    self.scroller.bottomPadding = 8;
     
-    self.collectionView.numColsPortrait = 2;
-    self.collectionView.numColsLandscape = 3;
+    // iPhone or iPad grid?
+    CGSize photosGridSize = phone ? IPHONE_PORTRAIT_GRID : IPAD_PORTRAIT_GRID;
     
+    // the photos grid
+    photosGrid = [MGBox boxWithSize:photosGridSize];
+    photosGrid.contentLayoutMode = MGLayoutGridStyle;
+    [self.scroller.boxes addObject:photosGrid];
+
     [self loadDataSource];
-    
+
     __block StreamScreen * blockSelf = self;
 
-    [self.collectionView addPullToRefreshWithActionHandler:^{
+    [self.scroller addPullToRefreshWithActionHandler:^{
         [blockSelf loadDataSource];
     }];
+    
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
     
-    self.collectionView.delegate = nil;
-    self.collectionView.collectionViewDelegate = nil;
-    self.collectionView.collectionViewDataSource = nil;
-    self.collectionView = nil;
-    self.collectionView.pullToRefreshView = nil;
+    self.scroller.pullToRefreshView = nil;
+    self.scroller = nil;
 }
 
     
@@ -97,11 +106,49 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self willAnimateRotationToInterfaceOrientation:self.interfaceOrientation
+                                           duration:1];
+    [self didRotateFromInterfaceOrientation:UIInterfaceOrientationPortrait];
 }
 
--(IBAction)btnRefreshTapped {
+#pragma mark - Rotation and resizing
+
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orient
+                                         duration:(NSTimeInterval)duration {
+    
+    BOOL portrait = UIInterfaceOrientationIsPortrait(orient);
+    
+    // grid size
+    photosGrid.size = phone ? portrait
+    ? IPHONE_PORTRAIT_GRID
+    : IPHONE_LANDSCAPE_GRID : portrait
+    ? IPAD_PORTRAIT_GRID
+    : IPAD_LANDSCAPE_GRID;
+    
+    // photo sizes
+    CGSize size = phone
+    ? portrait ? IPHONE_PORTRAIT_PHOTO : IPHONE_LANDSCAPE_PHOTO
+    : portrait ? IPAD_PORTRAIT_PHOTO : IPAD_LANDSCAPE_PHOTO;
+    
+    // apply to each photo
+    for (MGBox *photo in photosGrid.boxes) {
+        photo.size = size;
+        photo.layer.shadowPath
+        = [UIBezierPath bezierPathWithRect:photo.bounds].CGPath;
+        photo.layer.shadowOpacity = 0;
+    }
+    
+    // relayout the sections
+    [self.scroller layoutWithSpeed:duration completion:nil];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)orient {
+    for (MGBox *photo in photosGrid.boxes) {
+        photo.layer.shadowOpacity = 1;
+    }
 }
 
 - (void)loadDataSource {
@@ -113,18 +160,28 @@
             [self dataSourceDidLoad];
         else 
             [self dataSourceDidError];
-        [MBProgressHUD hideHUDForView:self.collectionView.loadingView animated:YES];
-        [self.collectionView.pullToRefreshView stopAnimating];
+        [self.scroller.pullToRefreshView stopAnimating];
 	}];
         
 }
 
 - (void)dataSourceDidLoad {
-    [self.collectionView reloadData];
+    
+    [photosGrid.boxes removeAllObjects];
+    
+    NSEnumerator* enumerator = [self.items reverseObjectEnumerator];
+    for (NSDictionary* dict in enumerator) {
+        
+        NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
+        [photosGrid.boxes addObject:[self photoBoxFor:idPhoto]];
+        [photosGrid layout];
+    }
+    [photosGrid layoutWithSpeed:0.3 completion:nil];
+    [self.scroller layoutWithSpeed:0.3 completion:nil];
 }
 
 - (void)dataSourceDidError {
-    [self.collectionView reloadData];
+    
 }
 
 #pragma mark -
@@ -132,7 +189,7 @@
 #pragma mark -
 
 
-- (NSInteger)numberOfViewsInCollectionView:(CollectionView *)collectionView {
+/*- (NSInteger)numberOfViewsInCollectionView:(CollectionView *)collectionView {
     return [self.items count];
 }
 
@@ -162,7 +219,7 @@
     NSDictionary *item = [self.items objectAtIndex:index];
     
     [self performSegueWithIdentifier:@"ShowPhoto" sender:[NSNumber numberWithInt:[[item objectForKey:@"IdPhoto"]intValue]]];
-}
+}*/
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
@@ -180,6 +237,36 @@
     
     _IdOpera = IdOpera;
 }
+
+#pragma mark -
+#pragma mark ===  PhotoBox  ===
+#pragma mark -
+
+#pragma mark - Photo Box factories
+
+- (CGSize)photoBoxSize {
+    BOOL portrait = UIInterfaceOrientationIsPortrait(self.interfaceOrientation);
+    
+    // what size plz?
+    return phone
+    ? portrait ? IPHONE_PORTRAIT_PHOTO : IPHONE_LANDSCAPE_PHOTO
+    : portrait ? IPAD_PORTRAIT_PHOTO : IPAD_LANDSCAPE_PHOTO;
+}
+
+
+-(MGBox *)photoBoxFor:(NSNumber *)idPhoto{
+    
+    // make the box
+    PhotoBox *box = [PhotoBox artWorkStreamWithPhotoId:idPhoto andSize:[self photoBoxSize]];
+      // deal with taps
+     box.onTap = ^{
+        [self performSegueWithIdentifier:@"ShowPhoto" sender:idPhoto];
+         //NSLog(@"Click su Photo %@",idPhoto);
+     };
+    
+    return box;
+}
+
 
 @end
 

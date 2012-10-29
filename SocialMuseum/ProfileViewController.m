@@ -220,7 +220,7 @@
 {
     
     [super viewDidUnload];
-   
+    self.scroller = nil;
 }
 
 

@@ -127,6 +127,39 @@
     return box;
 }
 
+
+#pragma mark -
+#pragma mark ===  Photo ArtWork  ===
+#pragma mark -
+
++(PhotoBox *)artWorkStreamWithPhotoId:(NSNumber *)idPhoto andSize:(CGSize)size{
+    
+    PhotoBox *box = [PhotoBox boxWithSize:size];
+    box.tag = [idPhoto integerValue];
+    
+    // add a loading spinner
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
+                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    spinner.center = CGPointMake(box.width / 2, box.height / 2);
+    spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
+    | UIViewAutoresizingFlexibleRightMargin
+    | UIViewAutoresizingFlexibleBottomMargin
+    | UIViewAutoresizingFlexibleLeftMargin;
+    spinner.color = UIColor.lightGrayColor;
+    [box addSubview:spinner];
+    [spinner startAnimating];
+    
+    // do the photo loading async, because internets
+    __block id bbox = box;
+    box.asyncLayoutOnce = ^{
+        
+        [bbox loadPhoto];
+    };
+    
+    return box;
+    
+}
+
 #pragma mark - Layout
 
 - (void)layout {

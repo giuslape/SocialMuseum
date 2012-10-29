@@ -6,16 +6,17 @@
 //  Copyright (c) 2012 Giuseppe Lapenta. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "CollectionView.h"
+@class MGScrollView;
 
-@interface StreamScreen : UIViewController <CollectionViewDelegate, CollectionViewDataSource> {
+#import <UIKit/UIKit.h>
+
+@interface StreamScreen : UIViewController {
     IBOutlet UIBarButtonItem* btnCompose;
-    IBOutlet UIBarButtonItem* btnRefresh;
+    
+    bool phone;
 }
 
 @property(nonatomic, copy, readwrite) NSNumber* IdOpera;
-//refresh the photo stream
--(IBAction)btnRefreshTapped;
+@property (nonatomic, weak) IBOutlet MGScrollView *scroller;
 
 @end

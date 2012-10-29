@@ -9,11 +9,14 @@
 #import "StreamPhotoScreen.h"
 #import "API.h"
 
+
 @implementation StreamPhotoScreen
 
 @synthesize IdPhoto, IdOpera;
 
 -(void)viewDidLoad {
+    
+    
 	API* api = [API sharedInstance];
 	//load the caption of the selected photo
 	[api commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command", IdPhoto,@"IdPhoto", nil] onCompletion:^(NSDictionary *json) {
@@ -33,6 +36,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
 }
 
