@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class MGBox;
+
 @interface StreamPhotoScreen : UIViewController
 {
     IBOutlet UIImageView* photoView;
-    IBOutlet UILabel* lblTitle;
 }
 
 @property (copy, nonatomic, readwrite) NSNumber* IdPhoto;

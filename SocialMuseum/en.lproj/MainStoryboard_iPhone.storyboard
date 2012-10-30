@@ -350,17 +350,9 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="yJ0-Wj-8OE">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="325"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.69999998807907104" contentMode="left" text="Loading description..." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="70W-co-f7m">
-                                <rect key="frame" x="0.0" y="325" width="320" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -368,7 +360,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="juA-4M-2l5"/>
                     <connections>
-                        <outlet property="lblTitle" destination="70W-co-f7m" id="k0e-76-pBt"/>
                         <outlet property="photoView" destination="yJ0-Wj-8OE" id="A8G-Jb-dxg"/>
                     </connections>
                 </viewController>
@@ -618,16 +609,13 @@
         <class className="StreamPhotoScreen" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamPhotoScreen.h"/>
             <relationships>
-                <relationship kind="outlet" name="lblTitle" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="photoView" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="StreamScreen" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamScreen.h"/>
             <relationships>
-                <relationship kind="action" name="btnRefreshTapped"/>
                 <relationship kind="outlet" name="btnCompose" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="btnRefresh" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>
