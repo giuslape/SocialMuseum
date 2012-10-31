@@ -333,7 +333,7 @@
 - (void)sessionStateChanged:(NSNotification*)notification {
     
     if (![[API sharedInstance] isAuthorized]) {
-        [[API sharedInstance] populateFacebookUserDetails];
+        [[API sharedInstance] loginWithFacebook];
     }
 
 }

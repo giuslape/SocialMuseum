@@ -34,6 +34,32 @@
     self.layer.shadowOpacity = 1;
 }
 
+
+#pragma mark -
+#pragma mark ===  Photo Profile  ===
+#pragma mark -
+
++ (PhotoBox *)photoProfileWithIdUser:(NSNumber *)idUser{
+    
+    PhotoBox* box = [PhotoBox boxWithSize:IPHONE_PORTRAIT_PHOTO];
+    box.topMargin = box.leftMargin = 0;
+    
+    // add a loading spinner
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
+                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    spinner.center = CGPointMake(box.width / 2, box.height / 2);
+    spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
+    | UIViewAutoresizingFlexibleRightMargin
+    | UIViewAutoresizingFlexibleBottomMargin
+    | UIViewAutoresizingFlexibleLeftMargin;
+    spinner.color = UIColor.lightGrayColor;
+    [box addSubview:spinner];
+    [spinner startAnimating];
+    
+    return box;
+}
+
+
 + (PhotoBox *)photoProfileBoxWithView:(UIView*)view andSize:(CGSize)size {
     
     // box with photo number tag
@@ -77,7 +103,6 @@
     [box addSubview:spinner];
     [spinner startAnimating];
     
-    // do the photo loading async, because internets
     __block id bbox = box;
     box.asyncLayoutOnce = ^{
         

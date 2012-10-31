@@ -12,6 +12,7 @@
 
 + (PhotoBox *)photoProfileBoxWithView:(UIView *)view andSize:(CGSize)size;
 + (PhotoBox *)photoProfileOptionPhoto:(NSNumber *)idPhoto;
++ (PhotoBox *)photoProfileWithIdUser:(NSNumber *)idUser;
 + (PhotoBox *)photoProfileOptionAdvice;
 
 + (PhotoBox *)artWorkStreamWithPhotoId:(NSNumber *)idPhoto andSize:(CGSize)size;

@@ -280,40 +280,13 @@
 - (IBAction)logoutButtonWasPressed:(id)sender {
     
     [self unloadTables];
-
-    if (FBSession.activeSession.isOpen) {
-        [FBSession.activeSession closeAndClearTokenInformation];
-    }
-    else {
-        NSString* command = @"logout";
-        NSMutableDictionary* params =[NSMutableDictionary dictionaryWithObjectsAndKeys:command, @"command",nil];
-        //chiama l'API web
-        [[API sharedInstance] commandWithParams:params onCompletion:^(NSDictionary *json) {
-            //Mostra Messaggio
-            
-            [[API sharedInstance] setUser:nil];
-            self.userNameLabel.text = nil;
-            
-            AppDelegate* delegate = [UIApplication sharedApplication].delegate;
-            
-            [delegate logoutHandler];
-            
-        }];
-    
-    }
-        
+    [[API sharedInstance] logoutDidPressed];
+    self.userNameLabel.text = nil;
 }
 
 -(void)unloadTables{
     
-    /*for (UIImageView* image in scroller.subviews) {
-        
-        if ([image isMemberOfClass:[UIView class]] || [image isMemberOfClass:[UILabel class]])continue;
-        [image removeFromSuperview];
-    }*/
-    
     [table1.boxes removeAllObjects];
-
 }
 
 
@@ -321,8 +294,6 @@
     
     // make the box
     PhotoBox *box = [PhotoBox photoProfileOptionPhoto:idPhoto];
-    
-    
     
   /*  // deal with taps
     __block MGBox *bbox = box;
@@ -352,22 +323,6 @@
     
     return box;
 
-}
-
-#pragma mark -
-#pragma mark ===  Scroll Delegate  ===
-#pragma mark -
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-
-    /*[table1 layout];
-    [self.scroller layoutWithSpeed:0.3f completion:nil];*/
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    //[table1 layout];
-    //[self.scroller layoutWithSpeed:0.3f completion:nil];
-    //[self.scroller layout];
 }
 
 @end

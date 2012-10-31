@@ -132,7 +132,7 @@ NSString *const SMSessionStateChangedNotification =
             if (self.loginViewController != nil)
                 self.loginViewController = nil;
             
-                [[API sharedInstance] populateFacebookUserDetails];
+                [[API sharedInstance] loginWithFacebook];
             
             // FBSample logic
             // Pre-fetch and cache the friends for the friend picker as soon as possible to improve

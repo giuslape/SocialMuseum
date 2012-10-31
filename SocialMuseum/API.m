@@ -16,6 +16,8 @@
 #define kAPIHost @"http://trinity.micc.unifi.it/"
 #define kAPIPath @"social-museum/"
 
+NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
+
 @implementation API
 
 @synthesize user;
@@ -85,7 +87,7 @@
 }
 
 
--(void)populateFacebookUserDetails{
+-(void)loginWithFacebook{
     
     if (FBSession.activeSession.isOpen) {
         [[FBRequest requestForMe] startWithCompletionHandler:
@@ -115,6 +117,34 @@
          }];
     }
     
+}
+
+
+#pragma mark -
+#pragma mark ===  Logout  ===
+#pragma mark -
+
+- (void)logoutDidPressed{
+    
+    if (FBSession.activeSession.isOpen) {
+        [FBSession.activeSession closeAndClearTokenInformation];
+    }
+    else {
+        NSString* command = @"logout";
+        NSMutableDictionary* params =[NSMutableDictionary dictionaryWithObjectsAndKeys:command, @"command",nil];
+        //chiama l'API web
+        [[API sharedInstance] commandWithParams:params onCompletion:^(NSDictionary *json) {
+            //Mostra Messaggio
+            
+            [self setUser:nil];
+            
+            AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+            
+            [delegate logoutHandler];
+            
+        }];
+        
+    }
 }
 
 @end
