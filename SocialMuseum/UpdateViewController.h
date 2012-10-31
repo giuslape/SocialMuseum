@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class MGScrollView;
 
 @interface UpdateViewController : UIViewController{
     
@@ -16,6 +17,6 @@
 
 @property (copy, nonatomic, readwrite)NSNumber* IdOpera;
 
-@property (weak, nonatomic) IBOutlet UITableView *tableview;
+@property (weak, nonatomic) IBOutlet MGScrollView *scroller;
 
 @end

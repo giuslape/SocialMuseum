@@ -12,23 +12,32 @@
 #import "MBProgressHUD.h"
 #import "PullToRefreshView.h"
 
-@interface UpdateViewController ()
+#import "MGTableBoxStyled.h"
+#import "MGLine.h"
+#import "MGScrollView.h"
+
+#define ROW_SIZE               (CGSize){304, 44}
+
+#define IPHONE_TABLES_GRID     (CGSize){320, 0}
+#define IPAD_TABLES_GRID       (CGSize){624, 0}
+
+#define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:14]
+
+
+
+@interface UpdateViewController (){
+    
+    MGBox* tablesGrid, *tableComments;
+    bool phone;
+}
 
 @end
 
 @implementation UpdateViewController
 
 @synthesize IdOpera = _IdOpera;
-@synthesize tableview = _tableview;
+@synthesize scroller = _scroller;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -36,24 +45,38 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-   
-    [self streamCommenti];
+    self.scroller.contentLayoutMode = MGLayoutGridStyle;
+    self.scroller.bottomPadding = 8;
     
-    [self.tableview addPullToRefreshWithActionHandler:^{
-        NSLog(@"refresh dataSource");
-        [self streamCommenti];
-    }];
+    UIDevice *device = UIDevice.currentDevice;
+    phone = device.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
     
-    [self.tableview addInfiniteScrollingWithActionHandler:^{
-        NSLog(@"load more data");
-    }];
-    
-    // trigger the refresh manually at the end of viewDidLoad
-    //[_tableview.pullToRefreshView triggerRefresh];
+    CGSize tablesGridSize = phone ? IPHONE_TABLES_GRID : IPAD_TABLES_GRID;
+    tablesGrid = [MGBox boxWithSize:tablesGridSize];
+    tablesGrid.contentLayoutMode = MGLayoutGridStyle;
+    [self.scroller.boxes addObject:tablesGrid];
 
+    tableComments = MGBox.box;
+    [tablesGrid.boxes addObject:tableComments];
+    tableComments.sizingMode = MGResizingShrinkWrap;
+   
+    [self loadComments];
+    
+    [self.scroller addPullToRefreshWithActionHandler:^{
+        NSLog(@"refresh dataSource");
+        [self loadComments];
+    }];
+    
+    [self.scroller.pullToRefreshView setArrowColor:[UIColor whiteColor]];
+    [self.scroller.pullToRefreshView setTextColor:[UIColor whiteColor]];
+    [self.scroller.pullToRefreshView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
+    
+    [tablesGrid layout];
+    // relayout the sections
+    [self.scroller layoutWithSpeed:1 completion:nil];
 }
 
--(void)streamCommenti{
+-(void)loadComments{
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [hud setLabelText:@"Loading..."];
@@ -61,23 +84,61 @@
     [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",_IdOpera,@"IdOpera", nil]
                                onCompletion:^(NSDictionary *json) {
                                    
-                                   _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
-                                   [_tableview reloadData];
-                                   [_tableview.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.5f];
+                    if (![json objectForKey:@"error"] && [[json objectForKey:@"result"]count] > 0) {
+                                       
+                        _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                        [self sourceDidLoad];
+                    }
+                    else if([json objectForKey:@"error"]){
+                            [self sourceDidError];
+                        }
+                            [self.scroller.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.5f];
                                    [hud hide:YES];
-                               }];
+                        }];
 }
 
 - (void)viewDidUnload
 {
-    [self setTableview:nil];
+    [self setScroller:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
 
+
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+
+- (void)sourceDidError{
+    
+    
+    
+}
+- (void)sourceDidLoad{
+    
+    if ([tableComments.boxes count] > 0) {
+        [tableComments.boxes removeAllObjects];
+    }
+    MGTableBoxStyled* activity = MGTableBoxStyled.box;
+    [tableComments.boxes addObject:activity];
+
+    MGLine* header = [MGLine lineWithLeft:@"Commenti Recenti" right:nil size:ROW_SIZE];
+    header.font = HEADER_FONT;
+    header.leftPadding = header.rightPadding = header.topPadding = 0;
+    [activity.topLines addObject:header];
+    
+    for (NSDictionary* dict in _comments) {
+        
+        MGLine* line = [MGLine lineWithLeft:[dict objectForKey:@"testo"] right:nil size:ROW_SIZE];
+        line.topPadding = line.leftPadding = 8;
+        [activity.topLines addObject:line];
+    }
+    
+    [self.scroller layoutWithSpeed:0.5f completion:nil];
+    
 }
 
 
@@ -94,7 +155,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"UserCell";
     
-    UITableViewCell *cell = [_tableview dequeueReusableCellWithIdentifier:cellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -144,16 +205,5 @@
         //addCommentViewController.delegate = self;
     }
 }
-
-/*
-- (void)addCommentDidSave:(AddCommentViewController *)viewController{
-    [self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)addCommentDidCancel:(AddCommentViewController *)viewController{
-    
-    [self dismissModalViewControllerAnimated:YES];
-}
-*/
 
 @end
