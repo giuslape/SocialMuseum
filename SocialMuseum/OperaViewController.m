@@ -29,18 +29,6 @@
 @synthesize photoView = _photoView;
 @synthesize artWork = _artWork;
 
-
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -146,8 +134,7 @@
     if ([@"ShowStream" compare:[segue identifier]] == NSOrderedSame) {
         
         StreamScreen* stream = [segue destinationViewController];
-        stream.navigationItem.title = _artWork.title;
-        [stream setIdOpera:_artWork.IdOpera];
+        [stream setArtWork:_artWork];
 
         self.navigationItem.title = nil;
     }

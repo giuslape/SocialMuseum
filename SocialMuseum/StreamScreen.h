@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Giuseppe Lapenta. All rights reserved.
 //
 
-@class MGScrollView;
+@class MGScrollView, ArtWork;
 
 #import <UIKit/UIKit.h>
 
@@ -15,7 +15,7 @@
     bool phone;
 }
 
-@property (nonatomic, copy, readwrite) NSNumber* IdOpera;
-@property (nonatomic, weak) IBOutlet MGScrollView *scroller;
+@property (nonatomic, copy, readwrite) ArtWork* artWork;
+@property (nonatomic, weak) IBOutlet   MGScrollView *scroller;
 
 @end

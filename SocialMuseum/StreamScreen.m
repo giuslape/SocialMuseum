@@ -15,6 +15,7 @@
 #import "MGScrollView.h"
 #import "MGLine.h"
 #import "PhotoBox.h"
+#import "ArtWork.h"
 
 #define IPHONE_PORTRAIT_PHOTO  (CGSize){148, 148}
 #define IPHONE_LANDSCAPE_PHOTO (CGSize){152, 152}
@@ -39,7 +40,7 @@
 
 @implementation StreamScreen
 
-@synthesize IdOpera = _IdOpera, items = _items;
+@synthesize artWork = _artWork, items = _items;
 
 
 #pragma mark -
@@ -148,7 +149,7 @@
 
 - (void)loadDataSource {
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		self.items = [json objectForKey:@"result"];
         if ([self.items count] > 0)
@@ -170,8 +171,9 @@
         NSArray* array;
         NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
         NSString* username = [dict objectForKey:@"username"];
+        NSString* artWorkName = _artWork.title;
+        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,nil];
         
-        array = [NSArray arrayWithObjects:idPhoto,username, nil];
         [photosGrid.boxes addObject:[self photoBoxFor:array]];
         [photosGrid layout];
     }
@@ -227,16 +229,17 @@
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
         streamPhotoScreen.IdPhoto = [sender objectAtIndex:0];
         streamPhotoScreen.username = [sender objectAtIndex:1];
+        streamPhotoScreen.artWorkName = [sender objectAtIndex:2];
     }
     if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
         PhotoScreen* photoScreen = segue.destinationViewController;
-        [photoScreen setIdOpera:_IdOpera];
+        [photoScreen setIdOpera:_artWork.IdOpera];
     }
 }
 
--(void)setIdOpera:(NSNumber *)IdOpera{
+-(void)setArtWork:(ArtWork *)artWork{
     
-    _IdOpera = IdOpera;
+    _artWork = artWork;
 }
 
 #pragma mark -
@@ -263,7 +266,6 @@
       // deal with taps
      box.onTap = ^{
         [self performSegueWithIdentifier:@"ShowPhoto" sender:informations];
-         //NSLog(@"Click su Photo %@",idPhoto);
      };
     
     return box;

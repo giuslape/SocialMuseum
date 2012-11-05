@@ -18,5 +18,6 @@
 @property (copy, nonatomic, readwrite) NSNumber* IdPhoto;
 @property (copy, nonatomic, readwrite) NSNumber* IdOpera;
 @property (copy, nonatomic, readwrite) NSString* username;
+@property (copy, nonatomic, readwrite) NSString* artWorkName;
 
 @end
