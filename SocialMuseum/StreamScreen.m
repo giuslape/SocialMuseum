@@ -53,17 +53,12 @@
 
 #pragma mark - View lifecycle
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.items = [NSMutableArray array];
-    }
-    return self;
-}
-
 -(void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    self.items = [NSMutableArray array];
+
     self.navigationItem.rightBarButtonItem = btnCompose;
     self.navigationItem.title = @"Foto";
     self.view.backgroundColor = [UIColor lightGrayColor];
@@ -172,8 +167,12 @@
     NSEnumerator* enumerator = [self.items reverseObjectEnumerator];
     for (NSDictionary* dict in enumerator) {
         
+        NSArray* array;
         NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
-        [photosGrid.boxes addObject:[self photoBoxFor:idPhoto]];
+        NSString* username = [dict objectForKey:@"username"];
+        
+        array = [NSArray arrayWithObjects:idPhoto,username, nil];
+        [photosGrid.boxes addObject:[self photoBoxFor:array]];
         [photosGrid layout];
     }
     [photosGrid layoutWithSpeed:0.3 completion:nil];
@@ -224,8 +223,10 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     if ([@"ShowPhoto" compare: segue.identifier]== NSOrderedSame) {
+        sender = (NSArray *)sender;
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
-        streamPhotoScreen.IdPhoto = sender;
+        streamPhotoScreen.IdPhoto = [sender objectAtIndex:0];
+        streamPhotoScreen.username = [sender objectAtIndex:1];
     }
     if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
         PhotoScreen* photoScreen = segue.destinationViewController;
@@ -254,13 +255,14 @@
 }
 
 
--(MGBox *)photoBoxFor:(NSNumber *)idPhoto{
+-(MGBox *)photoBoxFor:(NSArray *)informations{
     
+    NSNumber* idPhoto = [informations objectAtIndex:0];
     // make the box
     PhotoBox *box = [PhotoBox artWorkStreamWithPhotoId:idPhoto andSize:[self photoBoxSize]];
       // deal with taps
      box.onTap = ^{
-        [self performSegueWithIdentifier:@"ShowPhoto" sender:idPhoto];
+        [self performSegueWithIdentifier:@"ShowPhoto" sender:informations];
          //NSLog(@"Click su Photo %@",idPhoto);
      };
     

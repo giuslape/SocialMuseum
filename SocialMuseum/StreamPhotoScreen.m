@@ -21,7 +21,7 @@
     MGBox* footerBox;
 }
 
-@synthesize IdPhoto, IdOpera;
+@synthesize IdPhoto, IdOpera, username;
 
 
 -(void)viewDidLoad {
@@ -63,7 +63,8 @@
     table.leftMargin = table.topMargin = 0;
     
     MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,42}];
-    line.multilineLeft = @"ha scattato una foto nei pressi di ";
+    line.multilineLeft = [NSString stringWithFormat:@"%@ ha scattato una foto nei pressi di ",username];
+    
     line.leftPadding = line.topPadding = 4;
     [table.topLines addObject:line];
     line.font = HEADER_FONT;

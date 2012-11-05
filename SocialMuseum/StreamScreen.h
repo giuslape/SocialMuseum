@@ -12,11 +12,10 @@
 
 @interface StreamScreen : UIViewController {
     IBOutlet UIBarButtonItem* btnCompose;
-    
     bool phone;
 }
 
-@property(nonatomic, copy, readwrite) NSNumber* IdOpera;
+@property (nonatomic, copy, readwrite) NSNumber* IdOpera;
 @property (nonatomic, weak) IBOutlet MGScrollView *scroller;
 
 @end

@@ -103,10 +103,12 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
                      NSDictionary* res = [[json objectForKey:@"result"] objectAtIndex:0];
                      if ([json objectForKey:@"error"]==nil && [[res objectForKey:@"IdUser"] intValue]>0) {
                          [self setUser:res];
-                         AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+                         
+                        AppDelegate* delegate = [UIApplication sharedApplication].delegate;
                          [delegate showInitialViewController];
                          //Mostra Messaggio
                          [[[UIAlertView alloc] initWithTitle:@"Logged in" message:[NSString stringWithFormat:@"Welcome %@",[res objectForKey:@"username"]] delegate:nil cancelButtonTitle:@"Close" otherButtonTitles: nil] show];
+                         
                      } else {
                          //error
                          [UIAlertView error:[json objectForKey:@"error"]];
