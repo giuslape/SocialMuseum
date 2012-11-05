@@ -177,7 +177,8 @@
         [NSNumber numberWithInt:[[dict objectForKey:@"FBId"]intValue]] :
         [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"]intValue]];
         
-        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,fbId,nil];
+        NSString* datetime = [dict objectForKey:@"datetime"];
+        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,fbId,datetime,nil];
         
         [photosGrid.boxes addObject:[self photoBoxFor:array]];
         [photosGrid layout];
@@ -236,6 +237,7 @@
         streamPhotoScreen.username = [sender objectAtIndex:1];
         streamPhotoScreen.artWorkName = [sender objectAtIndex:2];
         streamPhotoScreen.IdUser = [sender objectAtIndex:3];
+        streamPhotoScreen.datetime = [sender objectAtIndex:4];
     }
     if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
         PhotoScreen* photoScreen = segue.destinationViewController;

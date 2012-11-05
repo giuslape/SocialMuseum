@@ -267,7 +267,7 @@
     }
 
     x -= self.itemPadding;
-    CGFloat y = (self.height - view.height) / 2;
+    CGFloat y = self.topPadding;
 
     // MGLayoutBoxes have margins to deal with
     if ([view conformsToProtocol:@protocol(MGLayoutBox)]) {

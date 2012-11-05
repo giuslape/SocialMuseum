@@ -23,7 +23,7 @@
     FBProfilePictureView* profilePictureView;
 }
 
-@synthesize IdPhoto, IdUser, username, artWorkName;
+@synthesize IdPhoto, IdUser, username, artWorkName, datetime;
 
 
 -(void)viewDidLoad {
@@ -41,7 +41,12 @@
     [self loadPhotoDetails];
     
     [footerBox layout];
-
+    
+    footerBox.onTap = ^{
+    
+        NSLog(@"Sto Cliccado sul Box");
+        
+    };
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -67,6 +72,10 @@
     MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,42}];
     [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}]];
     line.multilineMiddle = [NSString stringWithFormat:@"%@ ha scattato una foto nei pressi di %@",username, artWorkName];
+    
+    
+    line.multilineRight = [NSString stringWithFormat:@"%@ \n",datetime];
+    line.rightFont = HEADER_FONT;
     line.middleItemsTextAlignment = UITextAlignmentLeft;
     line.sidePrecedence = MGSidePrecedenceRight;
     
