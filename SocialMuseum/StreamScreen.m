@@ -172,7 +172,12 @@
         NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
         NSString* username = [dict objectForKey:@"username"];
         NSString* artWorkName = _artWork.title;
-        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,nil];
+        
+        NSNumber* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
+        [NSNumber numberWithInt:[[dict objectForKey:@"FBId"]intValue]] :
+        [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"]intValue]];
+        
+        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,fbId,nil];
         
         [photosGrid.boxes addObject:[self photoBoxFor:array]];
         [photosGrid layout];
@@ -230,6 +235,7 @@
         streamPhotoScreen.IdPhoto = [sender objectAtIndex:0];
         streamPhotoScreen.username = [sender objectAtIndex:1];
         streamPhotoScreen.artWorkName = [sender objectAtIndex:2];
+        streamPhotoScreen.IdUser = [sender objectAtIndex:3];
     }
     if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
         PhotoScreen* photoScreen = segue.destinationViewController;

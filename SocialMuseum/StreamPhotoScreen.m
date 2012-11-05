@@ -11,25 +11,27 @@
 #import "MGLine.h"
 #import "MGBox.h"
 #import "MGTableBoxStyled.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "PhotoBox.h"
 
 #define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:10]
 #define ROW_SIZE               (CGSize){self.view.bounds.size.width, 44}
 
 
 @implementation StreamPhotoScreen{
-    
     MGBox* footerBox;
+    FBProfilePictureView* profilePictureView;
 }
 
-@synthesize IdPhoto, IdOpera, username, artWorkName;
+@synthesize IdPhoto, IdUser, username, artWorkName;
 
 
 -(void)viewDidLoad {
     
+    profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
     [self waitingForLoadPhoto];
     
     [self performSelector:@selector(loadPhoto) withObject:nil afterDelay:1.0f];
-	//[self loadPhoto];
         
     footerBox = [MGBox boxWithSize:ROW_SIZE];
     [self.view addSubview:footerBox];
@@ -39,7 +41,7 @@
     [self loadPhotoDetails];
     
     [footerBox layout];
-    
+
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -63,11 +65,16 @@
     table.leftMargin = table.topMargin = 0;
     
     MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,42}];
-    line.multilineLeft = [NSString stringWithFormat:@"%@ ha scattato una foto nei pressi di %@",username, artWorkName];
+    [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}]];
+    line.multilineMiddle = [NSString stringWithFormat:@"%@ ha scattato una foto nei pressi di %@",username, artWorkName];
+    line.middleItemsTextAlignment = UITextAlignmentLeft;
+    line.sidePrecedence = MGSidePrecedenceRight;
     
     line.leftPadding = line.topPadding = 4;
     [table.topLines addObject:line];
     line.font = HEADER_FONT;
+    
+    profilePictureView.profileID = [NSString stringWithFormat:@"%d",[IdUser intValue]];
 }
 
 -(void)waitingForLoadPhoto{
