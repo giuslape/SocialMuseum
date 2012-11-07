@@ -17,20 +17,22 @@
 #import "MGScrollView.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "PhotoBox.h"
+#import "NSString+Date.h"
 
-#define ROW_SIZE               (CGSize){304, 44}
+#define HEADER_SIZE               (CGSize){304, 44}
+#define ROW_SIZE                  (CGSize){304,60}
 
 #define IPHONE_TABLES_GRID     (CGSize){320, 0}
 #define IPAD_TABLES_GRID       (CGSize){624, 0}
 
 #define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:14]
+#define RIGHT_FONT             [UIFont fontWithName:@"HelveticaNeue" size:10]
 
 
 
 @interface UpdateViewController (){
     
     MGBox* tablesGrid, *tableComments;
-    FBProfilePictureView* profilePictureView;
     bool phone;
 }
 
@@ -47,9 +49,7 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
-    
+        
     self.scroller.contentLayoutMode = MGLayoutGridStyle;
     self.scroller.bottomPadding = 8;
     
@@ -106,7 +106,6 @@
 {
     [self setScroller:nil];
     [super viewDidUnload];
-    profilePictureView = nil;
 }
 
 
@@ -130,86 +129,70 @@
     MGTableBoxStyled* activity = MGTableBoxStyled.box;
     [tableComments.boxes addObject:activity];
 
-    MGLine* header = [MGLine lineWithLeft:@"Commenti Recenti" right:nil size:ROW_SIZE];
+    MGLine* header = [MGLine lineWithLeft:@"Commenti Recenti" right:nil size:HEADER_SIZE];
     header.font = HEADER_FONT;
     header.leftPadding = header.rightPadding = header.topPadding = 8;
     [activity.topLines addObject:header];
     
     for (NSDictionary* dict in _comments) {
         
-        MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,44}];
-        [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}]];
-        line.topPadding = line.leftPadding = 4;
+        NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
+        NSString* username = [dict objectForKey:@"username"];
+        NSString* commentText = [dict objectForKey:@"testo"];
+        
+        NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
+        [dict objectForKey:@"FBId"] : [NSNull null];
+        
+        NSNumber* Idu = [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"]intValue]];
+        
+        NSString* datetime = [dict objectForKey:@"datetime"];
+        NSArray *array = [NSArray arrayWithObjects:idPhoto,username,commentText,fbId,datetime,Idu,nil];
+        
+        FBProfilePictureView* profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
+        
+        MGLine* line = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}] right:nil];
+        
+        [line.leftItems addObject:[NSString stringWithFormat:@"%@ \n %@",username, commentText]];
+        [line.rightItems addObject:[NSString determingTemporalDifferencesFromNowtoStartDate:datetime]];
+        
+        line.font = HEADER_FONT;
+        line.middleFont = HEADER_FONT;
+        line.rightFont = RIGHT_FONT;
+        line.padding = UIEdgeInsetsMake(4, 4, 4, 4);
+        line.itemPadding = 8;
+        line.minHeight = 60;
+        
+        CGSize minSize = [commentText sizeWithFont:HEADER_FONT];
+        CGFloat height = minSize.height + line.padding.top + line.padding.bottom;
+        
+        line.size = (CGSize){304,height};
+        
         [activity.topLines addObject:line];
         
+        profilePictureView.profileID = ([fbId isEqual:[NSNull null]]) ? nil : fbId;
+        
+        line.onTap = ^{
+        
+            [self performSegueWithIdentifier:@"ShowProfile" sender:array];
+        
+        };
     }
-    
+    [tableComments layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
     
 }
 
 
-#pragma mark - UITableView Datasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _comments.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"UserCell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if(cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        cell.textLabel.font = [UIFont systemFontOfSize:10];
-        cell.textLabel.numberOfLines = 0;
-
-    }
-    
-    NSDictionary * dictionary= [_comments objectAtIndex:indexPath.row];
-    NSString* text = [dictionary objectForKey:@"testo"];
-    cell.textLabel.text = text;
-        
-    return cell;
-}
-
-#pragma mark - UITableView Delegate methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSDictionary* dictionary = [_comments objectAtIndex:indexPath.row];
-    CGSize size = [[dictionary objectForKey:@"testo"] 
-                   sizeWithFont:[UIFont systemFontOfSize:10] 
-                   constrainedToSize:CGSizeMake(300, CGFLOAT_MAX)];
-    return size.height + 15;
-}
-
--(void)setIdOpera:(NSNumber *)IdOpera{
-    
-    _IdOpera = IdOpera;
-}
-
 #pragma mark -
-#pragma mark ===  Add Comment Delegate  ===
+#pragma mark ===  Segue Handler  ===
 #pragma mark -
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"AddComment"])
     {
-        //UINavigationController *navigationController =segue.destinationViewController;
         AddCommentViewController*addCommentViewController =  segue.destinationViewController;
         [addCommentViewController setIdOpera:_IdOpera];
-        //addCommentViewController.delegate = self;
     }
 }
 

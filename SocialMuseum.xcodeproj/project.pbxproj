@@ -11,6 +11,7 @@
 		200450CB157E0A6E00708E03 /* OperaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 200450CA157E0A6E00708E03 /* OperaViewController.m */; };
 		200450CF157E0C9100708E03 /* ArtWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 200450CE157E0C9100708E03 /* ArtWork.m */; };
 		200E136F149F88B300780689 /* Mood.m in Sources */ = {isa = PBXBuildFile; fileRef = 200E136E149F88B300780689 /* Mood.m */; };
+		2021FCE8164A9DD900DEA17A /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 2021FCE7164A9DD900DEA17A /* NSString+Date.m */; };
 		202208C9149A56D200686C86 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 202208C8149A56D200686C86 /* libz.dylib */; };
 		202B8BC61602269E008CF5EE /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202B8BC51602269E008CF5EE /* ProfileViewController.m */; };
 		202B8BC816023816008CF5EE /* select-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 202B8BC716023815008CF5EE /* select-location.png */; };
@@ -151,6 +152,8 @@
 		200450CE157E0C9100708E03 /* ArtWork.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtWork.m; sourceTree = "<group>"; };
 		200E136D149F88B300780689 /* Mood.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mood.h; sourceTree = "<group>"; };
 		200E136E149F88B300780689 /* Mood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mood.m; sourceTree = "<group>"; };
+		2021FCE6164A9DD900DEA17A /* NSString+Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Date.h"; sourceTree = "<group>"; };
+		2021FCE7164A9DD900DEA17A /* NSString+Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Date.m"; sourceTree = "<group>"; };
 		202208C8149A56D200686C86 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		202B8BC41602269E008CF5EE /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		202B8BC51602269E008CF5EE /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
@@ -527,6 +530,8 @@
 				2054948015B5A8F600B781DD /* UIImage+RoundedCorner.m */,
 				2054948115B5A8F600B781DD /* UIAlertView+error.m */,
 				2054948215B5A8F600B781DD /* UIAlertView+error.h */,
+				2021FCE6164A9DD900DEA17A /* NSString+Date.h */,
+				2021FCE7164A9DD900DEA17A /* NSString+Date.m */,
 			);
 			path = Categorie;
 			sourceTree = "<group>";
@@ -980,6 +985,7 @@
 				2040F09316382146000DD7AF /* SBJsonUTF8Stream.m in Sources */,
 				2040F09416382146000DD7AF /* SBJsonWriter.m in Sources */,
 				2040F09516382146000DD7AF /* UIImageView+AFNetworking.m in Sources */,
+				2021FCE8164A9DD900DEA17A /* NSString+Date.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
