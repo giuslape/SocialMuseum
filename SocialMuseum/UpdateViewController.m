@@ -15,6 +15,8 @@
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
 #import "MGScrollView.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "PhotoBox.h"
 
 #define ROW_SIZE               (CGSize){304, 44}
 
@@ -28,6 +30,7 @@
 @interface UpdateViewController (){
     
     MGBox* tablesGrid, *tableComments;
+    FBProfilePictureView* profilePictureView;
     bool phone;
 }
 
@@ -44,6 +47,8 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
     
     self.scroller.contentLayoutMode = MGLayoutGridStyle;
     self.scroller.bottomPadding = 8;
@@ -101,7 +106,7 @@
 {
     [self setScroller:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    profilePictureView = nil;
 }
 
 
@@ -127,14 +132,16 @@
 
     MGLine* header = [MGLine lineWithLeft:@"Commenti Recenti" right:nil size:ROW_SIZE];
     header.font = HEADER_FONT;
-    header.leftPadding = header.rightPadding = header.topPadding = 0;
+    header.leftPadding = header.rightPadding = header.topPadding = 8;
     [activity.topLines addObject:header];
     
     for (NSDictionary* dict in _comments) {
         
-        MGLine* line = [MGLine lineWithLeft:[dict objectForKey:@"testo"] right:nil size:ROW_SIZE];
-        line.topPadding = line.leftPadding = 8;
+        MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,44}];
+        [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}]];
+        line.topPadding = line.leftPadding = 4;
         [activity.topLines addObject:line];
+        
     }
     
     [self.scroller layoutWithSpeed:0.5f completion:nil];
