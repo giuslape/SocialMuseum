@@ -13,6 +13,7 @@
 #import "MGTableBoxStyled.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "PhotoBox.h"
+#import "ProfileViewController.h"
 
 #define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:10]
 #define ROW_SIZE               (CGSize){self.view.bounds.size.width, 44}
@@ -23,7 +24,7 @@
     FBProfilePictureView* profilePictureView;
 }
 
-@synthesize IdPhoto, IdUser, username, artWorkName, datetime;
+@synthesize IdPhoto, artWorkName, datetime;
 
 
 -(void)viewDidLoad {
@@ -42,10 +43,10 @@
     
     [footerBox layout];
     
+    id block = self;
     footerBox.onTap = ^{
     
-        NSLog(@"Sto Cliccado sul Box");
-        
+        [block performSegueWithIdentifier:@"ShowProfile" sender:nil];
     };
 }
 
@@ -71,19 +72,23 @@
     
     MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,42}];
     [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}]];
-    line.multilineMiddle = [NSString stringWithFormat:@"%@ ha scattato una foto nei pressi di %@",username, artWorkName];
     
+    NSString* username = [[[API sharedInstance] temporaryUser] objectForKey:@"username"];
+    line.multilineMiddle = [NSString stringWithFormat:@"%@ \n scattata nei pressi di %@",username, artWorkName];
     
-    line.multilineRight = [NSString stringWithFormat:@"%@ \n",datetime];
+    NSString* temporalDifferences = [self determingTemporalDifferences];
+    line.multilineRight = temporalDifferences;
     line.rightFont = HEADER_FONT;
     line.middleItemsTextAlignment = UITextAlignmentLeft;
     line.sidePrecedence = MGSidePrecedenceRight;
     
-    line.leftPadding = line.topPadding = 4;
+    line.leftPadding = line.topPadding = line.rightPadding = 4;
     [table.topLines addObject:line];
     line.font = HEADER_FONT;
     
-    profilePictureView.profileID = [NSString stringWithFormat:@"%d",[IdUser intValue]];
+    NSString* fbId = [[[API sharedInstance] temporaryUser] objectForKey:@"FBId"];
+   // NSString* profileId = (fbId) ? fbId : nil;
+    profilePictureView.profileID = fbId;
 }
 
 -(void)waitingForLoadPhoto{
@@ -132,4 +137,59 @@
         [queue addOperation:imageOperation];
     
 }
+
+
+#pragma mark -
+#pragma mark ===  Temporal Differences  ===
+#pragma mark -
+
+- (NSString *)determingTemporalDifferences{
+    
+    NSString* dateComponents = @"yyyy-MM-dd HH:mm:ss";
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:dateComponents];
+
+    NSDate *startDate = [dateFormatter dateFromString:datetime];
+    NSDate *endDate = [NSDate date];
+    
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSUInteger unitFlags = NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit;
+    
+    NSDateComponents *components = [gregorian components:unitFlags
+                                                fromDate:startDate
+                                                  toDate:endDate options:0];
+    NSInteger days = [components day];
+    NSInteger hours = [components hour];
+    NSInteger minute = [components minute];
+    
+    NSString* difference = @"";
+    NSString* appendix = @"";
+    
+    if (days > 0){
+        
+        appendix = @"d";
+        difference = [NSString stringWithFormat:@"%d",days];
+        
+    }else if(hours > 0){
+        
+        appendix = @"h";
+        difference = [NSString stringWithFormat:@"%d",hours];
+        
+    }else if(minute > 0){
+        
+        appendix = @"m";
+        difference = [NSString stringWithFormat:@"%d",minute];
+    }else{
+        
+        appendix = @"pochi secondi fa";
+        difference = @"";
+    }
+        
+    return [NSString stringWithFormat:@"%@%@",difference, appendix];
+    
+}
+
 @end

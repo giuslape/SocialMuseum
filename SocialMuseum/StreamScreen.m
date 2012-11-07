@@ -166,6 +166,7 @@
     [photosGrid.boxes removeAllObjects];
     
     NSEnumerator* enumerator = [self.items reverseObjectEnumerator];
+    
     for (NSDictionary* dict in enumerator) {
         
         NSArray* array;
@@ -173,12 +174,13 @@
         NSString* username = [dict objectForKey:@"username"];
         NSString* artWorkName = _artWork.title;
         
-        NSNumber* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
-        [NSNumber numberWithInt:[[dict objectForKey:@"FBId"]intValue]] :
-        [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"]intValue]];
+        NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
+        [dict objectForKey:@"FBId"] : [NSNull null];
+        
+        NSNumber* Idu = [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"]intValue]];
         
         NSString* datetime = [dict objectForKey:@"datetime"];
-        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,fbId,datetime,nil];
+        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,fbId,datetime,Idu,nil];
         
         [photosGrid.boxes addObject:[self photoBoxFor:array]];
         [photosGrid layout];
@@ -233,11 +235,16 @@
     if ([@"ShowPhoto" compare: segue.identifier]== NSOrderedSame) {
         sender = (NSArray *)sender;
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
-        streamPhotoScreen.IdPhoto = [sender objectAtIndex:0];
-        streamPhotoScreen.username = [sender objectAtIndex:1];
+        streamPhotoScreen.IdPhoto =     [sender objectAtIndex:0];
+        NSString* username =    [sender objectAtIndex:1];
         streamPhotoScreen.artWorkName = [sender objectAtIndex:2];
-        streamPhotoScreen.IdUser = [sender objectAtIndex:3];
-        streamPhotoScreen.datetime = [sender objectAtIndex:4];
+        NSString* fbId =        [sender objectAtIndex:3];
+        streamPhotoScreen.datetime =    [sender objectAtIndex:4];
+        NSNumber* IdUser =      [sender objectAtIndex:5];
+        
+        NSDictionary* userTemp = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",fbId,@"FBId",IdUser,@"IdUser", nil];
+        [[API sharedInstance] setTemporaryUser:userTemp];
+
     }
     if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
         PhotoScreen* photoScreen = segue.destinationViewController;

@@ -16,8 +16,6 @@
 }
 
 @property (copy, nonatomic, readwrite) NSNumber* IdPhoto;
-@property (copy, nonatomic, readwrite) NSNumber* IdUser;
-@property (copy, nonatomic, readwrite) NSString* username;
 @property (copy, nonatomic, readwrite) NSString* artWorkName;
 @property (copy, nonatomic, readwrite) NSString* datetime;
 

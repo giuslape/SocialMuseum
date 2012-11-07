@@ -10,7 +10,7 @@
             <objects>
                 <viewController wantsFullScreenLayout="YES" id="tHX-LK-o6I" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DQh-dt-aPI">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="44" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="gEP-GP-gam" customClass="MGScrollView">
@@ -353,6 +353,7 @@
                     <navigationItem key="navigationItem" id="juA-4M-2l5"/>
                     <connections>
                         <outlet property="photoView" destination="yJ0-Wj-8OE" id="A8G-Jb-dxg"/>
+                        <segue destination="tHX-LK-o6I" kind="push" identifier="ShowProfile" id="erZ-Ij-kGV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -613,6 +614,9 @@
         </class>
         <class className="UpdateViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
+            </relationships>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -622,5 +626,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="Xbb-Kz-GWO"/>
+        <segue reference="erZ-Ij-kGV"/>
     </inferredMetricsTieBreakers>
 </document>

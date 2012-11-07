@@ -15,7 +15,6 @@
 #import "AppDelegate.h"
 #import "PhotoBox.h"
 
-#define kDeafultItem            0
 
 #define ROW_SIZE               (CGSize){304, 44}
 
@@ -29,6 +28,12 @@
     MGBox *tablesGrid, *table1;
     NSMutableArray* streamUser;
     NSNumber* thumbPhotoId;
+    
+    NSNumber* idUser;
+    NSString* fbId;
+    NSString* userName;
+    
+    bool isMe;
 }
 
 @synthesize userNameLabel;
@@ -38,18 +43,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    API* api = [API sharedInstance];
+    isMe = [api isMe];
+    
+    NSDictionary* user = (isMe) ? [api user] : [api temporaryUser];
+    
+        idUser = [user objectForKey:@"IdUser"];
+        fbId   = ([user objectForKey:@"FBId"] != [NSNull null]) ? [user objectForKey:@"FBId"] : nil;
+        userName = [user objectForKey:@"username"];
+    
     streamUser = [[NSMutableArray alloc] initWithCapacity:0];
     
     thumbPhotoId = [NSNumber numberWithInt:0];
     
     self.userNameLabel = [[UILabel alloc] init];
     self.userNameLabel.text = @"";
-    self.userProfileImage = [[FBProfilePictureView alloc] init];
+    self.userProfileImage = [[FBProfilePictureView alloc]initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
     
     self.scroller.contentLayoutMode = MGLayoutTableStyle;
     self.scroller.bottomPadding = 8;
-    self.scroller.delegate = self;
     
     CGSize tablesGridSize =  IPHONE_TABLES_GRID;
     tablesGrid = [MGBox boxWithSize:tablesGridSize];
@@ -118,7 +131,7 @@
         
         if ([dict objectForKey:@"IdPhoto"]) {
             
-            MGLine* header = [MGLine lineWithMultilineLeft:[NSString stringWithFormat:@"%@ ha pubblicato una foto nei pressi di...",[[[API sharedInstance] user] objectForKey:@"username"]] right:nil width:304 minHeight:60];
+            MGLine* header = [MGLine lineWithMultilineLeft:[NSString stringWithFormat:@"%@ ha pubblicato una foto nei pressi di...",userName] right:nil width:304 minHeight:60];
             header.leftPadding = header.topPadding = 16;
             header.underlineType = MGUnderlineNone;
             
@@ -132,7 +145,7 @@
         }
         else if ([dict objectForKey:@"IdCommento"]){
             
-            id testo = [NSString stringWithFormat:@"%@ ha scritto un commento \n \n %@",[[[API sharedInstance] user] objectForKey:@"username"],[dict objectForKey:@"testo"]];
+            id testo = [NSString stringWithFormat:@"%@ ha scritto un commento \n \n %@",userName,[dict objectForKey:@"testo"]];
         
             line.multilineLeft = testo;
             line.padding = UIEdgeInsetsMake(16, 16, 16, 16);
@@ -150,7 +163,7 @@
 - (void)loadPhotoStreamUser{
     
     [[API sharedInstance] commandWithParams:
-     [NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStreamPhotos", @"command",[[[API sharedInstance] user] objectForKey:@"IdUser"],@"IdUser", nil]
+     [NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStreamPhotos", @"command",idUser,@"IdUser", nil]
                                onCompletion:^(NSDictionary *json) {
                                    
                                    if (![json objectForKey:@"error"] && [[json objectForKey:@"result"] count] > 0) {
@@ -179,7 +192,7 @@
 - (void)loadUserComments {
     
     [[API sharedInstance] commandWithParams:
-     [NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStreamComments", @"command",[[[API sharedInstance] user] objectForKey:@"IdUser"],@"IdUser", nil]
+     [NSMutableDictionary dictionaryWithObjectsAndKeys:@"userStreamComments", @"command",idUser,@"IdUser", nil]
                                onCompletion:^(NSDictionary *json) {
                                    
                                    if (![json objectForKey:@"error"] && [[json objectForKey:@"result"] count] > 0) {
@@ -251,30 +264,12 @@
 
 - (void)populateUserDetails
 {
-    if (FBSession.activeSession.isOpen) {
-        [[FBRequest requestForMe] startWithCompletionHandler:
-         ^(FBRequestConnection *connection, 
-           NSDictionary<FBGraphUser> *user, 
-           NSError *error) {
-             if (!error) {
-                 
-                 self.userNameLabel.text = user.name;
-                 self.userProfileImage.profileID = user.id;
-                 [self createUserInformationSection];
-                 [self loadUserComments];
-                 
-                }
-         }];      
-    }
-    else {
         
-            NSString* nameUser = [[[API sharedInstance] user] objectForKey:@"username"];
-            self.userNameLabel.text = nameUser;
-            self.userProfileImage.profileID = nil;
-            [self createUserInformationSection];
-            [self loadUserComments];
-    }
-    
+    self.userNameLabel.text = userName;
+    self.userProfileImage.profileID = fbId;
+        
+    [self createUserInformationSection];
+    [self loadUserComments];
 }
 
 - (IBAction)logoutButtonWasPressed:(id)sender {
@@ -322,7 +317,6 @@
     };*/
     
     return box;
-
 }
 
 @end

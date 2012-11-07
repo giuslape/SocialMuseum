@@ -20,7 +20,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
 
 @implementation API
 
-@synthesize user;
+@synthesize user, temporaryUser;
 
 #pragma mark - Singleton methods
 /**
@@ -45,6 +45,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
     if (self != nil) {
         //initialize the object
         user = nil;
+        temporaryUser = nil;
         [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         [self setDefaultHeader:@"Accept" value:@"application/json"];
     }
@@ -53,6 +54,12 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
 
 -(BOOL)isAuthorized {
     return [[user objectForKey:@"IdUser"] intValue]>0;
+}
+
+-(BOOL)isMe{
+    
+    return ([[user objectForKey:@"IdUser"] intValue] == [[temporaryUser objectForKey:@"IdUser"] intValue]);
+    
 }
 
 -(void)commandWithParams:(NSMutableDictionary*)params onCompletion:(JSONResponseBlock)completionBlock {
@@ -139,6 +146,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
             //Mostra Messaggio
             
             [self setUser:nil];
+            [self setTemporaryUser:nil];
             
             AppDelegate* delegate = [UIApplication sharedApplication].delegate;
             

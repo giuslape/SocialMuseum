@@ -16,5 +16,7 @@
 @property (nonatomic, weak) IBOutlet MGScrollView *scroller;
 @property (strong, nonatomic) UILabel *userNameLabel;
 @property (strong, nonatomic) FBProfilePictureView *userProfileImage;
+
+
 - (IBAction)logoutButtonWasPressed:(id)sender;
 @end
