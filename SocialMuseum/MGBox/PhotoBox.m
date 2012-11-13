@@ -185,6 +185,36 @@
     
 }
 
+
++ (PhotoBox *)photoArtworkWithUrl:(NSString *)urlImage andSize:(CGSize)size{
+    
+    PhotoBox *box = [PhotoBox boxWithSize:size];
+    box.leftMargin = box.rightMargin = box.bottomMargin = box.topMargin = 0;
+    // add a loading spinner
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
+                                        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    spinner.center = CGPointMake(box.width / 2, box.height / 2);
+    spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
+    | UIViewAutoresizingFlexibleRightMargin
+    | UIViewAutoresizingFlexibleBottomMargin
+    | UIViewAutoresizingFlexibleLeftMargin;
+    spinner.color = UIColor.lightGrayColor;
+    [box addSubview:spinner];
+    [spinner startAnimating];
+    
+    // do the photo loading async, because internets
+    __block id bbox = box;
+    box.asyncLayoutOnce = ^{
+        
+        [bbox loadPhotoWithUrl:urlImage];
+    };
+    
+    return box;
+
+    
+}
+
+
 #pragma mark - Layout
 
 - (void)layout {
@@ -229,6 +259,33 @@
     NSOperationQueue* queue = [[NSOperationQueue alloc] init];
     [queue addOperation:imageOperation];
     
+}
+
+- (void)loadPhotoWithUrl:(NSString *)urlImage{
+                
+    AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlImage]] success:^(UIImage *image) {
+        
+        // Elimina lo spinner
+        UIActivityIndicatorView *spinner = self.subviews.lastObject;
+        [spinner stopAnimating];
+        [spinner removeFromSuperview];
+        
+        //Crea ImageView e l'aggiunge alla vista
+        UIImageView* thumbView = [[UIImageView alloc] initWithImage: image];
+        [self addSubview:thumbView];
+        thumbView.size = self.size;
+        thumbView.alpha = 0;
+        thumbView.autoresizingMask = UIViewAutoresizingFlexibleWidth
+        | UIViewAutoresizingFlexibleHeight;
+        
+        // fade the image in
+        [UIView animateWithDuration:0.2 animations:^{
+            thumbView.alpha = 1;
+        }];
+        
+    }];
+    NSOperationQueue* queue = [[NSOperationQueue alloc] init];
+    [queue addOperation:imageOperation];
 }
 
 

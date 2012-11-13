@@ -15,6 +15,8 @@
 + (PhotoBox *)photoProfileWithIdUser:(NSNumber *)idUser;
 + (PhotoBox *)photoProfileOptionAdvice;
 
++ (PhotoBox *)photoArtworkWithUrl:(NSString *)urlImage andSize:(CGSize)size;
+
 + (PhotoBox *)artWorkStreamWithPhotoId:(NSNumber *)idPhoto andSize:(CGSize)size;
 
 -(void)loadPhoto;

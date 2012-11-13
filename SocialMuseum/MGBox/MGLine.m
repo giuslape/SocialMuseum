@@ -280,8 +280,9 @@
 
       // hopefully is a UIView then
     } else {
-      x -= view.width;
-      view.frame = CGRectMake(x, roundf(y), view.width, view.height);
+        x -= view.width;
+        y = self.height/2 - self.topPadding;
+        view.frame = CGRectMake(x, roundf(y), view.width, view.height);
     }
 
     x -= self.itemPadding;

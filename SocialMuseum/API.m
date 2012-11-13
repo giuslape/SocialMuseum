@@ -10,6 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "UIAlertView+error.h"
 #import "AppDelegate.h"
+#import "ArtWork.h"
 
 
 //the web location of the service
@@ -20,7 +21,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
 
 @implementation API
 
-@synthesize user, temporaryUser;
+@synthesize user, temporaryUser, temporaryArtWork;
 
 #pragma mark - Singleton methods
 /**
@@ -46,6 +47,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
         //initialize the object
         user = nil;
         temporaryUser = nil;
+        temporaryArtWork = nil;
         [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         [self setDefaultHeader:@"Accept" value:@"application/json"];
     }

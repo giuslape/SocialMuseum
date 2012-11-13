@@ -11,10 +11,8 @@
 #import "MBProgressHUD.h"
 #import "SMAnnotation.h"
 #import "ArtWork.h"
-#import "OperaViewController.h"
 #import "API.h"
 #import "UIAlertView+error.h"
-#import "ProfileViewController.h"
 #import "AppDelegate.h"
 
 
@@ -65,7 +63,7 @@
     distanceOffset = 5000;
     levelZoom = 500;
     self.worksVisited = [NSMutableArray arrayWithCapacity:0];
-   
+    [[API sharedInstance] setTemporaryArtWork:nil];
     //Aspetto il caricamento della vista prima modificare l'area di interesse
     _isLoad = false;
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -187,7 +185,6 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-        
     
     [self performSegueWithIdentifier:@"Opera" sender:view];
 
@@ -206,25 +203,6 @@
 }
 
 
--(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view{
-    
-    SMAnnotation* annotation = (SMAnnotation *)view.annotation;
-    
-    if ([annotation isKindOfClass:[MKUserLocation class]])return;
-    AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:annotation.imageUrl] success:^(UIImage *image) {
-        [annotation setImage:image];
-        
-    }];
-    NSOperationQueue* queue = [[NSOperationQueue alloc] init];
-    [queue addOperation:imageOperation];
-    
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"content", @"command",annotation.IdOpera,@"IdOpera", nil]
-                               onCompletion:^(NSDictionary *json) {
-                                   
-                                   annotation.chunkDescription = [NSArray arrayWithArray:[json objectForKey:@"result"]];
-                               }];
-}
-
 #pragma mark -
 #pragma mark ===  Opere Caricate  ===
 #pragma mark -
@@ -232,10 +210,8 @@
 
 -(void)opereCaricate:(NSArray *)artworks{
             
-    for (int index = 0; index < [artworks count]; index++) {
-        
-        id object = [artworks objectAtIndex:index];
-                
+    for (NSDictionary* object in artworks) {
+                        
         CLLocationDegrees latitude =  [[object valueForKey:@"latitude"]  doubleValue];
         CLLocationDegrees longitude = [[object valueForKey:@"longitude"]  doubleValue];
         
@@ -248,7 +224,7 @@
         
         annotation.title = [object objectForKey:@"Nome"];
         
-        NSURL* imageUrl = [NSURL URLWithString:[object objectForKey:@"Foto"]];
+        NSString* imageUrl = [object objectForKey:@"Foto"];
                                       
         annotation.imageUrl = imageUrl;
         
@@ -291,24 +267,18 @@
     
     if ([@"Opera" compare:segue.identifier] == NSOrderedSame) {
         
-    MKAnnotationView* annotationView = (MKAnnotationView *)sender;
+        MKAnnotationView* annotationView = (MKAnnotationView *)sender;
     
-    SMAnnotation* annotation = (SMAnnotation *)annotationView.annotation;
+        SMAnnotation* annotation = (SMAnnotation *)annotationView.annotation;
     
-    ArtWork* artWork = [[ArtWork alloc] init];
+        ArtWork* artWork = [[ArtWork alloc] init];
     
-    [artWork setDescription:annotation.description];
-    [artWork setTitle:annotation.title];
-    [artWork setIdOpera:annotation.IdOpera];
-    [artWork setImage:annotation.image];
+        [artWork setTitle:annotation.title];
+        [artWork setIdOpera:annotation.IdOpera];
+        [artWork setImageUrl:annotation.imageUrl];
+     
+        [[API sharedInstance] setTemporaryArtWork:artWork];
     
-    OperaViewController* viewController = [segue destinationViewController];
-    
-    viewController.artWork = [[ArtWork alloc] init];
-        
-    [viewController setArtWork:artWork];
-    
-    [viewController setDescription:annotation.chunkDescription];
     }
 }
 

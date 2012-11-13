@@ -10,6 +10,6 @@
 
 @implementation ArtWork
 
-@synthesize image, title, description, IdOpera;
+@synthesize imageUrl, title, description, IdOpera;
 
 @end

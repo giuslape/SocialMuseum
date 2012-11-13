@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-@class MGScrollView, MGBox;
+@class MGScrollView;
 
-@interface ProfileViewController : UIViewController <UIScrollViewDelegate>
+@interface ProfileViewController : UIViewController
 
 @property (nonatomic, weak) IBOutlet MGScrollView *scroller;
 @property (strong, nonatomic) UILabel *userNameLabel;

@@ -8,19 +8,12 @@
 
 
 #import <UIKit/UIKit.h>
-#import "ArtWork.h"
+
+@class MGScrollView;
+
+@interface OperaViewController : UIViewController
 
 
-@interface OperaViewController : UIViewController <UITableViewDataSource , UITableViewDelegate>
-
-@property (weak, nonatomic) IBOutlet UIView *photoView;
-
-@property (readwrite, copy, nonatomic) ArtWork *artWork; 
-
-@property (weak, nonatomic) IBOutlet UIImageView *artworkImage;
-
-@property (nonatomic, strong) NSArray* description; 
-
-- (IBAction)singleTapHandler:(UITapGestureRecognizer *)sender;
+@property (weak, nonatomic) IBOutlet MGScrollView *scroller;
 
 @end

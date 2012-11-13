@@ -11,6 +11,21 @@
 #import "API.h"
 #import "ChunkViewController.h"
 #import "UpdateViewController.h"
+#import "ArtWork.h"
+#import "MGScrollView.h"
+#import "MGTableBoxStyled.h"
+#import "MGLine.h"
+#import "PhotoBox.h"
+#import "MBProgressHUD.h"
+
+#define IPHONE_TABLES_GRID     (CGSize){320, 0}
+#define IPHONE_PORTRAIT_PHOTO  (CGSize){288, 136}
+
+#define ROW_IMAGE_ARTWORK      (CGSize){304, 152}
+
+
+#define LINE_FONT            [UIFont fontWithName:@"HelveticaNeue" size:12]
+
 
 @interface OperaViewController ()
 
@@ -22,39 +37,70 @@
 #define kThumb 30
 #define kPad 3
 
-@implementation OperaViewController
+@implementation OperaViewController{
+    
+    ArtWork* artwork;
+    MGBox *tablesGrid, *tableContent, *tablePhotos, *tableComments;
+    NSArray* chuncks;
+    
+    UIImage* arrow;
+}
 
-@synthesize artworkImage = _artworkImage;
-@synthesize description = _description;
-@synthesize photoView = _photoView;
-@synthesize artWork = _artWork;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    arrow = [UIImage imageNamed:@"arrow.png"];
+    chuncks = [NSArray array];
+    
+    artwork = [[API sharedInstance] temporaryArtWork];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
 
-    self.artworkImage.image = self.artWork.image;
+    self.navigationItem.title = artwork.title;
+    
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [hud setLabelText:@"Loading"];
+    hud.dimBackground = YES;
+
+    self.scroller.contentLayoutMode = MGLayoutTableStyle;
+    self.scroller.bottomPadding = 8;
+    
+    CGSize tablesGridSize =  IPHONE_TABLES_GRID;
+    tablesGrid = [MGBox boxWithSize:tablesGridSize];
+    tablesGrid.contentLayoutMode = MGLayoutGridStyle;
+    [self.scroller.boxes addObject:tablesGrid];
+    
+    tableContent = MGBox.box;
+    [tablesGrid.boxes addObject:tableContent];
+    tableContent.sizingMode = MGResizingShrinkWrap;
+    
+    tableComments = MGBox.box;
+    [tablesGrid.boxes addObject:tableComments];
+    tableComments.sizingMode = MGResizingShrinkWrap;
+    
+    [tablesGrid layout];
+    
+    [self loadArtWorkContent];
 }
 
 
 - (void)viewDidUnload
 {
-    [self setArtworkImage:nil];
-    [self setPhotoView:nil];
+    artwork = nil;
+    [self setScroller:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    
-    self.navigationItem.title = self.artWork.title;
    
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil]
+    /*[[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil]
                                onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		[self showPhotos:[json objectForKey:@"result"]];
         
-        }];
+        }];*/
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -62,65 +108,21 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(void)setArtWork:(ArtWork *)art{
-
-    _artWork = art;
-
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    [self willAnimateRotationToInterfaceOrientation:self.interfaceOrientation
+                                           duration:1];
 }
 
-#pragma mark -
-#pragma mark ===  Table View Delegate  ===
-#pragma mark -
-
-#pragma mark - UITableView Datasource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)orient
+                                         duration:(NSTimeInterval)duration {
+    
+    // relayout the sections
+    [self.scroller layoutWithSpeed:duration completion:nil];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _description.count;
-}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if(cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-        cell.textLabel.font = [UIFont systemFontOfSize:10];
-        cell.textLabel.numberOfLines = 0;
-    }
-        
-    if (indexPath.row < _description.count) {
-        
-        NSDictionary* dictionary = [_description objectAtIndex:indexPath.row];
-        cell.textLabel.text = [dictionary objectForKey:@"testo"];
-        cell.tag = [[dictionary objectForKey:@"IdChunk"] intValue];
-    }
-    return cell;
-}
-
-#pragma mark - UITableView Delegate methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"ShowContent" sender:cell];
-    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSDictionary* dictionary = [_description objectAtIndex:indexPath.row];
-    CGSize size = [[dictionary objectForKey:@"testo"] 
-                   sizeWithFont:[UIFont systemFontOfSize:10] 
-                   constrainedToSize:CGSizeMake(300, CGFLOAT_MAX)];
-    return size.height + 5;
-}
 
 
 
@@ -131,7 +133,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    if ([@"ShowStream" compare:[segue identifier]] == NSOrderedSame) {
+  /*  if ([@"ShowStream" compare:[segue identifier]] == NSOrderedSame) {
         
         StreamScreen* stream = [segue destinationViewController];
         [stream setArtWork:_artWork];
@@ -151,14 +153,10 @@
     if ([@"StreamComment" compare:segue.identifier] == NSOrderedSame) {
         UpdateViewController* update = segue.destinationViewController;
         [update setIdOpera:_artWork.IdOpera];
-    }
+    }*/
     
 }
 
--(void)setDescription:(NSArray *)desc{
-    
-    _description = desc;
-}
 
 
 #pragma mark -
@@ -167,7 +165,7 @@
 
 -(void)showPhotos:(NSArray *)stream{
     
-    for (UIView* view in _photoView.subviews) {
+   /* for (UIView* view in _photoView.subviews) {
         [view removeFromSuperview];
     }
     API* api = [API sharedInstance];
@@ -187,28 +185,55 @@
 		}];
 		NSOperationQueue* queue = [[NSOperationQueue alloc] init];
 		[queue addOperation:imageOperation];
-    }      
+    }     */
 }
 
+#pragma mark -
+#pragma mark ===  Artwork Content  ===
+#pragma mark -
 
-- (IBAction)singleTapHandler:(UITapGestureRecognizer *)sender {
+- (void)loadArtWorkContent{
     
-    CGPoint location = [sender locationInView:self.view];
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"content", @"command",artwork.IdOpera,@"IdOpera", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   if (![json objectForKey:@"error"]) {
+                                       
+                                       chuncks  = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                       [self dataSourceDidLoad];
+                                   }
+                                   
+    }];
+}
+
+- (void)dataSourceDidLoad{
     
-    UIView* hitView = [self.view hitTest:location withEvent:nil];
+    MGTableBoxStyled* art = MGTableBoxStyled.box;
+    [tableContent.boxes addObject:art];
     
-    switch (hitView.tag) {
+    MGLine* line = [MGLine lineWithLeft:[self photoBoxForArtwork:artwork.imageUrl] right:nil size:ROW_IMAGE_ARTWORK];
+    [art.topLines addObject:line];
+    line.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    
+    for (NSDictionary* dict in chuncks) {
         
-        case 1:
-            [self performSegueWithIdentifier:@"ShowStream" sender:self];
-            break;
-        case 2:
-            [self performSegueWithIdentifier:@"StreamComment" sender:self];
-            break;
-        default:
-            //NSLog(@"Default");
-            break;
+        MGLine* chunckLine = [MGLine lineWithMultilineLeft:[dict objectForKey:@"testo"] right:arrow width:304 minHeight:44];
+        [art.topLines addObject:chunckLine];
+        chunckLine.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+        chunckLine.font = LINE_FONT;
+        chunckLine.sidePrecedence = MGSidePrecedenceRight;
     }
     
+    [self.scroller layoutWithSpeed:0.3 completion:nil];
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+
+}
+
+- (PhotoBox *)photoBoxForArtwork:(NSString *)urlImage{
+    
+    PhotoBox* box = [PhotoBox photoArtworkWithUrl:urlImage andSize:IPHONE_PORTRAIT_PHOTO];
+    
+    return box;
 }
 @end

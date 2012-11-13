@@ -9,12 +9,15 @@
 #import "AFHTTPClient.h"
 #import "AFNetworking.h"
 
+@class ArtWork;
+
 typedef void (^JSONResponseBlock)(NSDictionary* json);
 
 @interface API : AFHTTPClient
 
 @property (strong, nonatomic) NSDictionary* user;
 @property (strong, nonatomic) NSDictionary* temporaryUser;
+@property (strong, nonatomic) ArtWork* temporaryArtWork;
 
 +(API*)sharedInstance;
 //check whether there's an authorized user

@@ -101,70 +101,22 @@
                         <rect key="frame" x="0.0" y="44" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleAspectFit" id="bi4-Am-tDK">
-                                <rect key="frame" x="20" y="0.0" width="280" height="165"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <view tag="1" contentMode="scaleToFill" id="52O-wt-T0g">
-                                <rect key="frame" x="0.0" y="165" width="320" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="Btl-QF-3A0" appends="YES" id="zqH-G7-I3i"/>
-                                </connections>
-                            </view>
-                            <view tag="2" contentMode="scaleToFill" id="9xg-Yy-f1u">
-                                <rect key="frame" x="0.0" y="201" width="320" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Aggiornamenti" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="DzR-U1-fv4">
-                                        <rect key="frame" x="57" y="4" width="207" height="27"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <gestureRecognizers/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="jqb-en-ruh" appends="YES" id="bgr-LZ-njR"/>
-                                </connections>
-                            </view>
-                            <tableView clipsSubviews="YES" tag="3" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gVb-g4-f4s">
-                                <rect key="frame" x="0.0" y="237" width="320" height="150"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="eF5-4p-8no" customClass="MGScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="dCz-YK-UWR" id="GlQ-MD-dt0"/>
-                                    <outlet property="delegate" destination="dCz-YK-UWR" id="UaB-6s-eaN"/>
-                                </connections>
-                            </tableView>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="Q7b-0w-AES"/>
                     <connections>
-                        <outlet property="artworkImage" destination="bi4-Am-tDK" id="23Q-JW-q3u"/>
-                        <outlet property="photoView" destination="52O-wt-T0g" id="wuV-b9-P7R"/>
+                        <outlet property="scroller" destination="eF5-4p-8no" id="gJj-xW-9NB"/>
                         <segue destination="uFZ-yn-T5N" kind="push" identifier="ShowContent" id="edF-tU-RZ6"/>
                         <segue destination="mLZ-QK-4Bi" kind="push" identifier="ShowStream" id="aVE-N7-hIb"/>
                         <segue destination="r8b-2k-3Yk" kind="push" identifier="StreamComment" id="KJL-Xb-WmH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhY-g2-WpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="Btl-QF-3A0">
-                    <connections>
-                        <action selector="singleTapHandler:" destination="dCz-YK-UWR" id="sv7-Qz-ti6"/>
-                    </connections>
-                </tapGestureRecognizer>
-                <tapGestureRecognizer id="jqb-en-ruh">
-                    <connections>
-                        <action selector="singleTapHandler:" destination="dCz-YK-UWR" id="SM7-vl-xgt"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1674" y="63"/>
         </scene>
