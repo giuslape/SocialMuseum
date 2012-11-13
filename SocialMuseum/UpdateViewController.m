@@ -21,6 +21,8 @@
 
 #define HEADER_SIZE               (CGSize){304, 44}
 #define ROW_SIZE                  (CGSize){304,60}
+#define FOOTER_SIZE               (CGSize){304, 44}
+
 
 #define IPHONE_TABLES_GRID     (CGSize){320, 0}
 #define IPAD_TABLES_GRID       (CGSize){624, 0}
@@ -105,6 +107,7 @@
 - (void)viewDidUnload
 {
     [self setScroller:nil];
+    //[self.view removeKeyboardControl];
     [super viewDidUnload];
 }
 
@@ -177,6 +180,28 @@
         
         };
     }
+    
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f,
+                                                                           0.0f,
+                                                                           220.0f,
+                                                                           30.0f)];
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    textField.font = HEADER_FONT;
+    textField.placeholder = @"Commenta";
+    
+    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    sendButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [sendButton setTitle:@"Send" forState:UIControlStateNormal];
+    sendButton.frame = CGRectMake(0.0f,
+                                  0.0f,
+                                  58.0f,
+                                  29.0f);
+    
+    MGLine* footer = [MGLine lineWithLeft:textField right:sendButton size:FOOTER_SIZE];
+    [activity.bottomLines addObject:footer];
+    footer.topPadding = footer.leftPadding = footer.rightPadding = 8;
+    //[self layoutKeyboard];
     [tableComments layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
     
@@ -194,6 +219,69 @@
         AddCommentViewController*addCommentViewController =  segue.destinationViewController;
         [addCommentViewController setIdOpera:_IdOpera];
     }
+}
+
+
+#pragma mark -
+#pragma mark ===  Keyboard  ===
+#pragma mark -
+
+- (MGBox *)layoutKeyboard{
+    
+    MGBox* box = [MGBox boxWithSize:FOOTER_SIZE];
+    
+    box.layer.cornerRadius = 20;
+    box.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:box.bounds
+                                                       cornerRadius:10].CGPath;
+    
+    UIToolbar *toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f,
+                                                                     0.0f,
+                                                                     box.size.width,
+                                                                     box.size.height)];
+    
+    toolBar.layer.cornerRadius = 10;
+    toolBar.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:toolBar.bounds
+                                                       cornerRadius:toolBar.layer.cornerRadius].CGPath;
+    
+    toolBar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    [box addSubview:toolBar];
+    
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10.0f,
+                                                                           6.0f,
+                                                                           toolBar.bounds.size.width - 20.0f - 68.0f,
+                                                                           30.0f)];
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [toolBar addSubview:textField];
+    
+    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    sendButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+    [sendButton setTitle:@"Send" forState:UIControlStateNormal];
+    sendButton.frame = CGRectMake(toolBar.bounds.size.width - 68.0f,
+                                  6.0f,
+                                  58.0f,
+                                  29.0f);
+    [toolBar addSubview:sendButton];
+    
+    return box;
+    
+    /*self.view.keyboardTriggerOffset = toolBar.bounds.size.height;
+    
+    
+    [self.view addKeyboardPanningWithActionHandler:^(CGRect keyboardFrameInView) {
+        
+        float gap = (keyboardFrameInView.origin.y > 415) ? 49.0f : 0;
+        
+        CGRect toolBarFrame = toolBar.frame;
+        toolBarFrame.origin.y = keyboardFrameInView.origin.y - toolBarFrame.size.height - gap;
+        toolBar.frame = toolBarFrame;
+        
+        CGRect scrollerFrame = self.scroller.frame;
+        scrollerFrame.size.height = toolBarFrame.origin.y;
+        self.scroller.frame = scrollerFrame;
+    }];*/
+
+    
 }
 
 @end

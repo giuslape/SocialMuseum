@@ -10,7 +10,6 @@
 #import "API.h"
 #import "StreamPhotoScreen.h"
 #import "PhotoScreen.h"
-#import "SMPhotoView.h"
 #import "PullToRefreshView.h"
 #import "MGScrollView.h"
 #import "MGLine.h"

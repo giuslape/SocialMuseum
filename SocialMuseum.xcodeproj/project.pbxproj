@@ -88,14 +88,7 @@
 		208D889715B6C0D90018BE2F /* PhotoScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 208D889515B6C0D90018BE2F /* PhotoScreen.m */; };
 		208D889915B6C0FE0018BE2F /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 208D889815B6C0FE0018BE2F /* CoreImage.framework */; };
 		208EEDDB15C13B96000F5E76 /* ChunkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208EEDDA15C13B96000F5E76 /* ChunkViewController.m */; };
-		208FC32F1610611C00418BB8 /* DynamicGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC32E1610611C00418BB8 /* DynamicGridViewController.m */; };
-		208FC3341610666D00418BB8 /* DynamicGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC3331610666D00418BB8 /* DynamicGridCell.m */; };
-		208FC337161068E900418BB8 /* RowInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC336161068E800418BB8 /* RowInfo.m */; };
-		208FC33A16106FA200418BB8 /* StreamScreen+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC33916106FA100418BB8 /* StreamScreen+Private.m */; };
 		208FC33D1610713C00418BB8 /* placeholder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 208FC33C1610713C00418BB8 /* placeholder2.png */; };
-		208FC39E16109F0900418BB8 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC39D16109F0900418BB8 /* CollectionViewCell.m */; };
-		208FC3A11610A18C00418BB8 /* CollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC3A01610A18C00418BB8 /* CollectionView.m */; };
-		208FC3A41610A96600418BB8 /* SMPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 208FC3A31610A96500418BB8 /* SMPhotoView.m */; };
 		20BD117D14A0A7C200B0F775 /* 1Star.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116514A0A7C200B0F775 /* 1Star.png */; };
 		20BD117E14A0A7C200B0F775 /* 1Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116614A0A7C200B0F775 /* 1Star@2x.png */; };
 		20BD117F14A0A7C200B0F775 /* 1StarSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 20BD116714A0A7C200B0F775 /* 1StarSmall.png */; };
@@ -125,6 +118,7 @@
 		20C850741557D67F0065FB75 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C850731557D67F0065FB75 /* LocationViewController.m */; };
 		20C850791557E00E0065FB75 /* SMAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C850781557E00E0065FB75 /* SMAnnotation.m */; };
 		20E120A4149F8B3400AFEADC /* MoodViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E120A3149F8B3400AFEADC /* MoodViewController.m */; };
+		20E1DC6516516D4A005E3D02 /* texture.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 20E1DC6416516D4A005E3D02 /* texture.jpg */; };
 		20E6A581156CD76900D4F202 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E6A580156CD76900D4F202 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		20E6A583156CD7A700D4F202 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E6A582156CD7A700D4F202 /* CFNetwork.framework */; };
 		20E6A585156CD7B600D4F202 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E6A584156CD7B600D4F202 /* SystemConfiguration.framework */; };
@@ -287,22 +281,7 @@
 		208D889815B6C0FE0018BE2F /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		208EEDD915C13B96000F5E76 /* ChunkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChunkViewController.h; sourceTree = "<group>"; };
 		208EEDDA15C13B96000F5E76 /* ChunkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChunkViewController.m; sourceTree = "<group>"; };
-		208FC32D1610611C00418BB8 /* DynamicGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicGridViewController.h; sourceTree = "<group>"; };
-		208FC32E1610611C00418BB8 /* DynamicGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicGridViewController.m; sourceTree = "<group>"; };
-		208FC330161063F100418BB8 /* DynamicGridViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DynamicGridViewDelegate.h; sourceTree = "<group>"; };
-		208FC3321610666D00418BB8 /* DynamicGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicGridCell.h; sourceTree = "<group>"; };
-		208FC3331610666D00418BB8 /* DynamicGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DynamicGridCell.m; sourceTree = "<group>"; };
-		208FC335161068E800418BB8 /* RowInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowInfo.h; sourceTree = "<group>"; };
-		208FC336161068E800418BB8 /* RowInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowInfo.m; sourceTree = "<group>"; };
-		208FC33816106F9F00418BB8 /* StreamScreen+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "StreamScreen+Private.h"; sourceTree = "<group>"; };
-		208FC33916106FA100418BB8 /* StreamScreen+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "StreamScreen+Private.m"; sourceTree = "<group>"; };
 		208FC33C1610713C00418BB8 /* placeholder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder2.png; sourceTree = "<group>"; };
-		208FC39C16109F0900418BB8 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
-		208FC39D16109F0900418BB8 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
-		208FC39F1610A18C00418BB8 /* CollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionView.h; sourceTree = "<group>"; };
-		208FC3A01610A18C00418BB8 /* CollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionView.m; sourceTree = "<group>"; };
-		208FC3A21610A96500418BB8 /* SMPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPhotoView.h; sourceTree = "<group>"; };
-		208FC3A31610A96500418BB8 /* SMPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMPhotoView.m; sourceTree = "<group>"; };
 		20BD116514A0A7C200B0F775 /* 1Star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1Star.png; sourceTree = "<group>"; };
 		20BD116614A0A7C200B0F775 /* 1Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1Star@2x.png"; sourceTree = "<group>"; };
 		20BD116714A0A7C200B0F775 /* 1StarSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1StarSmall.png; sourceTree = "<group>"; };
@@ -336,6 +315,7 @@
 		20C850781557E00E0065FB75 /* SMAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAnnotation.m; sourceTree = "<group>"; };
 		20E120A2149F8B3400AFEADC /* MoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoodViewController.h; sourceTree = "<group>"; };
 		20E120A3149F8B3400AFEADC /* MoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoodViewController.m; sourceTree = "<group>"; };
+		20E1DC6416516D4A005E3D02 /* texture.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = texture.jpg; sourceTree = "<group>"; };
 		20E6A57F156CD76900D4F202 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		20E6A580156CD76900D4F202 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		20E6A582156CD7A700D4F202 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -658,8 +638,6 @@
 			isa = PBXGroup;
 			children = (
 				2040F05016382146000DD7AF /* AFNetworking */,
-				208FC39B16109EC100418BB8 /* CollectionView */,
-				208FC3311610661400418BB8 /* DynamicGrid */,
 				20C850771557E00E0065FB75 /* SMAnnotation.h */,
 				20C850781557E00E0065FB75 /* SMAnnotation.m */,
 				206763E615C98BB300447E72 /* PullToRefreshView.h */,
@@ -681,41 +659,13 @@
 			name = Singleton;
 			sourceTree = "<group>";
 		};
-		208FC3311610661400418BB8 /* DynamicGrid */ = {
-			isa = PBXGroup;
-			children = (
-				208FC33816106F9F00418BB8 /* StreamScreen+Private.h */,
-				208FC33916106FA100418BB8 /* StreamScreen+Private.m */,
-				208FC32D1610611C00418BB8 /* DynamicGridViewController.h */,
-				208FC32E1610611C00418BB8 /* DynamicGridViewController.m */,
-				208FC330161063F100418BB8 /* DynamicGridViewDelegate.h */,
-				208FC3321610666D00418BB8 /* DynamicGridCell.h */,
-				208FC3331610666D00418BB8 /* DynamicGridCell.m */,
-				208FC335161068E800418BB8 /* RowInfo.h */,
-				208FC336161068E800418BB8 /* RowInfo.m */,
-			);
-			name = DynamicGrid;
-			sourceTree = "<group>";
-		};
 		208FC33B1610712F00418BB8 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				20E1DC6416516D4A005E3D02 /* texture.jpg */,
 				208FC33C1610713C00418BB8 /* placeholder2.png */,
 			);
 			name = images;
-			sourceTree = "<group>";
-		};
-		208FC39B16109EC100418BB8 /* CollectionView */ = {
-			isa = PBXGroup;
-			children = (
-				208FC39C16109F0900418BB8 /* CollectionViewCell.h */,
-				208FC39D16109F0900418BB8 /* CollectionViewCell.m */,
-				208FC39F1610A18C00418BB8 /* CollectionView.h */,
-				208FC3A01610A18C00418BB8 /* CollectionView.m */,
-				208FC3A21610A96500418BB8 /* SMPhotoView.h */,
-				208FC3A31610A96500418BB8 /* SMPhotoView.m */,
-			);
-			name = CollectionView;
 			sourceTree = "<group>";
 		};
 		20BD116414A0A7B100B0F775 /* Mood */ = {
@@ -884,6 +834,7 @@
 				200328D3161722E200816758 /* Default-568h@2x.png in Resources */,
 				204387931619922C00A1A7B3 /* FacebookSDKResources.bundle in Resources */,
 				205D9106162ACBE500F65CF0 /* consigli.png in Resources */,
+				20E1DC6516516D4A005E3D02 /* texture.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,13 +894,6 @@
 				206763E815C98BB400447E72 /* PullToRefreshView.m in Sources */,
 				20304B3615F9EE920079FF13 /* LoginViewController.m in Sources */,
 				202B8BC61602269E008CF5EE /* ProfileViewController.m in Sources */,
-				208FC32F1610611C00418BB8 /* DynamicGridViewController.m in Sources */,
-				208FC3341610666D00418BB8 /* DynamicGridCell.m in Sources */,
-				208FC337161068E900418BB8 /* RowInfo.m in Sources */,
-				208FC33A16106FA200418BB8 /* StreamScreen+Private.m in Sources */,
-				208FC39E16109F0900418BB8 /* CollectionViewCell.m in Sources */,
-				208FC3A11610A18C00418BB8 /* CollectionView.m in Sources */,
-				208FC3A41610A96600418BB8 /* SMPhotoView.m in Sources */,
 				2040F04116354A7B000DD7AF /* NSObject+MGEvents.m in Sources */,
 				2040F04216354A7B000DD7AF /* UIControl+MGEvents.m in Sources */,
 				2040F04316354A7B000DD7AF /* UIResponder+FirstResponder.m in Sources */,

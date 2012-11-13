@@ -8,7 +8,6 @@
 
 #import "ProfileViewController.h"
 #import "API.h"
-#import "SMPhotoView.h"
 #import "MGScrollView.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
@@ -49,6 +48,7 @@
     
     NSDictionary* user = (isMe) ? [api user] : [api temporaryUser];
     
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
         idUser = [user objectForKey:@"IdUser"];
         fbId   = ([user objectForKey:@"FBId"] != [NSNull null]) ? [user objectForKey:@"FBId"] : nil;
         userName = [user objectForKey:@"username"];

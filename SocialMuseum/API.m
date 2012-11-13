@@ -58,7 +58,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
 
 -(BOOL)isMe{
     
-    return ([[user objectForKey:@"IdUser"] intValue] == [[temporaryUser objectForKey:@"IdUser"] intValue]);
+    return ([[user objectForKey:@"IdUser"] intValue] != [[temporaryUser objectForKey:@"IdUser"] intValue]);
     
 }
 
