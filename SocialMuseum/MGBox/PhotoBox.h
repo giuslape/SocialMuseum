@@ -19,6 +19,6 @@
 
 + (PhotoBox *)artWorkStreamWithPhotoId:(NSNumber *)idPhoto andSize:(CGSize)size;
 
--(void)loadPhoto;
+-(void)loadPhotoWithInset:(UIEdgeInsets)padding;
 
 @end

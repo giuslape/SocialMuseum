@@ -8,10 +8,12 @@
 
 
 #import <UIKit/UIKit.h>
+#import "AddContentViewController.h"
 
 @class MGScrollView;
 
-@interface OperaViewController : UIViewController
+
+@interface OperaViewController : UIViewController <AddContentDelegate>
 
 
 @property (weak, nonatomic) IBOutlet MGScrollView *scroller;

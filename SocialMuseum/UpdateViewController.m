@@ -155,13 +155,13 @@
         
         MGLine* line = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}] right:nil];
         
-        [line.leftItems addObject:[NSString stringWithFormat:@"%@ \n %@",username, commentText]];
+        [line.leftItems addObject:[NSString stringWithFormat:@"%@ \n%@",username, commentText]];
         [line.rightItems addObject:[NSString determingTemporalDifferencesFromNowtoStartDate:datetime]];
         
         line.font = HEADER_FONT;
         line.middleFont = HEADER_FONT;
         line.rightFont = RIGHT_FONT;
-        line.padding = UIEdgeInsetsMake(4, 4, 4, 4);
+        line.padding = UIEdgeInsetsMake(4, 0, 4, 4);
         line.itemPadding = 8;
         line.minHeight = 60;
         

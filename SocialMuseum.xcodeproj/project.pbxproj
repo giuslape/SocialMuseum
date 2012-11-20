@@ -18,6 +18,9 @@
 		202B8BC61602269E008CF5EE /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202B8BC51602269E008CF5EE /* ProfileViewController.m */; };
 		202B8BC816023816008CF5EE /* select-location.png in Resources */ = {isa = PBXBuildFile; fileRef = 202B8BC716023815008CF5EE /* select-location.png */; };
 		20304B3615F9EE920079FF13 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20304B3515F9EE920079FF13 /* LoginViewController.m */; };
+		20311C481653FA0F004604A5 /* AddContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20311C471653FA0F004604A5 /* AddContentViewController.m */; };
+		20401CC9165A4D7F0092EA9D /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = 20401CC8165A4D7F0092EA9D /* camera.png */; };
+		20401CCC165A645C0092EA9D /* camera_sel.png in Resources */ = {isa = PBXBuildFile; fileRef = 20401CCB165A645C0092EA9D /* camera_sel.png */; };
 		2040F04116354A7B000DD7AF /* NSObject+MGEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 2040F02816354A7B000DD7AF /* NSObject+MGEvents.m */; };
 		2040F04216354A7B000DD7AF /* UIControl+MGEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 2040F02A16354A7B000DD7AF /* UIControl+MGEvents.m */; };
 		2040F04316354A7B000DD7AF /* UIResponder+FirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 2040F02C16354A7B000DD7AF /* UIResponder+FirstResponder.m */; };
@@ -81,6 +84,7 @@
 		2058DC3E14975AF300E3B0B1 /* SocialMuseumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2058DC3D14975AF300E3B0B1 /* SocialMuseumTests.m */; };
 		205D9106162ACBE500F65CF0 /* consigli.png in Resources */ = {isa = PBXBuildFile; fileRef = 205D9105162ACBE500F65CF0 /* consigli.png */; };
 		206763E815C98BB400447E72 /* PullToRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 206763E715C98BB300447E72 /* PullToRefreshView.m */; };
+		207387FA165B979D0031A1B4 /* 37x-Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 207387F9165B979D0031A1B4 /* 37x-Checkmark.png */; };
 		207EE7F415C03E440085F153 /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F315C03E440085F153 /* location@2x.png */; };
 		207EE7F715C03F020085F153 /* location.png in Resources */ = {isa = PBXBuildFile; fileRef = 207EE7F615C03F020085F153 /* location.png */; };
 		208D888815B6BBC90018BE2F /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 208D888715B6BBC90018BE2F /* placeholder.png */; };
@@ -158,6 +162,10 @@
 		202B8BC716023815008CF5EE /* select-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "select-location.png"; sourceTree = "<group>"; };
 		20304B3415F9EE920079FF13 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		20304B3515F9EE920079FF13 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		20311C461653FA0F004604A5 /* AddContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddContentViewController.h; sourceTree = "<group>"; };
+		20311C471653FA0F004604A5 /* AddContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddContentViewController.m; sourceTree = "<group>"; };
+		20401CC8165A4D7F0092EA9D /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
+		20401CCB165A645C0092EA9D /* camera_sel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_sel.png; sourceTree = "<group>"; };
 		2040F02716354A7B000DD7AF /* NSObject+MGEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MGEvents.h"; sourceTree = "<group>"; };
 		2040F02816354A7B000DD7AF /* NSObject+MGEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MGEvents.m"; sourceTree = "<group>"; };
 		2040F02916354A7B000DD7AF /* UIControl+MGEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+MGEvents.h"; sourceTree = "<group>"; };
@@ -271,6 +279,7 @@
 		205D9105162ACBE500F65CF0 /* consigli.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = consigli.png; sourceTree = "<group>"; };
 		206763E615C98BB300447E72 /* PullToRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshView.h; sourceTree = "<group>"; };
 		206763E715C98BB300447E72 /* PullToRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullToRefreshView.m; sourceTree = "<group>"; };
+		207387F9165B979D0031A1B4 /* 37x-Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "37x-Checkmark.png"; sourceTree = "<group>"; };
 		207EE7F315C03E440085F153 /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
 		207EE7F615C03F020085F153 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		208D888715B6BBC90018BE2F /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
@@ -634,6 +643,8 @@
 				20C850731557D67F0065FB75 /* LocationViewController.m */,
 				20304B3415F9EE920079FF13 /* LoginViewController.h */,
 				20304B3515F9EE920079FF13 /* LoginViewController.m */,
+				20311C461653FA0F004604A5 /* AddContentViewController.h */,
+				20311C471653FA0F004604A5 /* AddContentViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -715,6 +726,9 @@
 		20E7D4A31497A23D00F68D1D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				207387F9165B979D0031A1B4 /* 37x-Checkmark.png */,
+				20401CCB165A645C0092EA9D /* camera_sel.png */,
+				20401CC8165A4D7F0092EA9D /* camera.png */,
 				20126CA21652996B00CCBAE5 /* arrow.png */,
 				20126CA31652996B00CCBAE5 /* arrow@2x.png */,
 				205D9105162ACBE500F65CF0 /* consigli.png */,
@@ -843,6 +857,9 @@
 				20E1DC6516516D4A005E3D02 /* texture.jpg in Resources */,
 				20126CA41652996B00CCBAE5 /* arrow.png in Resources */,
 				20126CA51652996B00CCBAE5 /* arrow@2x.png in Resources */,
+				20401CC9165A4D7F0092EA9D /* camera.png in Resources */,
+				20401CCC165A645C0092EA9D /* camera_sel.png in Resources */,
+				207387FA165B979D0031A1B4 /* 37x-Checkmark.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -938,6 +955,7 @@
 				2040F09416382146000DD7AF /* SBJsonWriter.m in Sources */,
 				2040F09516382146000DD7AF /* UIImageView+AFNetworking.m in Sources */,
 				2021FCE8164A9DD900DEA17A /* NSString+Date.m in Sources */,
+				20311C481653FA0F004604A5 /* AddContentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

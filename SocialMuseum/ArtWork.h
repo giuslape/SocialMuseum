@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ArtWork : NSObject
+@interface ArtWork : NSObject <NSCopying>
 
 @property (strong, nonatomic, readwrite) NSString* title;
 @property (strong, nonatomic, readwrite) NSString* description;

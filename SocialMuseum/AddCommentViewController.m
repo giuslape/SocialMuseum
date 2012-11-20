@@ -68,10 +68,7 @@
 			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
 			NSString* errorMsg = [json objectForKey:@"error"];
 			[UIAlertView error:errorMsg];
-			if ([@"Authorization required" compare:errorMsg]==NSOrderedSame) {
-				[self performSegueWithIdentifier:@"ShowLogin" sender:nil];
-			}
-		}
+        }
 	}];
     
 }

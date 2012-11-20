@@ -17,14 +17,27 @@
 #import "MGLine.h"
 #import "PhotoBox.h"
 #import "MBProgressHUD.h"
-
-#define IPHONE_TABLES_GRID     (CGSize){320, 0}
-#define IPHONE_PORTRAIT_PHOTO  (CGSize){288, 136}
-
-#define ROW_IMAGE_ARTWORK      (CGSize){304, 152}
+#import <FacebookSDK/FacebookSDK.h>
+#import "NSString+Date.h"
+#import "AddContentViewController.h"
 
 
-#define LINE_FONT            [UIFont fontWithName:@"HelveticaNeue" size:12]
+#define IPHONE_TABLES_GRID          (CGSize){320, 0}
+#define IPHONE_PORTRAIT_ARTWORK     (CGSize){288, 136}
+#define IPHONE_PORTRAIT_GRID        (CGSize){312, 0}
+#define IPHONE_PORTRAIT_PHOTO       (CGSize){53, 53}
+
+
+#define ROW_IMAGE_ARTWORK           (CGSize){304, 152}
+#define ROW_SIZE                    (CGSize){304, 44} 
+#define ROW_STREAM_FOTO_SIZE        (CGSize){304, 68}
+#define FOOTER_SIZE                 (CGSize){304,35}
+
+
+#define LINE_FONT               [UIFont fontWithName:@"HelveticaNeue" size:12]
+#define HEADER_FONT             [UIFont fontWithName:@"HelveticaNeue" size:14]
+#define RIGHT_FONT              [UIFont fontWithName:@"HelveticaNeue" size:10]
+
 
 
 @interface OperaViewController ()
@@ -40,10 +53,14 @@
 @implementation OperaViewController{
     
     ArtWork* artwork;
-    MGBox *tablesGrid, *tableContent, *tablePhotos, *tableComments;
+    MGBox *tablesGrid, *tableContent, *photosGrid, *tableComments;
     NSArray* chuncks;
-    
+    NSArray* comments;
+    NSArray* photos;
     UIImage* arrow;
+    
+    bool isNewComment;
+    bool isNewPhoto;
 }
 
 
@@ -51,8 +68,13 @@
 {
     [super viewDidLoad];
     
+    isNewComment = false;
+    isNewPhoto = false;
+    
     arrow = [UIImage imageNamed:@"arrow.png"];
     chuncks = [NSArray array];
+    comments = [NSArray array];
+    photos   = [NSArray array];
     
     artwork = [[API sharedInstance] temporaryArtWork];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
@@ -79,15 +101,23 @@
     [tablesGrid.boxes addObject:tableComments];
     tableComments.sizingMode = MGResizingShrinkWrap;
     
+    photosGrid = [MGBox boxWithSize:IPHONE_PORTRAIT_GRID];
+    photosGrid.contentLayoutMode = MGLayoutGridStyle;
+    [self.scroller.boxes addObject:photosGrid];
+    
     [tablesGrid layout];
     
     [self loadArtWorkContent];
+    [self loadComments];
+    [self loadThumbPhotos];
 }
 
 
 - (void)viewDidUnload
 {
     artwork = nil;
+    comments = nil;
+    chuncks = nil;
     [self setScroller:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -122,10 +152,6 @@
     [self.scroller layoutWithSpeed:duration completion:nil];
 }
 
-
-
-
-
 #pragma mark -
 #pragma mark ===  Storyboard  ===
 #pragma mark -
@@ -154,6 +180,13 @@
         UpdateViewController* update = segue.destinationViewController;
         [update setIdOpera:_artWork.IdOpera];
     }*/
+    
+    if ([@"AddContent" compare:[segue identifier]] == NSOrderedSame) {
+        
+        AddContentViewController* contentViewController = segue.destinationViewController;
+        contentViewController.artWork = [artwork copy];
+        contentViewController.delegate = self;
+    }
     
 }
 
@@ -200,18 +233,18 @@
                                    if (![json objectForKey:@"error"]) {
                                        
                                        chuncks  = [NSArray arrayWithArray:[json objectForKey:@"result"]];
-                                       [self dataSourceDidLoad];
+                                       [self chunckDidLoad];
                                    }
                                    
     }];
 }
 
-- (void)dataSourceDidLoad{
+- (void)chunckDidLoad{
     
     MGTableBoxStyled* art = MGTableBoxStyled.box;
     [tableContent.boxes addObject:art];
     
-    MGLine* line = [MGLine lineWithLeft:[self photoBoxForArtwork:artwork.imageUrl] right:nil size:ROW_IMAGE_ARTWORK];
+    MGLine* line = [MGLine lineWithLeft:[self photoBoxForArtwork:artwork.imageUrl andSize:IPHONE_PORTRAIT_ARTWORK] right:nil size:ROW_IMAGE_ARTWORK];
     [art.topLines addObject:line];
     line.padding = UIEdgeInsetsMake(8, 8, 8, 8);
     
@@ -224,16 +257,216 @@
         chunckLine.sidePrecedence = MGSidePrecedenceRight;
     }
     
+    
     [self.scroller layoutWithSpeed:0.3 completion:nil];
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 
 }
 
-- (PhotoBox *)photoBoxForArtwork:(NSString *)urlImage{
+- (PhotoBox *)photoBoxForArtwork:(NSString *)urlImage andSize:(CGSize)size{
     
-    PhotoBox* box = [PhotoBox photoArtworkWithUrl:urlImage andSize:IPHONE_PORTRAIT_PHOTO];
+    PhotoBox* box = [PhotoBox photoArtworkWithUrl:urlImage andSize:size];
     
     return box;
 }
+
+#pragma mark -
+#pragma mark ===  Comments  ===
+#pragma mark -
+
+- (void)loadComments{
+    
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",artwork.IdOpera,@"IdOpera",@"YES",@"limit", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   if (![json objectForKey:@"error"] && [[json objectForKey:@"result"]count] > 0) {
+                                       comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                       [self commentsDidLoad];
+                                   }
+                                   else if([json objectForKey:@"error"]){
+                                       [self commentsDidError];
+                                   }
+                               }];
+
+}
+
+- (void)commentsDidLoad{
+    
+    if (tableComments.boxes.count >= 1)
+        [tableComments.boxes removeAllObjects];
+    
+    MGTableBoxStyled* comment = MGTableBoxStyled.box;
+    [tableComments.boxes addObject:comment];
+
+    MGLine* line = [MGLine lineWithLeft:@"Commenti Recenti" right:nil size:ROW_SIZE];
+    line.font = HEADER_FONT;
+    line.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    [comment.topLines addObject:line];
+    
+    for (NSDictionary* dict in comments) {
+        
+        FBProfilePictureView* profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
+        
+        NSString* commentText = [dict objectForKey:@"testo"];
+        NSString* username = [dict objectForKey:@"username"];
+        
+        NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
+        [dict objectForKey:@"FBId"] : [NSNull null];
+        
+        //NSString* datetime = [dict objectForKey:@"datetime"];
+
+        MGLine* commentLine = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:arrow];
+        
+        [commentLine.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username,commentText]];
+
+        commentLine.font = LINE_FONT;
+        commentLine.minHeight = 50;
+        commentLine.padding = UIEdgeInsetsMake(8, 0, 8, 8);
+        commentLine.itemPadding = 8;
+        commentLine.sidePrecedence = MGSidePrecedenceRight;
+        commentLine.rightFont = RIGHT_FONT;
+        commentLine.maxHeight = 60;
+
+        CGSize minSize = [commentText sizeWithFont:LINE_FONT];
+        CGFloat height = minSize.height + commentLine.padding.top + commentLine.padding.bottom;
+        
+        commentLine.size = (CGSize){304,height};
+
+        [comment.topLines addObject:commentLine];
+        
+        profilePictureView.profileID = ([fbId isEqual:[NSNull null]]) ? nil : fbId;
+        
+        if ([dict isEqualToDictionary:[comments objectAtIndex:0]]) {
+            
+            [UIView animateWithDuration:0.2f
+                                  delay:0.5f
+                                options:UIViewAnimationCurveEaseIn
+                             animations:^{
+                                        commentLine.backgroundColor = [UIColor brownColor];
+                                        commentLine.backgroundColor = [UIColor clearColor];
+                             }
+                             completion:nil];
+                [UIView commitAnimations];
+            }
+
+    }
+    
+    MGLine* footer = [MGLine lineWithLeft:nil right:nil size:FOOTER_SIZE];
+    [footer.middleItems addObject:@"Visualizza tutti i Commenti"];
+    footer.sidePrecedence = MGSidePrecedenceMiddle;
+    footer.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    footer.middleFont = HEADER_FONT;
+    footer.middleItemsTextAlignment = NSTextAlignmentCenter;
+    [comment.bottomLines addObject:footer];
+    footer.layer.cornerRadius = 2;
+    footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    
+    
+    [tableComments layout];
+    [self.scroller layoutWithSpeed:0.5f completion:nil];
+    
+    if (isNewComment)[self.scroller scrollToView:comment withMargin:8];
+    isNewComment = false;
+    
+}
+
+- (void)commentsDidError{
+    
+    
+    
+}
+
+
+#pragma mark -
+#pragma mark ===  Photo  ===
+#pragma mark -
+
+- (void)loadThumbPhotos{
+    
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",artwork.IdOpera,@"IdOpera",@"true",@"thumb", nil]
+                               onCompletion:^(NSDictionary *json) {
+                                   //Mostra lo stream
+                                   if (![json objectForKey:@"error"] && [[json objectForKey:@"result"]count] > 0) {
+                                       photos = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                       [self thumbPhotosDidLoad];
+                                   }
+                                   else if([json objectForKey:@"error"]){
+                                       [self thumbPhotosDidError];
+                                   }
+                               }];
+
+}
+
+
+- (void)thumbPhotosDidLoad{
+    
+    MGTableBoxStyled* photosTable = MGTableBoxStyled.box;
+    [photosGrid.boxes addObject:photosTable];
+    
+    MGLine* line = [MGLine lineWithLeft:@"Foto Recenti" right:nil size:ROW_SIZE];
+    line.font = HEADER_FONT;
+    line.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    [photosTable.topLines addObject:line];
+
+    MGLine* streamLine = [MGLine lineWithSize:ROW_STREAM_FOTO_SIZE];
+    [photosTable.topLines addObject:streamLine];
+    streamLine.padding = UIEdgeInsetsMake(8, 0, 16, 16);
+    streamLine.sidePrecedence = MGSidePrecedenceRight;
+    [streamLine.rightItems addObject:arrow];
+    
+    for (NSDictionary* dict in photos) {
+        
+        NSLog(@"%d",[[dict objectForKey:@"IdPhoto"] intValue]);
+        [streamLine.leftItems addObject:[self streamThumbPhotoWithId:[dict objectForKey:@"IdPhoto"] andSize:IPHONE_PORTRAIT_PHOTO]];
+    }
+    MGLine* footer = [MGLine lineWithLeft:nil right:nil size:FOOTER_SIZE];
+    [footer.middleItems addObject:@"Visualizza tutte le Foto"];
+    footer.sidePrecedence = MGSidePrecedenceMiddle;
+    footer.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    footer.middleFont = HEADER_FONT;
+    footer.middleItemsTextAlignment = NSTextAlignmentCenter;
+    [photosTable.bottomLines addObject:footer];
+    footer.layer.cornerRadius = 2;
+    footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    
+    [self.scroller layoutWithSpeed:0.5f completion:nil];
+    
+}
+
+- (void)thumbPhotosDidError{
+    
+    
+}
+
+- (PhotoBox *)streamThumbPhotoWithId:(NSNumber *)idPhoto andSize:(CGSize)size{
+    
+    PhotoBox* box = [PhotoBox artWorkStreamWithPhotoId:idPhoto andSize:size];
+    box.topMargin = 0;
+    
+    return box;
+}
+
+
+#pragma mark -
+#pragma mark ===  Add Content Delegate Methods  ===
+#pragma mark -
+
+- (void)submitCommentDidPressed:(id)sender{
+    
+    NSLog(@"%@",NSStringFromClass([[self presentedViewController] class]));
+    AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
+    [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
+    
+    [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];
+    isNewComment = true;
+    
+    
+}
+
+- (void)submitPhotoDidPressed:(id)sender{
+    
+    
+}
+
 @end

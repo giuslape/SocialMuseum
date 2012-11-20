@@ -12,4 +12,17 @@
 
 @synthesize imageUrl, title, description, IdOpera;
 
+- (id)copyWithZone:(NSZone *)zone{
+    
+    ArtWork* artWork = [[self class] allocWithZone:zone];
+    
+    artWork.imageUrl = self.imageUrl;
+    artWork.title = self.title;
+    artWork.description = self.description;
+    artWork.IdOpera = self.IdOpera;
+    
+    return artWork;
+    
+}
+
 @end

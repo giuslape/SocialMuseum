@@ -106,7 +106,7 @@
     __block id bbox = box;
     box.asyncLayoutOnce = ^{
         
-        [bbox loadPhoto];
+        [bbox loadPhotoWithInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     };
     
     return box;
@@ -178,7 +178,7 @@
     __block id bbox = box;
     box.asyncLayoutOnce = ^{
         
-        [bbox loadPhoto];
+        [bbox loadPhotoWithInset:UIEdgeInsetsMake(2, 2, 2, 2)];
     };
     
     return box;
@@ -226,7 +226,7 @@
 
 #pragma mark - Photo box loading
 
-- (void)loadPhoto {
+- (void)loadPhotoWithInset:(UIEdgeInsets)padding {
     
     //Carica l'img
     API* api = [API sharedInstance];
@@ -242,15 +242,17 @@
         [spinner stopAnimating];
         [spinner removeFromSuperview];
         
+        
+        UIImageView* thumbView = [[UIImageView alloc] initWithImage:image];
+                
         //Crea ImageView e l'aggiunge alla vista
-        UIImageView* thumbView = [[UIImageView alloc] initWithImage: image];
         [self addSubview:thumbView];
         thumbView.size = self.size;
         thumbView.alpha = 0;
         thumbView.autoresizingMask = UIViewAutoresizingFlexibleWidth
         | UIViewAutoresizingFlexibleHeight;
         
-        // fade the image in
+        // fade Immagine
         [UIView animateWithDuration:0.2 animations:^{
             thumbView.alpha = 1;
         }];

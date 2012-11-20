@@ -101,7 +101,8 @@
   for (UIView <MGLayoutBox> *box in self.subviews) {
     if ([box conformsToProtocol:@protocol(MGLayoutBox)] && box.boxLayoutMode
         == MGBoxLayoutFixedPosition) {
-      box.y = box.fixedPosition.y + self.contentOffset.y;
+        box.y = box.fixedPosition.y + self.contentOffset.y;
+        box.x = box.fixedPosition.x;
     }
   }
 }
