@@ -106,7 +106,7 @@
     [self.scroller.boxes addObject:photosGrid];
     
     [tablesGrid layout];
-    
+    [self.scroller layoutWithSpeed:0.3f completion:nil];
     [self loadArtWorkContent];
     [self loadComments];
     [self loadThumbPhotos];
@@ -183,7 +183,8 @@
     
     if ([@"AddContent" compare:[segue identifier]] == NSOrderedSame) {
         
-        AddContentViewController* contentViewController = segue.destinationViewController;
+        UINavigationController* viewController = segue.destinationViewController;
+        AddContentViewController* contentViewController = (AddContentViewController *)viewController.topViewController;
         contentViewController.artWork = [artwork copy];
         contentViewController.delegate = self;
     }
@@ -257,7 +258,7 @@
         chunckLine.sidePrecedence = MGSidePrecedenceRight;
     }
     
-    
+    [tableContent layout];
     [self.scroller layoutWithSpeed:0.3 completion:nil];
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -347,7 +348,7 @@
                                         commentLine.backgroundColor = [UIColor clearColor];
                              }
                              completion:nil];
-                [UIView commitAnimations];
+                //[UIView commitAnimations];
             }
 
     }
@@ -371,11 +372,7 @@
     
 }
 
-- (void)commentsDidError{
-    
-    
-    
-}
+- (void)commentsDidError{}
 
 
 #pragma mark -
@@ -401,6 +398,10 @@
 
 - (void)thumbPhotosDidLoad{
     
+    if (photosGrid.boxes.count >= 1)
+        [photosGrid.boxes removeAllObjects];
+    
+    
     MGTableBoxStyled* photosTable = MGTableBoxStyled.box;
     [photosGrid.boxes addObject:photosTable];
     
@@ -417,8 +418,21 @@
     
     for (NSDictionary* dict in photos) {
         
-        NSLog(@"%d",[[dict objectForKey:@"IdPhoto"] intValue]);
         [streamLine.leftItems addObject:[self streamThumbPhotoWithId:[dict objectForKey:@"IdPhoto"] andSize:IPHONE_PORTRAIT_PHOTO]];
+        
+        if ([dict isEqualToDictionary:[photos objectAtIndex:0]]) {
+            
+            [UIView animateWithDuration:0.2f
+                                  delay:0.5f
+                                options:UIViewAnimationCurveEaseIn
+                             animations:^{
+                                 streamLine.backgroundColor = [UIColor brownColor];
+                                 streamLine.backgroundColor = [UIColor clearColor];
+                             }
+                             completion:nil];
+            //[UIView commitAnimations];
+        }
+        
     }
     MGLine* footer = [MGLine lineWithLeft:nil right:nil size:FOOTER_SIZE];
     [footer.middleItems addObject:@"Visualizza tutte le Foto"];
@@ -430,14 +444,15 @@
     footer.layer.cornerRadius = 2;
     footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
     
+    [photosGrid layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
+    
+    if (isNewPhoto)[self.scroller scrollToView:photosTable withMargin:8];
+    isNewPhoto = false;
     
 }
 
-- (void)thumbPhotosDidError{
-    
-    
-}
+- (void)thumbPhotosDidError{}
 
 - (PhotoBox *)streamThumbPhotoWithId:(NSNumber *)idPhoto andSize:(CGSize)size{
     
@@ -454,7 +469,6 @@
 
 - (void)submitCommentDidPressed:(id)sender{
     
-    NSLog(@"%@",NSStringFromClass([[self presentedViewController] class]));
     AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
     [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
     
@@ -466,7 +480,11 @@
 
 - (void)submitPhotoDidPressed:(id)sender{
     
+    AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
+    [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
     
+    [self performSelector:@selector(loadThumbPhotos) withObject:nil afterDelay:1.6f];
+    isNewPhoto = true;
 }
 
 @end

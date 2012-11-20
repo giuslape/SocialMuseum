@@ -17,8 +17,6 @@
 #import "UIAlertView+error.h"
 #import "MBProgressHUD.h"
 #import "AppDelegate.h"
-#import "UIImage+Resize.h"
-#import "DetailPhotoViewController.h"
 
 #define IPHONE_TABLES_GRID      (CGSize){320, 0}
 
@@ -33,12 +31,6 @@
     MGBox* submitCommentBox, *submitPhotoBox;
     NSString* commentToUpload;
     UITextField* commentTextField;
-    UIImageView* photoToUpload;
-    UIImage* imageToUpload;
-    
-    UIImage* defaultPlaceholder;
-    
-    bool isPhoto;
 }
 
 @synthesize artWork;
@@ -52,10 +44,6 @@
 {
     
     [super viewDidLoad];
-    
-    isPhoto = false;
-    
-    defaultPlaceholder = [UIImage imageNamed:@"camera.png"];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     
@@ -166,9 +154,7 @@
 #pragma mark -
 
 - (void)viewDidUnload {
-    
     [self setScroller:nil];
-    [self setDelegate:nil];
     [super viewDidUnload];
 }
 
@@ -236,31 +222,44 @@
     MGTableBoxStyled* photoSection = MGTableBoxStyled.box;
     [photoBox.boxes addObject:photoSection];
     
-    photoToUpload= [[UIImageView alloc] initWithImage:defaultPlaceholder];
-    photoToUpload.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
-    photoToUpload.size = (CGSize){288,130};
-    photoToUpload.contentMode = UIViewContentModeCenter;
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"camera.png"] highlightedImage:[UIImage imageNamed:@"camera_sel.png"]];
+    imageView.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
+    imageView.size = (CGSize){288,130};
+    imageView.contentMode = UIViewContentModeCenter;
     
-    MGLine* linePhoto = [MGLine lineWithLeft:photoToUpload right:nil size:(CGSize){304,146}];
+    MGLine* linePhoto = [MGLine lineWithLeft:imageView right:nil size:(CGSize){304,146}];
     linePhoto.padding = UIEdgeInsetsMake(8, 8, 8, 8);
     [photoSection.topLines addObject:linePhoto];
-        
+    
+    static bool tap = false;
+    
     linePhoto.onTap = ^{
         
-        if (!isPhoto) {
+        if (!tap) {
+            tap = true;
+            imageView.highlighted = true;
             
-            photoToUpload.highlighted = true;
+        }else{
+            tap = false;
+            imageView.highlighted = false;
+        }
+    };
+    linePhoto.onLongPress = ^{
+        
+        if (!tap) {
+            tap = true;
+            imageView.highlighted = true;
             
             AppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
             
-            UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Chiudi" destructiveButtonTitle:nil otherButtonTitles:@"Scegli dalla libreria", @"Scatta Foto", nil];
+            [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Chiudi" destructiveButtonTitle:nil otherButtonTitles:@"Scegli dalla libreria", @"Scatta Foto", nil]
+             showInView:appDelegate.window.rootViewController.view];
             
-            actionSheet.actionSheetStyle = UIActionSheetStyleBlackOpaque;
-            
-            [actionSheet showInView:appDelegate.window.rootViewController.view];
+        }else{
+            tap = false;
+            imageView.highlighted = false;
         }
-        else [self performSegueWithIdentifier:@"DetailPhoto" sender:nil];
-
+        
     };
     
     [self.scroller layoutWithSpeed:0.5f completion:nil];
@@ -317,112 +316,8 @@
 
 - (void)uploadPhoto{
     
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.dimBackground = YES;
-    hud.labelText = @"Carico la Foto";
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"upload", @"command", UIImageJPEGRepresentation(imageToUpload,70), @"file", @"title", @"title", artWork.IdOpera, @"IdOpera", nil] onCompletion:^(NSDictionary *json) {
-		//Completamento
-		if (![json objectForKey:@"error"]) {
-			//Successo
-			hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-            hud.mode = MBProgressHUDModeCustomView;
-            hud.labelText = @"Completato";
-            [hud hide:YES afterDelay:1];
-            
-            [delegate submitPhotoDidPressed:self];
-            
-		} else {
-			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
-			NSString* errorMsg = [json objectForKey:@"error"];
-			[UIAlertView error:errorMsg];
-            [hud hide:YES afterDelay:1];
-			
-		}
-	}];
-
     
 }
-
-
-#pragma mark -
-#pragma mark ===  Action Sheet Delegate  ===
-#pragma mark -
-
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    switch (buttonIndex) {
-        case 0:
-            [self takePhotoFromSource:UIImagePickerControllerSourceTypePhotoLibrary];
-			break;
-        case 1:
-            [self takePhotoFromSource:UIImagePickerControllerSourceTypeCamera];
-			break;
-    }
-}
-
-
--(void)takePhotoFromSource:(UIImagePickerControllerSourceType)sourceType
-{
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.sourceType = sourceType;
-    imagePickerController.editing = YES;
-    imagePickerController.delegate = (id)self;
-    
-    [self presentModalViewController:imagePickerController animated:YES];
-}
-
-
-#pragma mark -
-#pragma mark ===  UIImage Picker Delegate  ===
-#pragma mark -
-
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
-	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    imageToUpload = image;
-    // Fa il resize dell'img
-	UIImage *scaledImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFill
-                                                       bounds:CGSizeMake(photoToUpload.frame.size.width, photoToUpload.frame.size.height)
-                                         interpolationQuality:kCGInterpolationHigh];
-    // Taglia l'img come un quadrato
-    UIImage *croppedImage = [scaledImage croppedImage:CGRectMake((scaledImage.size.width -photoToUpload.frame.size.width)/2, (scaledImage.size.height -photoToUpload.frame.size.height)/2, photoToUpload.frame.size.width, photoToUpload.frame.size.height)];
-    
-    // Mostra la foto sullo schermo
-    photoToUpload.image = croppedImage;
-    isPhoto = true;
-    [picker dismissModalViewControllerAnimated:NO];
-    
-}
-
--(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissViewControllerAnimated:NO completion:nil];
-}
-
-
-#pragma mark -
-#pragma mark ===  Segue  ===
-#pragma mark -
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    if ([@"DetailPhoto" compare:segue.identifier] == NSOrderedSame) {
-        DetailPhotoViewController* detail = segue.destinationViewController;
-        detail.image = imageToUpload;
-        detail.delegate = self;
-    }
-}
-
-
-#pragma mark -
-#pragma mark ===  Detail Photo Delegate  ===
-#pragma mark -
-
-- (void)deletePhotoDidPressed:(id)sender{
-    
-    photoToUpload.image = defaultPlaceholder;
-    isPhoto = false;
-}
-
 
 @end

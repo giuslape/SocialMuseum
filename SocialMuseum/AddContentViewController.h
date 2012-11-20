@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DetailPhotoViewController.h"
 
 
 @protocol AddContentDelegate <NSObject>
@@ -19,7 +20,7 @@
 @class MGScrollView;
 @class ArtWork;
 
-@interface AddContentViewController : UIViewController <UITextFieldDelegate>
+@interface AddContentViewController : UIViewController <UITextFieldDelegate,UIImagePickerControllerDelegate, UIActionSheetDelegate, DetailPhotoDelegate>
 
 
 @property (weak, nonatomic) IBOutlet MGScrollView *scroller;

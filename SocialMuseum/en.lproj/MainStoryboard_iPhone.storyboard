@@ -10,7 +10,7 @@
             <objects>
                 <viewController wantsFullScreenLayout="YES" id="tHX-LK-o6I" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DQh-dt-aPI">
-                        <rect key="frame" x="0.0" y="44" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="gEP-GP-gam" customClass="MGScrollView">
@@ -35,7 +35,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IL4-6z-JDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1249" y="1899"/>
+            <point key="canvasLocation" x="4009" y="2235"/>
         </scene>
         <!--Location View Controller-->
         <scene sceneID="2On-9h-VCp">
@@ -98,38 +98,69 @@
             <objects>
                 <viewController id="cHX-05-Ie1" customClass="AddContentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9H2-Ge-vUV">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="9u7-4D-dFY">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem systemItem="cancel" id="uDu-js-ZuV">
-                                        <connections>
-                                            <action selector="cancelDidPress:" destination="cHX-05-Ie1" id="eXh-u2-dRX"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="XdC-Vt-AyN" customClass="MGScrollView">
-                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationItem key="navigationItem" id="6Oi-PO-Z5Q">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Yu9-5J-YkB">
+                            <connections>
+                                <action selector="cancelDidPress:" destination="cHX-05-Ie1" id="VwF-ks-5hP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="scroller" destination="XdC-Vt-AyN" id="PIf-DI-TfV"/>
+                        <segue destination="NNj-8K-oeU" kind="push" identifier="DetailPhoto" id="8WV-9w-SU7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4V8-FO-mmT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1674" y="-657"/>
+            <point key="canvasLocation" x="2504" y="-1905"/>
+        </scene>
+        <!--Detail Photo View Controller-->
+        <scene sceneID="JhG-fT-bsZ">
+            <objects>
+                <viewController id="NNj-8K-oeU" customClass="DetailPhotoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="R8f-rH-DDE">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackOpaque" id="yRK-7M-fGu">
+                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem systemItem="trash" id="uqx-wm-ORm">
+                                        <connections>
+                                            <action selector="trashPressed:" destination="NNj-8K-oeU" id="TWZ-ad-Soy"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="thC-Xn-PIw">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pdp-D4-Wgc"/>
+                    <connections>
+                        <outlet property="imageView" destination="thC-Xn-PIw" id="DUb-Ot-TwK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lYa-mi-Ovn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2996" y="-1905"/>
         </scene>
         <!--Opera View Controller-->
         <scene sceneID="Q1m-kt-u6S">
@@ -149,7 +180,7 @@
                     <navigationItem key="navigationItem" id="Q7b-0w-AES">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="qzJ-IN-Luy">
                             <connections>
-                                <segue destination="cHX-05-Ie1" kind="modal" identifier="AddContent" id="yMj-Pb-2iD"/>
+                                <segue destination="Vbq-iO-LPQ" kind="modal" identifier="AddContent" id="yMj-Pb-2iD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -326,7 +357,7 @@
                 </barButtonItem>
                 <barButtonItem title="Stream" id="WQ7-PW-PsX"/>
             </objects>
-            <point key="canvasLocation" x="2218" y="-1080"/>
+            <point key="canvasLocation" x="2744" y="-1080"/>
         </scene>
         <!--Stream Photo Screen-->
         <scene sceneID="F2E-d4-wLV">
@@ -354,7 +385,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2937" y="-596"/>
+            <point key="canvasLocation" x="3463" y="-596"/>
         </scene>
         <!--Photo Screen-->
         <scene sceneID="lK0-lk-Kch">
@@ -398,7 +429,7 @@
                     </connections>
                 </barButtonItem>
             </objects>
-            <point key="canvasLocation" x="3949" y="-1080"/>
+            <point key="canvasLocation" x="4475" y="-1080"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="Tj9-SG-qHP">
@@ -530,6 +561,26 @@
             </objects>
             <point key="canvasLocation" x="714" y="628"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="IhO-Qr-W8U">
+            <objects>
+                <navigationController id="Vbq-iO-LPQ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="fwP-sc-rXG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="cHX-05-Ie1" kind="relationship" relationship="rootViewController" id="Xqv-uj-bdu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BFz-vi-MHf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1674" y="-1913"/>
+        </scene>
     </scenes>
     <resources>
         <image name="location.png" width="20" height="20"/>
@@ -556,6 +607,12 @@
             <relationships>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+            </relationships>
+        </class>
+        <class className="DetailPhotoViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailPhotoViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="LocationViewController" superclassName="UIViewController">
@@ -613,6 +670,12 @@
                 <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>
+        <class className="UpdateViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UpdateViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
+            </relationships>
+        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -620,7 +683,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="hBP-7E-fC3"/>
         <segue reference="eeJ-zZ-CuV"/>
-        <segue reference="erZ-Ij-kGV"/>
     </inferredMetricsTieBreakers>
 </document>
