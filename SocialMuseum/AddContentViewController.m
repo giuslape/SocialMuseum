@@ -288,6 +288,8 @@
     
     commentToUpload = commentTextField.text;
     
+    if (commentToUpload == nil) return;
+    
     [commentTextField resignFirstResponder];
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -317,6 +319,7 @@
 
 - (void)uploadPhoto{
     
+    if (photoToUpload.image == defaultPlaceholder) return;
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.dimBackground = YES;
     hud.labelText = @"Carico la Foto";
