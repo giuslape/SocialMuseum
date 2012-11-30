@@ -16,6 +16,7 @@
 @property (nonatomic, weak) IBOutlet MGScrollView *scroller;
 @property (strong, nonatomic) UILabel *userNameLabel;
 @property (strong, nonatomic) FBProfilePictureView *userProfileImage;
+@property (nonatomic,readwrite) bool hiddenRightButton;
 
 
 - (IBAction)logoutButtonWasPressed:(id)sender;

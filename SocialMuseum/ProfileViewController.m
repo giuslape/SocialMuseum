@@ -37,6 +37,7 @@
 
 @synthesize userNameLabel;
 @synthesize userProfileImage;
+@synthesize hiddenRightButton;
 
 
 - (void)viewDidLoad
@@ -46,11 +47,14 @@
     API* api = [API sharedInstance];
     isMe = [api isMe];
     
+    
+    if(hiddenRightButton) self.navigationItem.rightBarButtonItem = nil;
+    
     NSDictionary* user = (isMe) ? [api user] : [api temporaryUser];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
-        idUser = [user objectForKey:@"IdUser"];
-        fbId   = ([user objectForKey:@"FBId"] != [NSNull null]) ? [user objectForKey:@"FBId"] : nil;
+        idUser   = [user objectForKey:@"IdUser"];
+        fbId     = ([user objectForKey:@"FBId"] != [NSNull null]) ? [user objectForKey:@"FBId"] : nil;
         userName = [user objectForKey:@"username"];
     
     streamUser = [[NSMutableArray alloc] initWithCapacity:0];
@@ -234,6 +238,7 @@
     
     [super viewDidUnload];
     self.scroller = nil;
+    hiddenRightButton = false;
 }
 
 

@@ -13,6 +13,7 @@
 		200E136F149F88B300780689 /* Mood.m in Sources */ = {isa = PBXBuildFile; fileRef = 200E136E149F88B300780689 /* Mood.m */; };
 		20126CA41652996B00CCBAE5 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 20126CA21652996B00CCBAE5 /* arrow.png */; };
 		20126CA51652996B00CCBAE5 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 20126CA31652996B00CCBAE5 /* arrow@2x.png */; };
+		2016FDB7166525B60043D6DC /* DetailCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2016FDB6166525B60043D6DC /* DetailCommentViewController.m */; };
 		2021FCE8164A9DD900DEA17A /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 2021FCE7164A9DD900DEA17A /* NSString+Date.m */; };
 		202208C9149A56D200686C86 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 202208C8149A56D200686C86 /* libz.dylib */; };
 		202B8BC61602269E008CF5EE /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 202B8BC51602269E008CF5EE /* ProfileViewController.m */; };
@@ -155,6 +156,8 @@
 		200E136E149F88B300780689 /* Mood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Mood.m; sourceTree = "<group>"; };
 		20126CA21652996B00CCBAE5 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		20126CA31652996B00CCBAE5 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
+		2016FDB5166525B60043D6DC /* DetailCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCommentViewController.h; sourceTree = "<group>"; };
+		2016FDB6166525B60043D6DC /* DetailCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCommentViewController.m; sourceTree = "<group>"; };
 		2021FCE6164A9DD900DEA17A /* NSString+Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Date.h"; sourceTree = "<group>"; };
 		2021FCE7164A9DD900DEA17A /* NSString+Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Date.m"; sourceTree = "<group>"; };
 		202208C8149A56D200686C86 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -650,6 +653,8 @@
 				20311C471653FA0F004604A5 /* AddContentViewController.m */,
 				20738800165BDE090031A1B4 /* DetailPhotoViewController.h */,
 				20738801165BDE0A0031A1B4 /* DetailPhotoViewController.m */,
+				2016FDB5166525B60043D6DC /* DetailCommentViewController.h */,
+				2016FDB6166525B60043D6DC /* DetailCommentViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -962,6 +967,7 @@
 				2021FCE8164A9DD900DEA17A /* NSString+Date.m in Sources */,
 				20311C481653FA0F004604A5 /* AddContentViewController.m in Sources */,
 				20738802165BDE0B0031A1B4 /* DetailPhotoViewController.m in Sources */,
+				2016FDB7166525B60043D6DC /* DetailCommentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1080,6 +1086,7 @@
 				OTHER_LDFLAGS = "-lsqlite3.0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1100,6 +1107,7 @@
 				OTHER_LDFLAGS = "-lsqlite3.0";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				RUN_CLANG_STATIC_ANALYZER = YES;
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

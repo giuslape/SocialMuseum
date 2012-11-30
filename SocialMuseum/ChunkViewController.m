@@ -115,14 +115,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"AddComment"])
-    {        
-        AddCommentViewController*addCommentViewController = segue.destinationViewController;
-        [addCommentViewController setIdChunk:_IdChunk];
-        [addCommentViewController setIdOpera:_IdOpera];
-        
-       // addCommentViewController.delegate = self;
-    }
+    
 }
 
 

@@ -15,7 +15,7 @@
     bool phone;
 }
 
-@property (nonatomic, copy, readwrite) ArtWork* artWork;
+@property (nonatomic, strong) ArtWork* artWork;
 @property (nonatomic, weak) IBOutlet   MGScrollView *scroller;
 
 @end

@@ -15,6 +15,8 @@
 #import "PhotoBox.h"
 #import "ProfileViewController.h"
 #import "NSString+Date.h"
+#import "ArtWork.h"
+#import "ProfileViewController.h"
 
 #define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:10]
 #define ROW_SIZE               (CGSize){self.view.bounds.size.width, 44}
@@ -23,12 +25,16 @@
 @implementation StreamPhotoScreen{
     MGBox* footerBox;
     FBProfilePictureView* profilePictureView;
+    
+    NSDictionary* photoDetails;
 }
-
-@synthesize IdPhoto, artWorkName, datetime;
 
 
 -(void)viewDidLoad {
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
+    
+    photoDetails = [[API sharedInstance] temporaryPhoto];
     
     profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
     [self waitingForLoadPhoto];
@@ -38,7 +44,6 @@
     footerBox = [MGBox boxWithSize:ROW_SIZE];
     [self.view addSubview:footerBox];
     footerBox.origin = (CGPoint){0,self.view.bounds.origin.y + photoView.size.height};
-    footerBox.backgroundColor = [UIColor blueColor];
     
     [self loadPhotoDetails];
     
@@ -46,7 +51,6 @@
     
     id block = self;
     footerBox.onTap = ^{
-    
         [block performSegueWithIdentifier:@"ShowProfile" sender:nil];
     };
 }
@@ -71,19 +75,23 @@
     [footerBox.boxes addObject:table];
     table.leftMargin = table.topMargin = 0;
     
-    MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,42}];
+    MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,48}];
     [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}]];
     
     NSString* username = [[[API sharedInstance] temporaryUser] objectForKey:@"username"];
-    line.multilineMiddle = [NSString stringWithFormat:@"%@ \n scattata nei pressi di %@",username, artWorkName];
+    NSString* artWorkName = [[API sharedInstance] temporaryArtWork].title;
+    
+    [line.leftItems addObject:[NSString stringWithFormat:@"%@ \nscattata nei pressi di %@",username,artWorkName]];
+     
+    NSString* datetime = [photoDetails objectForKey:@"datetime"];
     
     NSString* temporalDifferences = [NSString determingTemporalDifferencesFromNowtoStartDate:datetime];
-    line.multilineRight = temporalDifferences;
+    [line.rightItems addObject:temporalDifferences];
     line.rightFont = HEADER_FONT;
-    line.middleItemsTextAlignment = UITextAlignmentLeft;
     line.sidePrecedence = MGSidePrecedenceRight;
     
-    line.leftPadding = line.topPadding = line.rightPadding = 4;
+    line.topPadding  = 8;
+    line.itemPadding = 8;
     [table.topLines addObject:line];
     line.font = HEADER_FONT;
     
@@ -114,7 +122,7 @@
         //Carica l'img
         API* api = [API sharedInstance];
         
-        NSURL* imageURL = [api urlForImageWithId:IdPhoto isThumb:NO];
+        NSURL* imageURL = [api urlForImageWithId:[photoDetails objectForKey:@"IdPhoto"] isThumb:NO];
         
         AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
             
@@ -139,5 +147,14 @@
     
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([@"ShowProfile" compare:segue.identifier] == NSOrderedSame) {
+        
+        ProfileViewController* profile = segue.destinationViewController;
+        profile.hiddenRightButton = YES;
+    }
+    
+}
 
 @end

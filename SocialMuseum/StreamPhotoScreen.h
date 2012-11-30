@@ -15,8 +15,4 @@
     IBOutlet UIImageView* photoView;
 }
 
-@property (copy, nonatomic, readwrite) NSNumber* IdPhoto;
-@property (copy, nonatomic, readwrite) NSString* artWorkName;
-@property (copy, nonatomic, readwrite) NSString* datetime;
-
 @end

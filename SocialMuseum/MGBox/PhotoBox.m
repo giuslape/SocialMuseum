@@ -233,7 +233,7 @@
     
     NSInteger IdPhoto = self.tag;
     
-    NSURL* imageURL = [api urlForImageWithId:[NSNumber numberWithInteger:IdPhoto] isThumb:YES];
+    NSURL* imageURL = [api urlForImageWithId:[NSNumber numberWithInteger:IdPhoto] isThumb:NO];
     
     AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
         
@@ -242,8 +242,11 @@
         [spinner stopAnimating];
         [spinner removeFromSuperview];
         
+        UIImage* scaledImage = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFill
+                                    bounds:self.size
+                      interpolationQuality:kCGInterpolationHigh];
         
-        UIImageView* thumbView = [[UIImageView alloc] initWithImage:image];
+        UIImageView* thumbView = [[UIImageView alloc] initWithImage:scaledImage];
                 
         //Crea ImageView e l'aggiunge alla vista
         [self addSubview:thumbView];

@@ -10,11 +10,11 @@
             <objects>
                 <viewController wantsFullScreenLayout="YES" id="tHX-LK-o6I" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DQh-dt-aPI">
-                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <rect key="frame" x="0.0" y="44" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="gEP-GP-gam" customClass="MGScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </scrollView>
@@ -28,14 +28,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="scroller" destination="gEP-GP-gam" id="oyf-Qe-xWn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IL4-6z-JDM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4009" y="2235"/>
+            <point key="canvasLocation" x="4921" y="1291"/>
         </scene>
         <!--Location View Controller-->
         <scene sceneID="2On-9h-VCp">
@@ -189,6 +188,7 @@
                         <segue destination="uFZ-yn-T5N" kind="push" identifier="ShowContent" id="edF-tU-RZ6"/>
                         <segue destination="mLZ-QK-4Bi" kind="push" identifier="ShowStream" id="aVE-N7-hIb"/>
                         <segue destination="r8b-2k-3Yk" kind="push" identifier="StreamComment" id="KJL-Xb-WmH"/>
+                        <segue destination="xDE-sQ-8W5" kind="push" identifier="DetailComment" id="L9T-nn-WUW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhY-g2-WpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -236,11 +236,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Chunk" id="sRV-ld-3Nf">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yT9-uT-NQW">
-                            <connections>
-                                <segue destination="dJg-zj-0Xk" kind="push" identifier="AddComment" id="eeJ-zZ-CuV"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yT9-uT-NQW"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -250,7 +246,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TYg-8k-tgz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2218" y="1072"/>
+            <point key="canvasLocation" x="2986" y="864"/>
         </scene>
         <!--Update View Controller - Commenti-->
         <scene sceneID="e81-2B-b7w">
@@ -268,59 +264,41 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Commenti" id="kuT-la-2sV">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="FYz-oL-VmH">
-                            <connections>
-                                <segue destination="dJg-zj-0Xk" kind="push" identifier="AddComment" id="Xbb-Kz-GWO"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationItem key="navigationItem" title="Commenti" id="kuT-la-2sV"/>
                     <connections>
                         <outlet property="scroller" destination="ogt-kY-6X6" id="PYV-ix-omY"/>
+                        <segue destination="xDE-sQ-8W5" kind="push" identifier="DetailComment" id="0BX-hF-CfX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="urG-Sh-I4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2937" y="48"/>
         </scene>
-        <!--Add Comment View Controller-->
-        <scene sceneID="D6X-tP-FyI">
+        <!--Detail Comment View Controller-->
+        <scene sceneID="Ow5-1f-2sN">
             <objects>
-                <viewController id="dJg-zj-0Xk" customClass="AddCommentViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Yzf-DW-4bK">
-                        <rect key="frame" x="0.0" y="44" width="320" height="392"/>
+                <viewController id="xDE-sQ-8W5" customClass="DetailCommentViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FRb-Zu-z4r">
+                        <rect key="frame" x="0.0" y="44" width="320" height="387"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="top" borderStyle="line" placeholder="Inserisci il tuo commento" minimumFontSize="17" id="yXk-t4-Wvy">
-                                <rect key="frame" x="20" y="20" width="280" height="147"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="OAc-ac-h1b" customClass="MGScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="JEL-SH-zQN">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="EjC-NG-q3A">
-                            <connections>
-                                <action selector="cancel:" destination="dJg-zj-0Xk" id="3LP-hX-n8s"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Fatto" id="OCf-1G-WJs">
-                            <connections>
-                                <action selector="done:" destination="dJg-zj-0Xk" id="XWx-qg-lqF"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <navigationItem key="navigationItem" id="R8R-qi-6Tc"/>
                     <connections>
-                        <outlet property="commentView" destination="yXk-t4-Wvy" id="gwH-hu-9UX"/>
+                        <outlet property="scroller" destination="OAc-ac-h1b" id="dVO-b6-5S2"/>
+                        <segue destination="tHX-LK-o6I" kind="push" identifier="ShowProfile" id="XA2-gl-WBz"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cXY-l4-jd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EDp-V5-339" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3753" y="1088"/>
+            <point key="canvasLocation" x="3623" y="53"/>
         </scene>
         <!--Stream Screen-->
         <scene sceneID="jTH-8o-95b">
@@ -350,11 +328,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <barButtonItem systemItem="compose" id="ZCw-qA-sDH">
-                    <connections>
-                        <segue destination="aGw-4W-P2W" kind="push" identifier="ShowScreen" id="Rqo-FL-ru5"/>
-                    </connections>
-                </barButtonItem>
+                <barButtonItem systemItem="compose" id="ZCw-qA-sDH"/>
                 <barButtonItem title="Stream" id="WQ7-PW-PsX"/>
             </objects>
             <point key="canvasLocation" x="2744" y="-1080"/>
@@ -368,9 +342,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="yJ0-Wj-8OE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="325"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="318"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -385,51 +358,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3463" y="-596"/>
-        </scene>
-        <!--Photo Screen-->
-        <scene sceneID="lK0-lk-Kch">
-            <objects>
-                <viewController id="aGw-4W-P2W" customClass="PhotoScreen" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="2vR-m9-MKB">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="placeholder.png" id="UsQ-Fs-zcf">
-                                <rect key="frame" x="10" y="84" width="300" height="300"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.85587211279999997" green="0.85587211279999997" blue="0.85587211279999997" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Photo title" minimumFontSize="17" id="el2-1k-wrl">
-                                <rect key="frame" x="10" y="26" width="300" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="aGw-4W-P2W" id="qz3-Db-0NL"/>
-                                </connections>
-                            </textField>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                        <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                        <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="aUG-np-swO"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <connections>
-                        <outlet property="btnAction" destination="9e2-CJ-qp5" id="XJH-aN-iDb"/>
-                        <outlet property="fldTitle" destination="el2-1k-wrl" id="SjE-FU-isR"/>
-                        <outlet property="photo" destination="UsQ-Fs-zcf" id="MM0-hh-wi2"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kzz-Xw-dqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <barButtonItem systemItem="action" id="9e2-CJ-qp5">
-                    <connections>
-                        <action selector="btnActionTapped:" destination="aGw-4W-P2W" id="tVs-7y-Ff1"/>
-                    </connections>
-                </barButtonItem>
-            </objects>
-            <point key="canvasLocation" x="4475" y="-1080"/>
+            <point key="canvasLocation" x="3463" y="-1086"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="Tj9-SG-qHP">
@@ -559,7 +488,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="beo-lb-Dmx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="714" y="628"/>
+            <point key="canvasLocation" x="722" y="2215"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="IhO-Qr-W8U">
@@ -584,17 +513,8 @@
     </scenes>
     <resources>
         <image name="location.png" width="20" height="20"/>
-        <image name="placeholder.png" width="300" height="300"/>
     </resources>
     <classes>
-        <class className="AddCommentViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/AddCommentViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="done:"/>
-                <relationship kind="outlet" name="commentView" candidateClass="UITextField"/>
-            </relationships>
-        </class>
         <class className="AddContentViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AddContentViewController.h"/>
             <relationships>
@@ -609,9 +529,16 @@
                 <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
             </relationships>
         </class>
+        <class className="DetailCommentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailCommentViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
+            </relationships>
+        </class>
         <class className="DetailPhotoViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailPhotoViewController.h"/>
             <relationships>
+                <relationship kind="action" name="trashPressed:"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
             </relationships>
         </class>
@@ -639,15 +566,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/OperaViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
-            </relationships>
-        </class>
-        <class className="PhotoScreen" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoScreen.h"/>
-            <relationships>
-                <relationship kind="action" name="btnActionTapped:"/>
-                <relationship kind="outlet" name="btnAction" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="fldTitle" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
             </relationships>
         </class>
         <class className="ProfileViewController" superclassName="UIViewController">
@@ -683,7 +601,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="hBP-7E-fC3"/>
-        <segue reference="eeJ-zZ-CuV"/>
+        <segue reference="L9T-nn-WUW"/>
+        <segue reference="erZ-Ij-kGV"/>
     </inferredMetricsTieBreakers>
 </document>

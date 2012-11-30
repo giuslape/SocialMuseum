@@ -39,7 +39,7 @@
 
 @implementation StreamScreen
 
-@synthesize artWork = _artWork, items = _items;
+@synthesize artWork, items = _items;
 
 
 #pragma mark -
@@ -57,11 +57,12 @@
     
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
+    
     self.items = [NSMutableArray array];
 
     self.navigationItem.rightBarButtonItem = btnCompose;
     self.navigationItem.title = @"Foto";
-    self.view.backgroundColor = [UIColor lightGrayColor];
     
     UIDevice *device = UIDevice.currentDevice;
     phone = device.userInterfaceIdiom == UIUserInterfaceIdiomPhone;
@@ -148,7 +149,7 @@
 
 - (void)loadDataSource {
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",_artWork.IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"stream", @"command",artWork.IdOpera,@"IdOpera", nil] onCompletion:^(NSDictionary *json) {
         //Mostra lo stream
 		self.items = [json objectForKey:@"result"];
         if ([self.items count] > 0)
@@ -168,20 +169,7 @@
     
     for (NSDictionary* dict in enumerator) {
         
-        NSArray* array;
-        NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
-        NSString* username = [dict objectForKey:@"username"];
-        NSString* artWorkName = _artWork.title;
-        
-        NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
-        [dict objectForKey:@"FBId"] : [NSNull null];
-        
-        NSNumber* Idu = [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"]intValue]];
-        
-        NSString* datetime = [dict objectForKey:@"datetime"];
-        array = [NSArray arrayWithObjects:idPhoto,username,artWorkName,fbId,datetime,Idu,nil];
-        
-        [photosGrid.boxes addObject:[self photoBoxFor:array]];
+        [photosGrid.boxes addObject:[self photoBoxFor:dict]];
         [photosGrid layout];
     }
     [photosGrid layoutWithSpeed:0.3 completion:nil];
@@ -192,46 +180,10 @@
     
 }
 
-#pragma mark -
-#pragma mark ===  Delegate Methods  ===
-#pragma mark -
-
-
-/*- (NSInteger)numberOfViewsInCollectionView:(CollectionView *)collectionView {
-    return [self.items count];
-}
-
-- (CollectionViewCell *)collectionView:(CollectionView *)collectionView viewAtIndex:(NSInteger)index {
-    
-    NSDictionary *item = [self.items objectAtIndex:index];
-    
-    SMPhotoView *v = (SMPhotoView *)[self.collectionView dequeueReusableView];
-    if (!v) {
-        v = [[SMPhotoView alloc] initWithFrame:CGRectZero];
-    }
-    
-    [v fillViewWithObject:item];
-    
-    return v;
-}
-
-- (CGFloat)heightForViewAtIndex:(NSInteger)index {
-    
-    NSDictionary *item = [self.items objectAtIndex:index];
-    
-    return [SMPhotoView heightForViewWithObject:item inColumnWidth:self.collectionView.colWidth];
-}
-
-- (void)collectionView:(CollectionView *)collectionView didSelectView:(CollectionViewCell *)view atIndex:(NSInteger)index {
-    
-    NSDictionary *item = [self.items objectAtIndex:index];
-    
-    [self performSegueWithIdentifier:@"ShowPhoto" sender:[NSNumber numberWithInt:[[item objectForKey:@"IdPhoto"]intValue]]];
-}*/
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-    if ([@"ShowPhoto" compare: segue.identifier]== NSOrderedSame) {
+   /* if ([@"ShowPhoto" compare: segue.identifier]== NSOrderedSame) {
         sender = (NSArray *)sender;
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
         streamPhotoScreen.IdPhoto =     [sender objectAtIndex:0];
@@ -244,16 +196,8 @@
         NSDictionary* userTemp = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",fbId,@"FBId",IdUser,@"IdUser", nil];
         [[API sharedInstance] setTemporaryUser:userTemp];
 
-    }
-    if ([@"ShowScreen" compare: segue.identifier] == NSOrderedSame) {
-        PhotoScreen* photoScreen = segue.destinationViewController;
-        [photoScreen setIdOpera:_artWork.IdOpera];
-    }
-}
-
--(void)setArtWork:(ArtWork *)artWork{
+    }*/
     
-    _artWork = artWork;
 }
 
 #pragma mark -
@@ -272,14 +216,25 @@
 }
 
 
--(MGBox *)photoBoxFor:(NSArray *)informations{
+-(MGBox *)photoBoxFor:(NSDictionary *)dict{
     
-    NSNumber* idPhoto = [informations objectAtIndex:0];
+    NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
+
     // make the box
     PhotoBox *box = [PhotoBox artWorkStreamWithPhotoId:idPhoto andSize:[self photoBoxSize]];
       // deal with taps
      box.onTap = ^{
-        [self performSegueWithIdentifier:@"ShowPhoto" sender:informations];
+                  
+         NSString* username = [dict objectForKey:@"username"];
+         
+         NSNumber* idUser = [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"] intValue]];
+         
+         NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
+         [dict objectForKey:@"FBId"] : [NSNull null];
+
+         [[API sharedInstance] setTemporaryUser:@{@"IdUser" : idUser, @"username" : username, @"FBId" : fbId}];
+         [[API sharedInstance] setTemporaryPhoto:dict];
+        [self performSegueWithIdentifier:@"ShowPhoto" sender:nil];
      };
     
     return box;

@@ -39,7 +39,6 @@
 #define RIGHT_FONT              [UIFont fontWithName:@"HelveticaNeue" size:10]
 
 
-
 @interface OperaViewController ()
 
 -(void)showPhotos:(NSArray *)stream;
@@ -174,12 +173,12 @@
         chunk.chunk = cell.textLabel.text;
         chunk.IdChunk = [NSNumber numberWithInt:cell.tag];
         [chunk setIdOpera:_artWork.IdOpera];
-    }
+    }*/
     
     if ([@"StreamComment" compare:segue.identifier] == NSOrderedSame) {
         UpdateViewController* update = segue.destinationViewController;
-        [update setIdOpera:_artWork.IdOpera];
-    }*/
+        [update setIdOpera:artwork.IdOpera];
+    }
     
     if ([@"AddContent" compare:[segue identifier]] == NSOrderedSame) {
         
@@ -312,8 +311,11 @@
         NSString* commentText = [dict objectForKey:@"testo"];
         NSString* username = [dict objectForKey:@"username"];
         
+        NSNumber* idUser = [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"] intValue]];
+        
         NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
         [dict objectForKey:@"FBId"] : [NSNull null];
+        
         
         //NSString* datetime = [dict objectForKey:@"datetime"];
 
@@ -350,6 +352,13 @@
                              completion:nil];
                 //[UIView commitAnimations];
             }
+        commentLine.onTap = ^{
+            
+            [[API sharedInstance] setTemporaryUser:@{@"IdUser" : idUser, @"username" : username, @"FBId" : fbId}];
+            [[API sharedInstance] setTemporaryComment:dict];
+            [self performSegueWithIdentifier:@"DetailComment" sender:nil];
+        
+        };
 
     }
     
@@ -362,6 +371,10 @@
     [comment.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
     footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    
+    footer.onTap = ^{
+        [self performSegueWithIdentifier:@"StreamComment" sender:nil];
+    };
     
     
     [tableComments layout];
@@ -430,7 +443,6 @@
                                  streamLine.backgroundColor = [UIColor clearColor];
                              }
                              completion:nil];
-            //[UIView commitAnimations];
         }
         
     }
@@ -443,13 +455,16 @@
     [photosTable.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
     footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    footer.onTap =^{
+        
+        [self performSegueWithIdentifier:@"ShowStream" sender:nil];
     
+    };
     [photosGrid layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
     
     if (isNewPhoto)[self.scroller scrollToView:photosTable withMargin:8];
     isNewPhoto = false;
-    
 }
 
 - (void)thumbPhotosDidError{}

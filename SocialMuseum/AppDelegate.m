@@ -141,14 +141,19 @@ NSString *const SMSessionStateChangedNotification =
             [cacheDescriptor prefetchAndCacheForSession:session];
         }
             break;
-        case FBSessionStateClosed:
+        case FBSessionStateClosed:{
+            
+            [FBSession.activeSession closeAndClearTokenInformation];
+            [self logoutHandler];
+
+        }
+            break;
         case FBSessionStateClosedLoginFailed: {
             // FBSample logic
             // Once the user has logged out, we want them to be looking at the root view.
             
             [FBSession.activeSession closeAndClearTokenInformation];
-            [self logoutHandler];
-            
+            [self.loginViewController loginFailed];
         }
             break;
         default:
@@ -180,6 +185,11 @@ NSString *const SMSessionStateChangedNotification =
 
 - (void)logoutHandler{
     
+    if ([self.window.rootViewController isKindOfClass:[LoginViewController class]]) {
+        
+        [self.loginViewController loginFailed];
+        return;
+    }
     UINavigationController* navController = (UINavigationController *)[[(UITabBarController *) self.window.rootViewController viewControllers]objectAtIndex:0];
     [navController popToRootViewControllerAnimated:NO];
 

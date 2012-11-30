@@ -11,6 +11,7 @@
 #import "API.h"
 #import "MBProgressHUD.h"
 #import "PullToRefreshView.h"
+#import "DetailCommentViewController.h"
 
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
@@ -51,6 +52,8 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
         
     self.scroller.contentLayoutMode = MGLayoutGridStyle;
     self.scroller.bottomPadding = 8;
@@ -73,11 +76,7 @@
         NSLog(@"refresh dataSource");
         [self loadComments];
     }];
-    
-    [self.scroller.pullToRefreshView setArrowColor:[UIColor whiteColor]];
-    [self.scroller.pullToRefreshView setTextColor:[UIColor whiteColor]];
-    [self.scroller.pullToRefreshView setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleWhite];
-    
+        
     [tablesGrid layout];
     // relayout the sections
     [self.scroller layoutWithSpeed:1 completion:nil];
@@ -139,17 +138,13 @@
     
     for (NSDictionary* dict in _comments) {
         
-        NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
         NSString* username = [dict objectForKey:@"username"];
         NSString* commentText = [dict objectForKey:@"testo"];
         
         NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
         [dict objectForKey:@"FBId"] : [NSNull null];
-        
-        NSNumber* Idu = [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"]intValue]];
-        
+                
         NSString* datetime = [dict objectForKey:@"datetime"];
-        NSArray *array = [NSArray arrayWithObjects:idPhoto,username,commentText,fbId,datetime,Idu,nil];
         
         FBProfilePictureView* profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
         
@@ -176,12 +171,13 @@
         
         line.onTap = ^{
         
-            [self performSegueWithIdentifier:@"ShowProfile" sender:array];
+            [[API sharedInstance] setTemporaryComment:dict];
+            [self performSegueWithIdentifier:@"DetailComment" sender:nil];
         
         };
     }
     
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f,
+    /*UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f,
                                                                            0.0f,
                                                                            220.0f,
                                                                            30.0f)];
@@ -201,25 +197,11 @@
     MGLine* footer = [MGLine lineWithLeft:textField right:sendButton size:FOOTER_SIZE];
     [activity.bottomLines addObject:footer];
     footer.topPadding = footer.leftPadding = footer.rightPadding = 8;
-    //[self layoutKeyboard];
+    //[self layoutKeyboard];*/
     [tableComments layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
-    
 }
 
-
-#pragma mark -
-#pragma mark ===  Segue Handler  ===
-#pragma mark -
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"AddComment"])
-    {
-        AddCommentViewController*addCommentViewController =  segue.destinationViewController;
-        [addCommentViewController setIdOpera:_IdOpera];
-    }
-}
 
 
 #pragma mark -

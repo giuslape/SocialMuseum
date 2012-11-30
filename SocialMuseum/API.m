@@ -21,7 +21,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
 
 @implementation API
 
-@synthesize user, temporaryUser, temporaryArtWork;
+@synthesize user, temporaryUser, temporaryArtWork, temporaryPhoto,temporaryComment;
 
 #pragma mark - Singleton methods
 /**
@@ -103,6 +103,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
          ^(FBRequestConnection *connection,
            NSDictionary<FBGraphUser> *userFB,
            NSError *error) {
+             AppDelegate* delegate = [UIApplication sharedApplication].delegate;
              if (!error) {
                  NSString* command = @"loginWithFB";
                  NSMutableDictionary* params =[NSMutableDictionary dictionaryWithObjectsAndKeys:command, @"command", userFB.name, @"username", userFB.id, @"FBId", nil];
@@ -113,7 +114,6 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
                      if ([json objectForKey:@"error"]==nil && [[res objectForKey:@"IdUser"] intValue]>0) {
                          [self setUser:res];
                          
-                        AppDelegate* delegate = [UIApplication sharedApplication].delegate;
                          [delegate showInitialViewController];
                          //Mostra Messaggio
                          [[[UIAlertView alloc] initWithTitle:@"Logged in" message:[NSString stringWithFormat:@"Welcome %@",[res objectForKey:@"username"]] delegate:nil cancelButtonTitle:@"Close" otherButtonTitles: nil] show];
@@ -121,6 +121,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
                      } else {
                          //error
                          [UIAlertView error:[json objectForKey:@"error"]];
+                         [delegate logoutHandler];
                      }
                  }];
                  
