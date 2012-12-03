@@ -73,7 +73,6 @@
     [self loadComments];
     
     [self.scroller addPullToRefreshWithActionHandler:^{
-        NSLog(@"refresh dataSource");
         [self loadComments];
     }];
         
@@ -177,27 +176,6 @@
         };
     }
     
-    /*UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0.0f,
-                                                                           0.0f,
-                                                                           220.0f,
-                                                                           30.0f)];
-    textField.borderStyle = UITextBorderStyleRoundedRect;
-    textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    textField.font = HEADER_FONT;
-    textField.placeholder = @"Commenta";
-    
-    UIButton *sendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    sendButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-    [sendButton setTitle:@"Send" forState:UIControlStateNormal];
-    sendButton.frame = CGRectMake(0.0f,
-                                  0.0f,
-                                  58.0f,
-                                  29.0f);
-    
-    MGLine* footer = [MGLine lineWithLeft:textField right:sendButton size:FOOTER_SIZE];
-    [activity.bottomLines addObject:footer];
-    footer.topPadding = footer.leftPadding = footer.rightPadding = 8;
-    //[self layoutKeyboard];*/
     [tableComments layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
 }

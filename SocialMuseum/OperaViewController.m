@@ -76,7 +76,7 @@
     photos   = [NSArray array];
     
     artwork = [[API sharedInstance] temporaryArtWork];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
 
     self.navigationItem.title = artwork.title;
     
@@ -117,6 +117,7 @@
     artwork = nil;
     comments = nil;
     chuncks = nil;
+    isNewComment = false;
     [self setScroller:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -255,6 +256,15 @@
         chunckLine.padding = UIEdgeInsetsMake(8, 8, 8, 8);
         chunckLine.font = LINE_FONT;
         chunckLine.sidePrecedence = MGSidePrecedenceRight;
+        
+        chunckLine.onTap = ^{
+            
+            
+            [[API sharedInstance] setTemporaryChunck:@{@"testo": [dict objectForKey:@"testo"], @"IdChunk" : [NSNumber numberWithInt:[[dict objectForKey:@"IdChunk"] intValue]]}];
+            
+            [self performSegueWithIdentifier:@"ShowContent" sender:nil];
+        
+        };
     }
     
     [tableContent layout];
@@ -340,7 +350,7 @@
         
         profilePictureView.profileID = ([fbId isEqual:[NSNull null]]) ? nil : fbId;
         
-        if ([dict isEqualToDictionary:[comments objectAtIndex:0]]) {
+        if ([dict isEqualToDictionary:[comments objectAtIndex:0]] && isNewComment) {
             
             [UIView animateWithDuration:0.2f
                                   delay:0.5f
@@ -350,7 +360,6 @@
                                         commentLine.backgroundColor = [UIColor clearColor];
                              }
                              completion:nil];
-                //[UIView commitAnimations];
             }
         commentLine.onTap = ^{
             

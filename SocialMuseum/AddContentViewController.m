@@ -29,7 +29,7 @@
 
 @implementation AddContentViewController{
     
-    MGBox* containerBox, *commentBox, *photoBox;
+    MGBox* containerBox, *commentBox, *photoBox, *chunkBox;
     MGBox* submitCommentBox, *submitPhotoBox;
     NSString* commentToUpload;
     UITextField* commentTextField;
@@ -43,6 +43,8 @@
 
 @synthesize artWork;
 @synthesize delegate;
+@synthesize isChunck;
+@synthesize IdChunk;
 
 #pragma mark -
 #pragma mark ===  Init Methods  ===
@@ -57,6 +59,8 @@
     
     defaultPlaceholder = [UIImage imageNamed:@"camera.png"];
     
+    IdChunk = [[[API sharedInstance] temporaryChunck] objectForKey:@"IdChunk"];
+    
     self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     
     self.scroller.contentLayoutMode = MGLayoutGridStyle;
@@ -66,12 +70,21 @@
     containerBox.contentLayoutMode = MGLayoutGridStyle;
     [self.scroller.boxes addObject:containerBox];
 
+    if (isChunck) {
+        
+    chunkBox = MGBox.box;
+    [containerBox.boxes addObject:chunkBox];
+    chunkBox.sizingMode = MGResizingShrinkWrap;
+        
+    }
+    
     commentBox = MGBox.box;
     [containerBox.boxes addObject:commentBox];
     commentBox.sizingMode = MGResizingShrinkWrap;
     
     [containerBox layout];
     
+    if (isChunck) [self drawlayoutChunk];
     [self drawLayoutComment];
     
     submitCommentBox = [MGBox boxWithSize:(CGSize){208,35}];
@@ -106,7 +119,10 @@
     [self.scroller.boxes addObject:submitCommentBox];
     
     [self.scroller layoutWithSpeed:1.0f completion:nil];
-
+    
+    
+    if (!isChunck) {
+        
     photoBox = MGBox.box;
     [self.scroller.boxes addObject:photoBox];
     photoBox.sizingMode = MGResizingShrinkWrap;
@@ -147,6 +163,8 @@
     [self.scroller.boxes addObject:submitPhotoBox];
     
     [self.scroller layoutWithSpeed:1.0f completion:nil];
+        
+    }
 
 }
 
@@ -169,6 +187,8 @@
     
     [self setScroller:nil];
     [self setDelegate:nil];
+    [self setIsChunck:false];
+    IdChunk = [NSNumber numberWithInt:0];
     [super viewDidUnload];
 }
 
@@ -202,7 +222,7 @@
     
     MGTableBoxStyled* commentSection = MGTableBoxStyled.box;
     [commentBox.boxes addObject:commentSection];
-
+        
     commentTextField = [[UITextField alloc] init];
     commentTextField.placeholder = @"Scrivi qui il tuo commento";
     commentTextField.borderStyle = UITextBorderStyleNone;
@@ -225,6 +245,22 @@
         
     [self.scroller layoutWithSpeed:0.5f completion:nil];
 }
+
+#pragma mark -
+#pragma mark ===  Layout Chunck  ===
+#pragma mark -
+
+- (void)drawlayoutChunk{
+    
+    MGTableBoxStyled* chunkSection =  MGTableBoxStyled.box;
+    [chunkBox.boxes addObject:chunkSection];
+    
+    MGLine* chunkLine = [MGLine multilineWithText:[[[API sharedInstance] temporaryChunck] objectForKey:@"testo"] font:TEXT_FONT width:304 padding:UIEdgeInsetsMake(8, 8, 8, 8)];
+    [chunkSection.topLines addObject:chunkLine];
+    
+    [self.scroller layoutWithSpeed:0.3f completion:nil];
+}
+
 
 
 #pragma mark -
@@ -297,7 +333,7 @@
     hud.labelText = @"Carico il Commento";
     
     
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",commentToUpload,@"testo",artWork.IdOpera,@"IdOpera",@"0",@"IdChunk",nil] onCompletion:^(NSDictionary *json) {
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",commentToUpload,@"testo",artWork.IdOpera,@"IdOpera",IdChunk,@"IdChunk",nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
 			//Successo

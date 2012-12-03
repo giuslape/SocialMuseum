@@ -7,89 +7,230 @@
 //
 
 #import "ChunkViewController.h"
-#import "AddCommentViewController.h"
 #import "MBProgressHUD.h"
 #import "API.h"
 #import "PullToRefreshView.h"
+#import "MGBox.h"
+#import "MGScrollView.h"
+#import "ArtWork.h"
+#import "MGTableBoxStyled.h"
+#import "MGLine.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "PhotoBox.h"
 
-#define MAX_HEIGHT 2000
 
-@interface ChunkViewController ()
+#define IPHONE_TABLES_GRID          (CGSize){320, 0}
 
-@end
+#define LINE_FONT              [UIFont fontWithName:@"HelveticaNeue" size:12]
 
-@implementation ChunkViewController
-@synthesize textView, chunk = _chunk, IdChunk = _IdChunk;
-@synthesize IdOpera = _IdOpera;
-@synthesize tableView = _tableView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+@implementation ChunkViewController{
+    
+    MGBox* containerBox, *commentContainer, *chunckContainer;
+    ArtWork* artWork;
+    UIImage* arrow;
+    NSDictionary* chunckDetails;
+    
+    bool isNewComment;
+    
 }
+
+
+#pragma mark -
+#pragma mark ===  Init Methods  ===
+#pragma mark -
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    // Adatta l'altezza della Vista al testo
-    CGSize size = [_chunk sizeWithFont:[UIFont systemFontOfSize:12] 
-       constrainedToSize:CGSizeMake(320, MAX_HEIGHT) 
-           lineBreakMode:UILineBreakModeWordWrap];
-    [textView sizeThatFits:size];
+    arrow = [UIImage imageNamed:@"arrow.png"];
 
- 
-   // [textView setFrame:CGRectMake(0, 10, 320, size.height + 10)];
-    textView.text = _chunk;
+    chunckDetails = [[API sharedInstance] temporaryChunck];
     
+    NSLog(@"%d",[[chunckDetails objectForKey:@"IdChunk"]intValue]);
+    
+    artWork = [[API sharedInstance] temporaryArtWork];
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
+    
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [hud setLabelText:@"Loading"];
+    hud.dimBackground = YES;
+    
+    self.scroller.contentLayoutMode = MGLayoutTableStyle;
+    self.scroller.bottomPadding = 8;
    
-    [self streamCommenti];
+    CGSize tablesGridSize =  IPHONE_TABLES_GRID;
+    containerBox = [MGBox boxWithSize:tablesGridSize];
+    containerBox.contentLayoutMode = MGLayoutGridStyle;
+    [self.scroller.boxes addObject:containerBox];
     
-    [self.tableView addPullToRefreshWithActionHandler:^{
-        NSLog(@"refresh dataSource");
+    chunckContainer = MGBox.box;
+    [containerBox.boxes addObject:chunckContainer];
+    chunckContainer.sizingMode = MGResizingShrinkWrap;
+    
+    commentContainer = MGBox.box;
+    [containerBox.boxes addObject:commentContainer];
+    commentContainer.sizingMode = MGResizingShrinkWrap;
+    
+        
+    [self.scroller addPullToRefreshWithActionHandler:^{
         [self streamCommenti];
     }];
     
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        NSLog(@"load more data");
-    }];
-
-}
-
--(void)streamCommenti{
-    
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [hud setLabelText:@"Loading..."];
-    [hud setDimBackground:YES];
-    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",_IdOpera,@"IdOpera",_IdChunk,@"IdChunk", nil]
-                               onCompletion:^(NSDictionary *json) {
-                                   
-                                   _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
-                                   [_tableView reloadData];
-                                   [_tableView.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.5f];
-                                   [hud hide:YES];
-                               }];
-
+    [containerBox layout];
+    [self layoutChunckContainer];
+    [self streamCommenti];
+    [self.scroller layoutWithSpeed:0.3f completion:nil];
 }
 
 - (void)viewDidUnload
 {
-    [self setTextView:nil];
-    [self setTableView:nil];
+    [self setScroller:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+#pragma mark -
+#pragma mark ===  Layout Chunk  ===
+#pragma mark -
+
+- (void)layoutChunckContainer{
+    
+    MGTableBoxStyled* chunckTable = MGTableBoxStyled.box;
+    [chunckContainer.boxes addObject:chunckTable];
+    
+    MGLine* chunckTextLine = [MGLine multilineWithText:[chunckDetails objectForKey:@"testo"] font:LINE_FONT width:304 padding:UIEdgeInsetsMake(8, 8, 8, 8)];
+    
+    [chunckTable.topLines addObject:chunckTextLine];
+    
+    //[chunckContainer layout];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self.scroller layoutWithSpeed:0.5f completion:nil];
+    
 }
 
+-(void)streamCommenti{
+    
+    [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"streamCommenti", @"command",artWork.IdOpera,@"IdOpera",[NSNumber numberWithInt:[[chunckDetails objectForKey:@"IdChunk"]intValue]],@"IdChunk", nil]
+     
+                               onCompletion:^(NSDictionary *json) {
+                                   
+                                   _comments = [NSArray arrayWithArray:[json objectForKey:@"result"]];
+                                   [self commentsDidLoad];
+                                   [self.scroller.pullToRefreshView performSelector:@selector(stopAnimating) withObject:nil afterDelay:0.5f];
+                               }];
+    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    [self.scroller layoutWithSpeed:0.3f completion:nil];
+
+}
+
+- (void)commentsDidLoad{
+    
+    if (commentContainer.boxes.count >= 1)
+        [commentContainer.boxes removeAllObjects];
+    
+    MGTableBoxStyled* comment = MGTableBoxStyled.box;
+    [commentContainer.boxes addObject:comment];
+    
+    for (NSDictionary* dict in _comments) {
+        
+        FBProfilePictureView* profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
+        
+        NSString* commentText = [dict objectForKey:@"testo"];
+        NSString* username = [dict objectForKey:@"username"];
+        
+        NSNumber* idUser = [NSNumber numberWithInt:[[dict objectForKey:@"IdUser"] intValue]];
+        
+        NSString* fbId = ([[dict objectForKey:@"FBId"]intValue]> 0) ?
+        [dict objectForKey:@"FBId"] : [NSNull null];
+        
+        //NSString* datetime = [dict objectForKey:@"datetime"];
+        
+        MGLine* commentLine = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:arrow];
+        
+        [commentLine.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username,commentText]];
+        
+        commentLine.font = LINE_FONT;
+        commentLine.minHeight = 50;
+        commentLine.padding = UIEdgeInsetsMake(8, 0, 8, 8);
+        commentLine.itemPadding = 8;
+        commentLine.sidePrecedence = MGSidePrecedenceRight;
+        commentLine.maxHeight = 60;
+        
+        CGSize minSize = [commentText sizeWithFont:LINE_FONT];
+        CGFloat height = minSize.height + commentLine.padding.top + commentLine.padding.bottom;
+        
+        commentLine.size = (CGSize){304,height};
+        
+        [comment.topLines addObject:commentLine];
+        
+        profilePictureView.profileID = ([fbId isEqual:[NSNull null]]) ? nil : fbId;
+        
+        if ([dict isEqualToDictionary:[_comments objectAtIndex:0]] && isNewComment) {
+            
+            [UIView animateWithDuration:0.2f
+                                  delay:0.5f
+                                options:UIViewAnimationCurveEaseIn
+                             animations:^{
+                                 commentLine.backgroundColor = [UIColor brownColor];
+                                 commentLine.backgroundColor = [UIColor clearColor];
+                             }
+                             completion:nil];
+        }
+        commentLine.onTap = ^{
+            
+            [[API sharedInstance] setTemporaryUser:@{@"IdUser" : idUser, @"username" : username, @"FBId" : fbId}];
+            [[API sharedInstance] setTemporaryComment:dict];
+            //[self performSegueWithIdentifier:@"AddContent" sender:nil];
+        };
+        
+    }
+    
+    
+    [commentContainer layout];
+    [self.scroller layoutWithSpeed:0.5f completion:nil];
+    
+    if (isNewComment)[self.scroller scrollToView:comment withMargin:8];
+    isNewComment = false;
+    
+}
+
+
+#pragma mark -
+#pragma mark ===  Segue  ===
+#pragma mark -
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([@"AddContent" compare:[segue identifier]] == NSOrderedSame) {
+        
+        UINavigationController* viewController = segue.destinationViewController;
+        AddContentViewController* contentViewController = (AddContentViewController *)viewController.topViewController;
+        contentViewController.artWork = [artWork copy];
+        contentViewController.delegate = self;
+        contentViewController.isChunck = YES;        
+    }
+    
+}
+
+
+#pragma mark -
+#pragma mark ===  Add Content Delegate Methods  ===
+#pragma mark -
+
+- (void)submitCommentDidPressed:(id)sender{
+    
+    AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
+    [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
+    
+    [self performSelector:@selector(streamCommenti) withObject:nil afterDelay:1.6f];
+    isNewComment = true;
+}
+
+/*
 
 -(void)setChunk:(NSString *)chunk{
 
@@ -119,7 +260,7 @@
 }
 
 
-/*
+
 -(void)addCommentDidCancel:(AddCommentViewController *)viewController{
     
     [self dismissModalViewControllerAnimated:YES];
@@ -130,7 +271,7 @@
     
     [self dismissModalViewControllerAnimated:YES];
     
-}*/
+}
 
 #pragma mark - UITableView Datasource
 
@@ -175,7 +316,7 @@
                    constrainedToSize:CGSizeMake(300, CGFLOAT_MAX)];
     return size.height + 15;
 }
-
+*/
 
 
 @end

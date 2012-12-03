@@ -205,7 +205,6 @@
   CGFloat x = self.leftPadding;
   for (int i = 0; i < self.leftItems.count; i++) {
     UIView *view = self.leftItems[i];
-      NSLog(@"%@",[self.leftItems[i] class]);
     if ([self.dontFit containsObject:view]) {
       continue;
     }

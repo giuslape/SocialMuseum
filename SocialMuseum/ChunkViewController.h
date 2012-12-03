@@ -7,17 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddContentViewController.h"
 
-@interface ChunkViewController : UIViewController {
+@class MGScrollView;
+
+@interface ChunkViewController : UIViewController <AddContentDelegate>{
     
     NSArray* _comments;
 }
 
-@property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (nonatomic, strong, readwrite) NSString* chunk;
-@property (nonatomic, copy, readwrite) NSNumber* IdChunk;
-@property (nonatomic, copy, readwrite) NSNumber* IdOpera;
-
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet MGScrollView *scroller;
 
 @end

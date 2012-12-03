@@ -185,68 +185,15 @@
                     </navigationItem>
                     <connections>
                         <outlet property="scroller" destination="eF5-4p-8no" id="gJj-xW-9NB"/>
-                        <segue destination="uFZ-yn-T5N" kind="push" identifier="ShowContent" id="edF-tU-RZ6"/>
                         <segue destination="mLZ-QK-4Bi" kind="push" identifier="ShowStream" id="aVE-N7-hIb"/>
                         <segue destination="r8b-2k-3Yk" kind="push" identifier="StreamComment" id="KJL-Xb-WmH"/>
                         <segue destination="xDE-sQ-8W5" kind="push" identifier="DetailComment" id="L9T-nn-WUW"/>
+                        <segue destination="hnk-ZD-WMZ" kind="push" identifier="ShowContent" id="tMF-WH-xgJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bhY-g2-WpN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1674" y="63"/>
-        </scene>
-        <!--Chunk View Controller - Chunk-->
-        <scene sceneID="oK0-Qx-TnI">
-            <objects>
-                <viewController id="uFZ-yn-T5N" customClass="ChunkViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="CGA-wp-Y7v">
-                        <rect key="frame" x="0.0" y="44" width="320" height="392"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="LjH-la-rBG">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                            </textView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="135" sectionHeaderHeight="22" sectionFooterHeight="22" id="KzC-tj-Eb1">
-                                <rect key="frame" x="0.0" y="90" width="320" height="302"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="110" id="MPs-gs-6de">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="110"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="109"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="uFZ-yn-T5N" id="SFX-PN-9Ml"/>
-                                    <outlet property="delegate" destination="uFZ-yn-T5N" id="WI3-vj-8aY"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.49803921580314636" green="0.49803921580314636" blue="0.49803921580314636" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Chunk" id="sRV-ld-3Nf">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yT9-uT-NQW"/>
-                    </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="tableView" destination="KzC-tj-Eb1" id="dMr-og-BRh"/>
-                        <outlet property="textView" destination="LjH-la-rBG" id="bfb-Pj-cBV"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TYg-8k-tgz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2986" y="864"/>
         </scene>
         <!--Update View Controller - Commenti-->
         <scene sceneID="e81-2B-b7w">
@@ -273,6 +220,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="urG-Sh-I4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2937" y="48"/>
+        </scene>
+        <!--Chunk View Controller-->
+        <scene sceneID="geO-CZ-AoU">
+            <objects>
+                <viewController id="hnk-ZD-WMZ" customClass="ChunkViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="z1s-IV-Sb0">
+                        <rect key="frame" x="0.0" y="44" width="320" height="387"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="i7f-y1-pV9" customClass="MGScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DNp-2R-qas">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="brW-EU-6jX">
+                            <connections>
+                                <segue destination="Vbq-iO-LPQ" kind="modal" identifier="AddContent" id="zYq-IC-L4T"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="scroller" destination="i7f-y1-pV9" id="w7e-Tp-cMK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G4y-PN-Kg6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2910" y="885"/>
         </scene>
         <!--Detail Comment View Controller-->
         <scene sceneID="Ow5-1f-2sN">
@@ -386,23 +363,26 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="Qx0-2h-DP7">
                                 <rect key="frame" x="142" y="393" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Social Museum" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="zec-Qb-6Ki">
-                                <rect key="frame" x="64" y="11" width="193" height="86"/>
+                                <rect key="frame" x="64" y="0.0" width="193" height="86"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Zapfino" family="Zapfino" pointSize="28"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="28"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" id="VLy-Ye-38Y">
+                            <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Username" minimumFontSize="17" id="VLy-Ye-38Y">
                                 <rect key="frame" x="56" y="80" width="208" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" id="R3r-um-b2p">
+                            <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Password" minimumFontSize="17" id="R3r-um-b2p">
                                 <rect key="frame" x="56" y="129" width="208" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
@@ -411,7 +391,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Login">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted">
@@ -437,12 +417,15 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.17161725" blue="0.56560905610000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="vBK-8p-6OU"/>
                     <connections>
                         <outlet property="fldPassword" destination="R3r-um-b2p" id="x67-lb-oa0"/>
                         <outlet property="fldUsername" destination="VLy-Ye-38Y" id="alL-Dq-o9h"/>
+                        <outlet property="loginButton" destination="Zjn-fz-UB9" id="vFl-7B-iUK"/>
+                        <outlet property="loginWithFBButton" destination="dJq-HT-2On" id="aVi-MX-zDo"/>
+                        <outlet property="registerButton" destination="cS3-wJ-TA1" id="lx2-39-Amt"/>
                         <outlet property="spinner" destination="Qx0-2h-DP7" id="mHn-Iz-e8R"/>
                     </connections>
                 </viewController>
@@ -495,6 +478,7 @@
             <objects>
                 <navigationController id="Vbq-iO-LPQ" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="I7Q-aN-xF4"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackOpaque" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="blackOpaque" id="fwP-sc-rXG">
@@ -525,8 +509,7 @@
         <class className="ChunkViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ChunkViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>
         <class className="DetailCommentViewController" superclassName="UIViewController">
@@ -556,6 +539,9 @@
                 <relationship kind="action" name="performLogin:"/>
                 <relationship kind="outlet" name="fldPassword" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="fldUsername" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="loginButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="loginWithFBButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="registerButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="spinner" candidateClass="UIActivityIndicatorView"/>
             </relationships>
         </class>
@@ -601,6 +587,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="zYq-IC-L4T"/>
         <segue reference="L9T-nn-WUW"/>
         <segue reference="erZ-Ij-kGV"/>
     </inferredMetricsTieBreakers>

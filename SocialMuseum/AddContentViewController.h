@@ -11,7 +11,7 @@
 
 
 @protocol AddContentDelegate <NSObject>
-
+@optional
 - (void)submitCommentDidPressed:(id)sender;
 - (void)submitPhotoDidPressed:(id)sender;
 
@@ -26,7 +26,8 @@
 @property (weak, nonatomic) IBOutlet MGScrollView *scroller;
 @property (copy,nonatomic, readwrite) ArtWork* artWork;
 @property (weak) id <AddContentDelegate> delegate;
-
+@property (readwrite, nonatomic) bool isChunck;
+@property (nonatomic, readwrite, copy)NSNumber* IdChunk;
 
 
 - (IBAction)cancelDidPress:(id)sender;

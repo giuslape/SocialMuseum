@@ -21,7 +21,7 @@ NSString *const SMUserStateChangeNotification = @"UserDetailsLoaded";
 
 @implementation API
 
-@synthesize user, temporaryUser, temporaryArtWork, temporaryPhoto,temporaryComment;
+@synthesize user, temporaryUser, temporaryArtWork, temporaryPhoto,temporaryComment, temporaryChunck;
 
 #pragma mark - Singleton methods
 /**

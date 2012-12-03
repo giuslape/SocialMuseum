@@ -11,6 +11,7 @@
 #import "API.h"
 #import "AppDelegate.h"
 #include <CommonCrypto/CommonDigest.h>
+#import <QuartzCore/QuartzCore.h>
 
 #define kSalt @"adlfu3489tyh2jnkLIUGI&%EV(&0982cbgrykxjnk8855"
 
@@ -21,7 +22,7 @@
 
 @implementation LoginViewController
 
-@synthesize spinner;
+@synthesize spinner,loginButton,loginWithFBButton,registerButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,15 +36,79 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
+
     fldPassword.delegate = self;
     fldUsername.delegate = self;
     
+    //loginButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    // Btn Title
+    [loginButton setTitle:@"Login" forState:UIControlStateNormal];
+    //[loginButton.titleLabel setFont:TEXT_FONT];
+    [loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    // Btn Background
+    loginButton.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    [loginButton setBackgroundImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+    
+    // Btn shadow
+    loginButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    loginButton.layer.shadowOpacity = 0.5;
+    loginButton.layer.shadowRadius = 1;
+    loginButton.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    
+    // Btn border
+    loginButton.layer.borderWidth = 0.35f;
+    loginButton.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    
+    // Btn Title
+    [loginWithFBButton setTitle:@"Login With Facebook" forState:UIControlStateNormal];
+    [loginWithFBButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    // Btn Background
+    loginWithFBButton.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    [loginWithFBButton setBackgroundImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+    
+    // Btn shadow
+    loginWithFBButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    loginWithFBButton.layer.shadowOpacity = 0.5;
+    loginWithFBButton.layer.shadowRadius = 1;
+    loginWithFBButton.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    
+    // Btn border
+    loginWithFBButton.layer.borderWidth = 0.35f;
+    loginWithFBButton.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    
+    // Btn Title
+    [registerButton setTitle:@"Register" forState:UIControlStateNormal];
+    [registerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    // Btn Background
+    registerButton.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    [registerButton setBackgroundImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+    
+    // Btn shadow
+    registerButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    registerButton.layer.shadowOpacity = 0.5;
+    registerButton.layer.shadowRadius = 1;
+    registerButton.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    
+    // Btn border
+    registerButton.layer.borderWidth = 0.35f;
+    registerButton.layer.borderColor = [UIColor grayColor].CGColor;
+
 }
 
 - (void)viewDidUnload
 {
     [self setSpinner:nil];
+    [self setLoginButton:nil];
+    [self setLoginWithFBButton:nil];
+    [self setRegisterButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
