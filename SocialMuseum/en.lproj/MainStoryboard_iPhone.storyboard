@@ -211,7 +211,13 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Commenti" id="kuT-la-2sV"/>
+                    <navigationItem key="navigationItem" title="Commenti" id="kuT-la-2sV">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="cAf-1T-FC4">
+                            <connections>
+                                <segue destination="Vbq-iO-LPQ" kind="modal" identifier="AddComment" id="6yz-ke-AVB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="scroller" destination="ogt-kY-6X6" id="PYV-ix-omY"/>
                         <segue destination="xDE-sQ-8W5" kind="push" identifier="DetailComment" id="0BX-hF-CfX"/>
@@ -294,19 +300,18 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="eGd-1B-Ib6">
-                        <connections>
-                            <outlet property="backBarButtonItem" destination="WQ7-PW-PsX" id="jMD-Qf-Oeo"/>
-                        </connections>
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="s8C-Gq-n94">
+                            <connections>
+                                <segue destination="Vbq-iO-LPQ" kind="modal" identifier="AddPhoto" id="JLr-eI-HAg"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="btnCompose" destination="ZCw-qA-sDH" id="ooz-Ab-Y77"/>
                         <outlet property="scroller" destination="tTH-s2-2Id" id="YMP-pm-PJu"/>
                         <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="tqw-Ju-24n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <barButtonItem systemItem="compose" id="ZCw-qA-sDH"/>
-                <barButtonItem title="Stream" id="WQ7-PW-PsX"/>
             </objects>
             <point key="canvasLocation" x="2744" y="-1080"/>
         </scene>
@@ -570,7 +575,7 @@
         <class className="StreamScreen" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamScreen.h"/>
             <relationships>
-                <relationship kind="outlet" name="btnCompose" candidateClass="UIBarButtonItem"/>
+                <relationship kind="action" name="photoBtnDidPressed:"/>
                 <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>
@@ -587,8 +592,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zYq-IC-L4T"/>
-        <segue reference="L9T-nn-WUW"/>
-        <segue reference="erZ-Ij-kGV"/>
+        <segue reference="0BX-hF-CfX"/>
+        <segue reference="XA2-gl-WBz"/>
+        <segue reference="JLr-eI-HAg"/>
     </inferredMetricsTieBreakers>
 </document>

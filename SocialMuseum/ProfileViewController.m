@@ -149,7 +149,7 @@
         }
         else if ([dict objectForKey:@"IdCommento"]){
             
-            id testo = [NSString stringWithFormat:@"%@ ha scritto un commento \n \n %@",userName,[dict objectForKey:@"testo"]];
+            id testo = [NSString stringWithFormat:@"%@ ha scritto un commento\n\n%@",userName,[dict objectForKey:@"testo"]];
         
             line.multilineLeft = testo;
             line.padding = UIEdgeInsetsMake(16, 16, 16, 16);

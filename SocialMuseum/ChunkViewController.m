@@ -184,10 +184,18 @@
             
             [[API sharedInstance] setTemporaryUser:@{@"IdUser" : idUser, @"username" : username, @"FBId" : fbId}];
             [[API sharedInstance] setTemporaryComment:dict];
-            //[self performSegueWithIdentifier:@"AddContent" sender:nil];
+            //[self performSegueWithIdentifier:@"ShowProfile" sender:nil];
         };
-        
+
     }
+    
+   /* UIButton* photoBtn = [self buttonWithTitle:@"Aggiungi un Commento"];
+    photoBtn.tag = 3;
+    
+    MGBox* boxButton = [MGBox boxWithSize:(CGSize){304,44}];
+    [boxButton addSubview:photoBtn];
+    boxButton.contentLayoutMode = MGBoxLayoutAttached;
+    [commentContainer.boxes addObject:boxButton];*/
     
     
     [commentContainer layout];
@@ -198,10 +206,49 @@
     
 }
 
+#pragma mark -
+#pragma mark ===  Button  ===
+#pragma mark -
+
+- (UIButton *)buttonWithTitle:(NSString *)titleText{
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button setTitle:titleText forState:UIControlStateNormal];
+    [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    button.size = CGSizeMake(250, 30);
+    button.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, button.size.height / 2 + 8);
+    
+    button.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    [button setBackgroundImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+    
+    // Btn shadow
+    button.layer.shadowColor = [UIColor blackColor].CGColor;
+    button.layer.shadowOpacity = 0.5;
+    button.layer.shadowRadius = 1;
+    button.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    
+    // Btn border
+    button.layer.borderWidth = 0.35f;
+    button.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    // Btn Font
+    [button.titleLabel setFont:LINE_FONT];
+    
+    [button addTarget:self action:@selector(addContentFromButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return button;
+}
+
+
 
 #pragma mark -
 #pragma mark ===  Segue  ===
 #pragma mark -
+
+- (void)addContentFromButton:(id)sender{
+        
+    [self performSegueWithIdentifier:@"AddContent" sender:nil];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
@@ -211,7 +258,9 @@
         AddContentViewController* contentViewController = (AddContentViewController *)viewController.topViewController;
         contentViewController.artWork = [artWork copy];
         contentViewController.delegate = self;
-        contentViewController.isChunck = YES;        
+        contentViewController.isChunck = YES;
+        contentViewController.isAddComment = YES;
+        contentViewController.isAddPhoto = false;
     }
     
 }

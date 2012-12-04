@@ -12,7 +12,7 @@
 #import "MBProgressHUD.h"
 #import "PullToRefreshView.h"
 #import "DetailCommentViewController.h"
-
+#import "ArtWork.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
 #import "MGScrollView.h"
@@ -37,6 +37,9 @@
     
     MGBox* tablesGrid, *tableComments;
     bool phone;
+    bool isNewComment;
+    
+    ArtWork* artWork;
 }
 
 @end
@@ -52,6 +55,8 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    artWork = [[API sharedInstance] temporaryArtWork];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
         
@@ -149,11 +154,10 @@
         
         MGLine* line = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}] right:nil];
         
-        [line.leftItems addObject:[NSString stringWithFormat:@"%@ \n%@",username, commentText]];
+        [line.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username, commentText]];
         [line.rightItems addObject:[NSString determingTemporalDifferencesFromNowtoStartDate:datetime]];
         
         line.font = HEADER_FONT;
-        line.middleFont = HEADER_FONT;
         line.rightFont = RIGHT_FONT;
         line.padding = UIEdgeInsetsMake(4, 0, 4, 4);
         line.itemPadding = 8;
@@ -168,6 +172,19 @@
         
         profilePictureView.profileID = ([fbId isEqual:[NSNull null]]) ? nil : fbId;
         
+        if ([dict isEqualToDictionary:[_comments objectAtIndex:0]] && isNewComment) {
+            
+            [UIView animateWithDuration:0.2f
+                                  delay:0.5f
+                                options:UIViewAnimationCurveEaseIn
+                             animations:^{
+                                 line.backgroundColor = [UIColor brownColor];
+                                 line.backgroundColor = [UIColor clearColor];
+                             }
+                             completion:nil];
+            isNewComment = false;
+        }
+
         line.onTap = ^{
         
             [[API sharedInstance] setTemporaryComment:dict];
@@ -243,5 +260,46 @@
 
     
 }
+
+#pragma mark -
+#pragma mark ===  Segue  ===
+#pragma mark -
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([@"AddComment" compare:[segue identifier]] == NSOrderedSame) {
+        
+        //int tagButton = [(NSNumber *)sender intValue];
+        
+        UINavigationController* viewController = segue.destinationViewController;
+        AddContentViewController* contentViewController = (AddContentViewController *)viewController.topViewController;
+        contentViewController.artWork = [artWork copy];
+        contentViewController.delegate = self;
+        contentViewController.isAddComment = true;
+        contentViewController.isAddPhoto = false;
+        contentViewController.isChunck = false;
+        
+    }
+    
+    
+}
+
+#pragma mark -
+#pragma mark ===  AddContent Delegate  ===
+#pragma mark -
+
+
+- (void)submitCommentDidPressed:(id)sender{
+    
+    AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
+    [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
+    
+    [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];
+    isNewComment = true;
+    
+    
+}
+
+
 
 @end

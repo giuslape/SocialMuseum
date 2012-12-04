@@ -28,6 +28,8 @@
 @property (weak) id <AddContentDelegate> delegate;
 @property (readwrite, nonatomic) bool isChunck;
 @property (nonatomic, readwrite, copy)NSNumber* IdChunk;
+@property (nonatomic,readwrite) bool isAddComment;
+@property (nonatomic,readwrite) bool isAddPhoto;
 
 
 - (IBAction)cancelDidPress:(id)sender;

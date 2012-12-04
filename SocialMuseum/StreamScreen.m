@@ -61,7 +61,6 @@
     
     self.items = [NSMutableArray array];
 
-    self.navigationItem.rightBarButtonItem = btnCompose;
     self.navigationItem.title = @"Foto";
     
     UIDevice *device = UIDevice.currentDevice;
@@ -198,6 +197,18 @@
 
     }*/
     
+    if ([@"AddPhoto" compare:[segue identifier]] == NSOrderedSame) {
+                
+        UINavigationController* viewController = segue.destinationViewController;
+        AddContentViewController* contentViewController = (AddContentViewController *)viewController.topViewController;
+        contentViewController.artWork = [artWork copy];
+        contentViewController.delegate = self;
+        contentViewController.isAddPhoto = true;
+        contentViewController.isAddComment = false;
+        contentViewController.isChunck = false;
+    }
+
+    
 }
 
 #pragma mark -
@@ -240,7 +251,23 @@
     return box;
 }
 
+#pragma mark -
+#pragma mark ===  Add Content Delegate  ===
+#pragma mark -
 
+- (void)submitPhotoDidPressed:(id)sender{
+    
+    AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
+    [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
+    
+    [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];    
+}
+
+/*- (IBAction)photoBtnDidPressed:(id)sender {
+    
+    [self performSegueWithIdentifier:@"AddContent" sender:nil];
+    
+}*/
 @end
 
 

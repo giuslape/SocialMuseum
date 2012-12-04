@@ -25,7 +25,7 @@
 #define IPHONE_TABLES_GRID          (CGSize){320, 0}
 #define IPHONE_PORTRAIT_ARTWORK     (CGSize){288, 136}
 #define IPHONE_PORTRAIT_GRID        (CGSize){312, 0}
-#define IPHONE_PORTRAIT_PHOTO       (CGSize){53, 53}
+#define IPHONE_PORTRAIT_PHOTO       (CGSize){51, 51}
 
 
 #define ROW_IMAGE_ARTWORK           (CGSize){304, 152}
@@ -77,7 +77,7 @@
     
     artwork = [[API sharedInstance] temporaryArtWork];
     self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
-
+    self.view.layer.shouldRasterize = YES;
     self.navigationItem.title = artwork.title;
     
     MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -151,46 +151,6 @@
     // relayout the sections
     [self.scroller layoutWithSpeed:duration completion:nil];
 }
-
-#pragma mark -
-#pragma mark ===  Storyboard  ===
-#pragma mark -
-
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-  /*  if ([@"ShowStream" compare:[segue identifier]] == NSOrderedSame) {
-        
-        StreamScreen* stream = [segue destinationViewController];
-        [stream setArtWork:_artWork];
-
-        self.navigationItem.title = nil;
-    }
-    
-    if ([@"ShowContent" compare:segue.identifier] == NSOrderedSame) {
-        
-        UITableViewCell* cell = (UITableViewCell *)sender;
-        ChunkViewController* chunk = [segue destinationViewController];
-        chunk.chunk = cell.textLabel.text;
-        chunk.IdChunk = [NSNumber numberWithInt:cell.tag];
-        [chunk setIdOpera:_artWork.IdOpera];
-    }*/
-    
-    if ([@"StreamComment" compare:segue.identifier] == NSOrderedSame) {
-        UpdateViewController* update = segue.destinationViewController;
-        [update setIdOpera:artwork.IdOpera];
-    }
-    
-    if ([@"AddContent" compare:[segue identifier]] == NSOrderedSame) {
-        
-        UINavigationController* viewController = segue.destinationViewController;
-        AddContentViewController* contentViewController = (AddContentViewController *)viewController.topViewController;
-        contentViewController.artWork = [artwork copy];
-        contentViewController.delegate = self;
-    }
-    
-}
-
 
 
 #pragma mark -
@@ -380,11 +340,19 @@
     [comment.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
     footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    //footer.layer.shouldRasterize = YES;
     
     footer.onTap = ^{
         [self performSegueWithIdentifier:@"StreamComment" sender:nil];
     };
     
+    /*UIButton* commentBtn = [self buttonWithTitle:@"Aggiungi un commento"];
+    commentBtn.tag = 1;
+    
+    MGBox* boxButton = [MGBox boxWithSize:(CGSize){304,44}];
+    [boxButton addSubview:commentBtn];
+    boxButton.contentLayoutMode = MGBoxLayoutAttached;
+    [tableComments.boxes addObject:boxButton];*/
     
     [tableComments layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
@@ -396,6 +364,42 @@
 
 - (void)commentsDidError{}
 
+
+#pragma mark -
+#pragma mark ===  Button  ===
+#pragma mark -
+
+- (UIButton *)buttonWithTitle:(NSString *)titleText{
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button setTitle:titleText forState:UIControlStateNormal];
+    [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+    button.size = CGSizeMake(250, 30);
+    button.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2, button.size.height / 2 + 8);
+    
+    button.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    [button setBackgroundImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+    
+    // Btn shadow
+    button.layer.shadowColor = [UIColor blackColor].CGColor;
+    button.layer.shadowOpacity = 0.5;
+    button.layer.shadowRadius = 1;
+    button.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+    
+    // Btn border
+    button.layer.borderWidth = 0.35f;
+    button.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    //button.layer.shouldRasterize = YES;
+
+    
+    // Btn Font
+    [button.titleLabel setFont:LINE_FONT];
+    
+    [button addTarget:self action:@selector(addContentFromButton:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return button;
+}
 
 #pragma mark -
 #pragma mark ===  Photo  ===
@@ -434,9 +438,10 @@
 
     MGLine* streamLine = [MGLine lineWithSize:ROW_STREAM_FOTO_SIZE];
     [photosTable.topLines addObject:streamLine];
-    streamLine.padding = UIEdgeInsetsMake(8, 0, 16, 16);
+    streamLine.padding = UIEdgeInsetsMake(8, 0, 8, 8);
     streamLine.sidePrecedence = MGSidePrecedenceRight;
-    [streamLine.rightItems addObject:arrow];
+    //[streamLine.rightItems addObject:arrow];
+    //streamLine.itemPadding = 2;
     
     for (NSDictionary* dict in photos) {
         
@@ -464,11 +469,21 @@
     [photosTable.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
     footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    //footer.layer.shouldRasterize = YES;
     footer.onTap =^{
         
         [self performSegueWithIdentifier:@"ShowStream" sender:nil];
     
     };
+    
+   /* UIButton* photoBtn = [self buttonWithTitle:@"Aggiungi una foto"];
+    photoBtn.tag = 2;
+
+    MGBox* boxButton = [MGBox boxWithSize:(CGSize){304,44}];
+    [boxButton addSubview:photoBtn];
+    boxButton.contentLayoutMode = MGBoxLayoutAttached;
+    [photosGrid.boxes addObject:boxButton];*/
+
     [photosGrid layout];
     [self.scroller layoutWithSpeed:0.5f completion:nil];
     
@@ -484,6 +499,73 @@
     box.topMargin = 0;
     
     return box;
+}
+
+#pragma mark -
+#pragma mark ===  Add Content  ===
+#pragma mark -
+
+- (void)addContentFromButton:(id)sender{
+    
+    UIButton* button = (UIButton *)sender;
+    
+    [self performSegueWithIdentifier:@"AddContent" sender:[NSNumber numberWithInteger:button.tag]];
+}
+
+#pragma mark -
+#pragma mark ===  Storyboard  ===
+#pragma mark -
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    /*  if ([@"ShowStream" compare:[segue identifier]] == NSOrderedSame) {
+     
+     StreamScreen* stream = [segue destinationViewController];
+     [stream setArtWork:_artWork];
+     
+     self.navigationItem.title = nil;
+     }
+     
+     if ([@"ShowContent" compare:segue.identifier] == NSOrderedSame) {
+     
+     UITableViewCell* cell = (UITableViewCell *)sender;
+     ChunkViewController* chunk = [segue destinationViewController];
+     chunk.chunk = cell.textLabel.text;
+     chunk.IdChunk = [NSNumber numberWithInt:cell.tag];
+     [chunk setIdOpera:_artWork.IdOpera];
+     }*/
+    
+    
+    if ([@"StreamComment" compare:segue.identifier] == NSOrderedSame) {
+        UpdateViewController* update = segue.destinationViewController;
+        [update setIdOpera:artwork.IdOpera];
+    }
+    
+    if ([@"AddContent" compare:[segue identifier]] == NSOrderedSame) {
+        
+        //int tagButton = [(NSNumber *)sender intValue];
+        
+        UINavigationController* viewController = segue.destinationViewController;
+        AddContentViewController* contentViewController = (AddContentViewController *)viewController.topViewController;
+        contentViewController.artWork = [artwork copy];
+        contentViewController.delegate = self;
+        contentViewController.isAddComment = true;
+        contentViewController.isAddPhoto = true;
+        contentViewController.isChunck = false;
+        
+        /*switch (tagButton) {
+            case 1:
+                contentViewController.isAddComment = true;
+                break;
+            case 2:
+                contentViewController.isAddPhoto = true;
+                break;
+            default:
+                break;
+        }*/
+    }
+    
 }
 
 

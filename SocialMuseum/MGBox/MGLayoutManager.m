@@ -5,6 +5,7 @@
 #import "MGLayoutManager.h"
 #import "MGScrollView.h"
 
+
 @interface MGLayoutManager ()
 
 + (void)stackTableStyle:(UIView <MGLayoutBox> *)container
@@ -39,7 +40,7 @@
   }
 
   // children layout first
-  for (id box in container.boxes) {
+  for (id <MGLayoutBox> box in container.boxes) {
     [box layout];
   }
 
@@ -102,7 +103,7 @@
   }
 
   // children layout first
-  for (id box in container.boxes) {
+  for (id <MGLayoutBox> box in container.boxes) {
     [box layout];
   }
 

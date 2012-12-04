@@ -43,7 +43,7 @@
 
 @synthesize artWork;
 @synthesize delegate;
-@synthesize isChunck;
+@synthesize isChunck, isAddComment, isAddPhoto;
 @synthesize IdChunk;
 
 #pragma mark -
@@ -69,8 +69,10 @@
     containerBox = [MGBox boxWithSize:IPHONE_TABLES_GRID];
     containerBox.contentLayoutMode = MGLayoutGridStyle;
     [self.scroller.boxes addObject:containerBox];
-
-    if (isChunck) {
+    
+    if (isAddComment) {
+    
+        if (isChunck) {
         
     chunkBox = MGBox.box;
     [containerBox.boxes addObject:chunkBox];
@@ -94,7 +96,7 @@
     submitCommentBtn.size = (CGSize){200,30};
     
     // Btn Title
-    [submitCommentBtn setTitle:@"Lascia un commento" forState:UIControlStateNormal];
+    [submitCommentBtn setTitle:@"Lascia il commento" forState:UIControlStateNormal];
     [submitCommentBtn.titleLabel setFont:TEXT_FONT];
     [submitCommentBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
@@ -117,17 +119,17 @@
     
     [submitCommentBox addSubview:submitCommentBtn];
     [self.scroller.boxes addObject:submitCommentBox];
+        
+    }    
     
-    [self.scroller layoutWithSpeed:1.0f completion:nil];
-    
-    
-    if (!isChunck) {
+    if (isAddPhoto) {
         
     photoBox = MGBox.box;
     [self.scroller.boxes addObject:photoBox];
     photoBox.sizingMode = MGResizingShrinkWrap;
     photoBox.fixedPosition = (CGPoint){0,submitCommentBox.fixedPosition.y + submitCommentBox.size.height};
     
+    [containerBox layout];
     [self drawLayoutPhoto];
     
     submitPhotoBox = [MGBox boxWithSize:(CGSize){208,35}];
@@ -138,7 +140,7 @@
     submitPhotoBtn.size = (CGSize){200,30};
     
     // Btn Title
-    [submitPhotoBtn setTitle:@"Carica una Foto" forState:UIControlStateNormal];
+    [submitPhotoBtn setTitle:@"Carica la Foto" forState:UIControlStateNormal];
     [submitPhotoBtn.titleLabel setFont:TEXT_FONT];
     [submitPhotoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
@@ -162,9 +164,9 @@
     [submitPhotoBox addSubview:submitPhotoBtn];
     [self.scroller.boxes addObject:submitPhotoBox];
     
-    [self.scroller layoutWithSpeed:1.0f completion:nil];
-        
     }
+    
+    [self.scroller layoutWithSpeed:0.5f completion:nil];
 
 }
 
@@ -185,11 +187,15 @@
 
 - (void)viewDidUnload {
     
+    [super viewDidUnload];
+    
     [self setScroller:nil];
     [self setDelegate:nil];
     [self setIsChunck:false];
+    [self setIsAddComment:false];
+    [self setIsAddPhoto:false];
+    
     IdChunk = [NSNumber numberWithInt:0];
-    [super viewDidUnload];
 }
 
 #pragma mark -
@@ -200,7 +206,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 

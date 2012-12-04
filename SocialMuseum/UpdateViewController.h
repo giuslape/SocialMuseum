@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddContentViewController.h"
 
 @class MGScrollView;
 
-@interface UpdateViewController : UIViewController{
+@interface UpdateViewController : UIViewController <AddContentDelegate>
+{
     
     NSArray* _comments;
 }
