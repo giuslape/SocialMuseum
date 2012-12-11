@@ -10,9 +10,14 @@
 
 @class MGBox;
 
-@interface StreamPhotoScreen : UIViewController
+@interface StreamPhotoScreen : UIViewController <UIScrollViewDelegate>
 {
-    IBOutlet UIImageView* photoView;
+    NSMutableArray *viewControllers;
+    
+    NSArray* contentList;
+    
 }
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) NSMutableArray *viewControllers;
 
 @end

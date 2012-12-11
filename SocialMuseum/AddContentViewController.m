@@ -92,7 +92,7 @@
     submitCommentBox = [MGBox boxWithSize:(CGSize){208,35}];
     submitCommentBox.fixedPosition = (CGPoint){commentBox.origin.x + commentBox.width/2 - submitCommentBox.width/2 + 8, commentBox.origin.y + commentBox.size.height + 8};
     
-    UIButton* submitCommentBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    /*UIButton* submitCommentBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     submitCommentBtn.size = (CGSize){200,30};
     
     // Btn Title
@@ -118,7 +118,7 @@
     [submitCommentBtn addTarget:self action:@selector(uploadComment) forControlEvents:UIControlEventTouchUpInside];
     
     [submitCommentBox addSubview:submitCommentBtn];
-    [self.scroller.boxes addObject:submitCommentBox];
+    [self.scroller.boxes addObject:submitCommentBox];*/
         
     }    
     
@@ -135,7 +135,7 @@
     submitPhotoBox = [MGBox boxWithSize:(CGSize){208,35}];
     submitPhotoBox.fixedPosition = (CGPoint){photoBox.origin.x + photoBox.width/2 - submitPhotoBox.width/2 + 8, photoBox.fixedPosition.y + photoBox.size.height + 8};
     
-    // Btn init
+    /*// Btn init
     UIButton* submitPhotoBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     submitPhotoBtn.size = (CGSize){200,30};
     
@@ -162,7 +162,7 @@
     [submitPhotoBtn addTarget:self action:@selector(uploadPhoto) forControlEvents:UIControlEventTouchUpInside];
 
     [submitPhotoBox addSubview:submitPhotoBtn];
-    [self.scroller.boxes addObject:submitPhotoBox];
+    [self.scroller.boxes addObject:submitPhotoBox];*/
     
     }
     
@@ -231,7 +231,7 @@
     commentTextField = [[UITextField alloc] init];
     commentTextField.placeholder = @"Scrivi qui il tuo commento";
     commentTextField.borderStyle = UITextBorderStyleNone;
-    commentTextField.size = (CGSize){288, 110};
+    commentTextField.size = (CGSize){288, 160};
     commentTextField.font = TEXT_FONT;
     commentTextField.delegate = self;
     commentTextField.keyboardType = UIKeyboardAppearanceDefault;
@@ -279,10 +279,10 @@
     
     photoToUpload= [[UIImageView alloc] initWithImage:defaultPlaceholder];
     photoToUpload.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
-    photoToUpload.size = (CGSize){288,130};
+    photoToUpload.size = (CGSize){288,160};
     photoToUpload.contentMode = UIViewContentModeCenter;
     
-    MGLine* linePhoto = [MGLine lineWithLeft:photoToUpload right:nil size:(CGSize){304,146}];
+    MGLine* linePhoto = [MGLine lineWithLeft:photoToUpload right:nil size:(CGSize){304,176}];
     linePhoto.padding = UIEdgeInsetsMake(8, 8, 8, 8);
     [photoSection.topLines addObject:linePhoto];
         

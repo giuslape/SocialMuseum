@@ -10,11 +10,11 @@
             <objects>
                 <viewController wantsFullScreenLayout="YES" id="tHX-LK-o6I" customClass="ProfileViewController" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="DQh-dt-aPI">
-                        <rect key="frame" x="0.0" y="44" width="320" height="387"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="gEP-GP-gam" customClass="MGScrollView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </scrollView>
@@ -237,7 +237,7 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="i7f-y1-pV9" customClass="MGScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
@@ -308,39 +308,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="scroller" destination="tTH-s2-2Id" id="YMP-pm-PJu"/>
-                        <segue destination="Fau-h8-meB" kind="push" identifier="ShowPhoto" id="tqw-Ju-24n"/>
+                        <segue destination="qQ7-7L-AFS" kind="push" identifier="ShowPhoto" id="qKO-Hr-Qbe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Du-np-ngl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2744" y="-1080"/>
-        </scene>
-        <!--Stream Photo Screen-->
-        <scene sceneID="F2E-d4-wLV">
-            <objects>
-                <viewController id="Fau-h8-meB" customClass="StreamPhotoScreen" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="v11-S2-y6v">
-                        <rect key="frame" x="0.0" y="44" width="320" height="387"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" id="yJ0-Wj-8OE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="318"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
-                        <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="juA-4M-2l5"/>
-                    <connections>
-                        <outlet property="photoView" destination="yJ0-Wj-8OE" id="A8G-Jb-dxg"/>
-                        <segue destination="tHX-LK-o6I" kind="push" identifier="ShowProfile" id="erZ-Ij-kGV"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="frJ-es-v1V" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3463" y="-1086"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="Tj9-SG-qHP">
@@ -499,6 +472,30 @@
             </objects>
             <point key="canvasLocation" x="1674" y="-1913"/>
         </scene>
+        <!--Stream Photo Screen-->
+        <scene sceneID="Ucm-e7-hOl">
+            <objects>
+                <viewController id="qQ7-7L-AFS" customClass="StreamPhotoScreen" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HAP-HL-Zx6">
+                        <rect key="frame" x="0.0" y="44" width="320" height="387"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="anH-jr-yZY">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="387"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ymc-81-pmh"/>
+                    <connections>
+                        <outlet property="scrollView" destination="anH-jr-yZY" id="PWb-V9-o6E"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gIu-xt-0Op" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3286" y="-1080"/>
+        </scene>
     </scenes>
     <resources>
         <image name="location.png" width="20" height="20"/>
@@ -569,13 +566,12 @@
         <class className="StreamPhotoScreen" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamPhotoScreen.h"/>
             <relationships>
-                <relationship kind="outlet" name="photoView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
             </relationships>
         </class>
         <class className="StreamScreen" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/StreamScreen.h"/>
             <relationships>
-                <relationship kind="action" name="photoBtnDidPressed:"/>
                 <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>
@@ -592,8 +588,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="zYq-IC-L4T"/>
+        <segue reference="hBP-7E-fC3"/>
         <segue reference="0BX-hF-CfX"/>
-        <segue reference="XA2-gl-WBz"/>
-        <segue reference="JLr-eI-HAg"/>
     </inferredMetricsTieBreakers>
 </document>

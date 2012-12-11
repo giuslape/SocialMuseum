@@ -91,6 +91,7 @@
 - (void)viewDidUnload {
     [super viewDidUnload];
     
+    [[API sharedInstance] setTemporaryPhotosInfo:nil];
     self.scroller.pullToRefreshView = nil;
     self.scroller = nil;
 }
@@ -163,6 +164,8 @@
 - (void)dataSourceDidLoad {
     
     [photosGrid.boxes removeAllObjects];
+    
+    [[API sharedInstance] setTemporaryPhotosInfo:self.items];
     
     NSEnumerator* enumerator = [self.items reverseObjectEnumerator];
     

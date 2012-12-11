@@ -21,38 +21,42 @@
 #define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:10]
 #define ROW_SIZE               (CGSize){self.view.bounds.size.width, 44}
 
+static NSUInteger kNumberOfPages;
 
 @implementation StreamPhotoScreen{
+    
     MGBox* footerBox;
     FBProfilePictureView* profilePictureView;
-    
-    NSDictionary* photoDetails;
 }
+
+@synthesize viewControllers, scrollView;
 
 
 -(void)viewDidLoad {
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     
-    photoDetails = [[API sharedInstance] temporaryPhoto];
+    contentList = [[API sharedInstance] temporaryPhotosInfo];
+    kNumberOfPages = [contentList count];
     
-    profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
-    [self waitingForLoadPhoto];
+    NSMutableArray* controllers = [[NSMutableArray alloc] init];
     
-    [self performSelector:@selector(loadPhoto) withObject:nil afterDelay:1.0f];
-        
-    footerBox = [MGBox boxWithSize:ROW_SIZE];
-    [self.view addSubview:footerBox];
-    footerBox.origin = (CGPoint){0,self.view.bounds.origin.y + photoView.size.height};
+    for (unsigned i = 0; i < kNumberOfPages; i++)
+    {
+		[controllers addObject:[NSNull null]];
+    }
     
-    [self loadPhotoDetails];
+    self.viewControllers = controllers;
     
-    [footerBox layout];
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * kNumberOfPages, scrollView.frame.size.height);
     
-    id block = self;
-    footerBox.onTap = ^{
-        [block performSegueWithIdentifier:@"ShowProfile" sender:nil];
-    };
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.scrollsToTop = NO;
+    scrollView.delegate = self;
+    
+    [self loadScrollViewWithPage:3];
+
 }
 
 -(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -66,24 +70,29 @@
 }
 
 - (void)viewDidUnload {
+    [self setScrollView:nil];
     [super viewDidUnload];
 }
 
--(void)loadPhotoDetails{
+-(void)loadPhotoDetails:(NSDictionary *)infos inBox:(MGBox *)footer{
+    
     
     MGTableBoxStyled* table = MGTableBoxStyled.box;
-    [footerBox.boxes addObject:table];
+    [footer.boxes addObject:table];
     table.leftMargin = table.topMargin = 0;
     
-    MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,48}];
-    [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}]];
     
-    NSString* username = [[[API sharedInstance] temporaryUser] objectForKey:@"username"];
+    FBProfilePictureView* pictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
+
+    MGLine* line = [MGLine lineWithSize:(CGSize){self.view.bounds.size.width,48}];
+    [line.leftItems addObject:[PhotoBox photoProfileBoxWithView:pictureView andSize:(CGSize){35,35}]];
+    
+    NSString* username = [infos objectForKey:@"username"];
     NSString* artWorkName = [[API sharedInstance] temporaryArtWork].title;
     
-    [line.leftItems addObject:[NSString stringWithFormat:@"%@ \nscattata nei pressi di %@",username,artWorkName]];
+    [line.leftItems addObject:[NSString stringWithFormat:@"%@\nscattata nei pressi di %@",username,artWorkName]];
      
-    NSString* datetime = [photoDetails objectForKey:@"datetime"];
+    NSString* datetime = [infos objectForKey:@"datetime"];
     
     NSString* temporalDifferences = [NSString determingTemporalDifferencesFromNowtoStartDate:datetime];
     [line.rightItems addObject:temporalDifferences];
@@ -95,50 +104,52 @@
     [table.topLines addObject:line];
     line.font = HEADER_FONT;
     
-    NSString* fbId = [[[API sharedInstance] temporaryUser] objectForKey:@"FBId"];
-   // NSString* profileId = (fbId) ? fbId : nil;
-    profilePictureView.profileID = fbId;
+    NSString* fbId = [infos objectForKey:@"FBId"];
+    NSString* profileId = (fbId) ? fbId : nil;
+    pictureView.profileID = profileId;
+    
+    [footer layout];
 }
 
--(void)waitingForLoadPhoto{
+-(void)waitingForLoadPhoto:(UIImageView *)imageView{
 
     // add a loading spinner
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]
                                         initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     spinner.transform = CGAffineTransformMakeScale(2.0, 2.0);
-    spinner.center = CGPointMake(photoView.width / 2, photoView.height / 2);
+    spinner.center = CGPointMake(scrollView.size.width / 2, scrollView.size.height / 2);
     spinner.autoresizingMask = UIViewAutoresizingFlexibleTopMargin
     | UIViewAutoresizingFlexibleRightMargin
     | UIViewAutoresizingFlexibleBottomMargin
     | UIViewAutoresizingFlexibleLeftMargin;
     spinner.color = UIColor.lightGrayColor;
-    [photoView addSubview:spinner];
+    [imageView addSubview:spinner];
     [spinner startAnimating];
 
 }
 
-- (void)loadPhoto{
+- (void)loadPhotoWithId:(NSNumber *)idPhoto andView:(UIImageView *)imageView{
         
         //Carica l'img
         API* api = [API sharedInstance];
         
-        NSURL* imageURL = [api urlForImageWithId:[photoDetails objectForKey:@"IdPhoto"] isThumb:NO];
+        NSURL* imageURL = [api urlForImageWithId:idPhoto isThumb:NO];
         
         AFImageRequestOperation* imageOperation = [AFImageRequestOperation imageRequestOperationWithRequest: [NSURLRequest requestWithURL:imageURL] success:^(UIImage *image) {
             
             // Elimina lo spinner
-            UIActivityIndicatorView *spinner = photoView.subviews.lastObject;
+            UIActivityIndicatorView *spinner = imageView.subviews.lastObject;
             [spinner stopAnimating];
             [spinner removeFromSuperview];
             
-            photoView.image = image;
-            photoView.alpha = 0;
-            photoView.autoresizingMask = UIViewAutoresizingFlexibleWidth
+            imageView.image = image;
+            imageView.alpha = 0;
+            imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth
             | UIViewAutoresizingFlexibleHeight;
             
             // fade the image in
             [UIView animateWithDuration:0.2 animations:^{
-                photoView.alpha = 1;
+                imageView.alpha = 1;
             }];
             
         }];
@@ -155,6 +166,95 @@
         profile.hiddenRightButton = YES;
     }
     
+}
+
+#pragma mark -
+#pragma mark ===  Load Page  ===
+#pragma mark -
+
+- (void)loadScrollViewWithPage:(int)page
+{
+    if (page < 0)
+        return;
+    if (page >= kNumberOfPages)
+        return;
+    
+    // replace the placeholder if necessary
+    UIImageView* imageView = [viewControllers objectAtIndex:page];
+    
+    if ((NSNull *)imageView == [NSNull null])
+    {
+        imageView = [[UIImageView alloc] init];
+        //imageView.contentMode = UIViewContentModeScaleToFill;
+        [viewControllers replaceObjectAtIndex:page withObject:imageView];
+    }
+    
+    // add the controller's view to the scroll view
+    if (imageView.superview == nil)
+    {
+        CGRect frame = scrollView.frame;
+        frame.origin.x = frame.size.width * page;
+        frame.origin.y = 0;
+        frame.size.height = scrollView.size.height;
+        imageView.frame = frame;
+        [scrollView addSubview:imageView];
+        
+        NSDictionary *item = [contentList objectAtIndex:page];
+        
+        NSNumber* idPhoto = [NSNumber numberWithInt:[[item objectForKey:@"IdPhoto"] intValue]];
+        [self waitingForLoadPhoto:imageView];
+        [self loadPhotoWithId:idPhoto andView:imageView];
+        
+        MGBox* footer = [MGBox boxWithSize:ROW_SIZE];
+        footer.origin = (CGPoint){scrollView.frame.size.width * page,0};
+        [scrollView addSubview:footer];
+                
+        [self loadPhotoDetails:item inBox:footer];
+
+        [footer layout];
+
+        id block = self;
+        footer.onTap = ^{
+            [block performSegueWithIdentifier:@"ShowProfile" sender:nil];
+        };
+
+        if (page > 0) {
+            CGRect frame = scrollView.frame;
+            frame.origin.x = frame.size.width * page;
+            frame.origin.y = 0;
+            [scrollView scrollRectToVisible:frame animated:YES];
+        }
+        
+    }
+    
+}
+
+#pragma mark -
+#pragma mark ===  Scroll Delegate  ===
+#pragma mark -
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
+ 
+	
+        
+    // A possible optimization would be to unload the views+controllers which are no longer visible
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)sender
+{
+    CGFloat pageWidth = scrollView.frame.size.width;
+    int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    
+    //[self loadScrollViewWithPage:page - 1];
+    [self loadScrollViewWithPage:page];
+    //[self loadScrollViewWithPage:page + 1];
+
 }
 
 @end

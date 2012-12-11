@@ -20,6 +20,7 @@ typedef void (^JSONResponseBlock)(NSDictionary* json);
 @property (strong, nonatomic) NSDictionary* temporaryComment;
 @property (strong, nonatomic) NSDictionary* temporaryPhoto;
 @property (strong, nonatomic) NSDictionary* temporaryChunck;
+@property (strong, nonatomic) NSArray* temporaryPhotosInfo;
 @property (strong, nonatomic) ArtWork* temporaryArtWork;
 
 +(API*)sharedInstance;
