@@ -258,12 +258,12 @@
 #pragma mark ===  Add Content Delegate  ===
 #pragma mark -
 
-- (void)submitPhotoDidPressed:(id)sender{
+- (void)contentDidLoad:(bool)newPhoto isComment:(bool)newComment{
     
     AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
     [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
     
-    [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];    
+    [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];
 }
 
 /*- (IBAction)photoBtnDidPressed:(id)sender {

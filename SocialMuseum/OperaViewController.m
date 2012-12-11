@@ -573,14 +573,29 @@
 #pragma mark ===  Add Content Delegate Methods  ===
 #pragma mark -
 
-- (void)submitCommentDidPressed:(id)sender{
+- (void)contentDidLoad:(bool)newPhoto isComment:(bool)newComment{
+    
+    AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
+    
+    [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
+    
+    if (newComment) {
+        [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];
+        isNewComment = true;
+    }
+    
+    if (newPhoto) {
+        [self performSelector:@selector(loadThumbPhotos) withObject:nil afterDelay:1.6f];
+        isNewPhoto = true;
+    }
+}
+/*- (void)submitCommentDidPressed:(id)sender{
     
     AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
     [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
     
     [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];
     isNewComment = true;
-    
     
 }
 
@@ -592,5 +607,5 @@
     [self performSelector:@selector(loadThumbPhotos) withObject:nil afterDelay:1.6f];
     isNewPhoto = true;
 }
-
+*/
 @end

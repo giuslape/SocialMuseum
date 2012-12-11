@@ -12,8 +12,7 @@
 
 @protocol AddContentDelegate <NSObject>
 @optional
-- (void)submitCommentDidPressed:(id)sender;
-- (void)submitPhotoDidPressed:(id)sender;
+- (void)contentDidLoad:(bool)newPhoto isComment:(bool)newComment;
 
 @end
 
@@ -31,6 +30,7 @@
 @property (nonatomic,readwrite) bool isAddComment;
 @property (nonatomic,readwrite) bool isAddPhoto;
 
+- (IBAction)doneDidPress:(id)sender;
 
 - (IBAction)cancelDidPress:(id)sender;
 

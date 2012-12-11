@@ -114,6 +114,11 @@
                                 <action selector="cancelDidPress:" destination="cHX-05-Ie1" id="VwF-ks-5hP"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Fatto" id="Ovu-Se-e6L">
+                            <connections>
+                                <action selector="doneDidPress:" destination="cHX-05-Ie1" id="79n-KY-MV6"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -505,6 +510,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AddContentViewController.h"/>
             <relationships>
                 <relationship kind="action" name="cancelDidPress:"/>
+                <relationship kind="action" name="doneDidPress:"/>
                 <relationship kind="outlet" name="scroller" candidateClass="MGScrollView"/>
             </relationships>
         </class>

@@ -39,6 +39,12 @@
     UIImage* defaultPlaceholder;
     
     bool isPhoto;
+    
+    bool isNewPhoto;
+    bool isNewComment;
+    
+    bool commentIsUpload;
+    bool photoIsUpload;
 }
 
 @synthesize artWork;
@@ -56,6 +62,10 @@
     [super viewDidLoad];
     
     isPhoto = false;
+    isNewComment = false;
+    isNewPhoto = false;
+    commentIsUpload = false;
+    photoIsUpload = false;
     
     defaultPlaceholder = [UIImage imageNamed:@"camera.png"];
     
@@ -213,9 +223,69 @@
 #pragma mark ===  Action  ===
 #pragma mark -
 
+- (IBAction)doneDidPress:(id)sender {
+    
+    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.dimBackground = YES;
+    hud.labelText = @"Carico";
+    
+    isNewPhoto = (photoToUpload.image != defaultPlaceholder) ? true : false;
+    if(isNewPhoto) [self uploadPhoto];
+    
+    
+    commentToUpload = commentTextField.text;
+    [commentTextField resignFirstResponder];
+
+    isNewComment = (commentToUpload != nil) ? true : false;
+    if(isNewComment) [self uploadComment];
+    
+   // [delegate contentDidLoad:isNewPhoto isComment:isNewComment];
+}
+
 - (IBAction)cancelDidPress:(id)sender {
     
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)contentDidUpload{
+    
+    if (!isNewPhoto && !isNewComment) return;
+    
+    if (isNewComment && isNewPhoto) {
+        
+        if (photoIsUpload && commentIsUpload) {
+            [delegate contentDidLoad:isNewPhoto isComment:isNewComment];
+            commentIsUpload = false;
+            photoIsUpload = false;
+        }
+    }
+    else if (isNewComment){
+        
+        [delegate contentDidLoad:isNewPhoto isComment:isNewComment];
+        commentIsUpload = false;
+    }
+    else if(isNewPhoto){
+        
+        [delegate contentDidLoad:isNewPhoto isComment:isNewComment];
+        photoIsUpload = false;
+    }
+
+    UIView *viewToRemove = nil;
+    for (UIView *v in [self.view subviews]) {
+        if ([v isKindOfClass:[MBProgressHUD class]]) {
+        viewToRemove = v;
+        }
+    }
+    if (viewToRemove != nil) {
+        MBProgressHUD *hud = (MBProgressHUD *)viewToRemove;
+        hud.removeFromSuperViewOnHide = YES;
+        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+        hud.mode = MBProgressHUDModeCustomView;
+        hud.labelText = @"Completato";
+        [hud hide:YES afterDelay:1];
+    
+    }
 }
 
 
@@ -277,7 +347,7 @@
     MGTableBoxStyled* photoSection = MGTableBoxStyled.box;
     [photoBox.boxes addObject:photoSection];
     
-    photoToUpload= [[UIImageView alloc] initWithImage:defaultPlaceholder];
+    photoToUpload = [[UIImageView alloc] initWithImage:defaultPlaceholder];
     photoToUpload.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     photoToUpload.size = (CGSize){288,160};
     photoToUpload.contentMode = UIViewContentModeCenter;
@@ -327,64 +397,38 @@
 
 - (void)uploadComment{
     
-    commentToUpload = commentTextField.text;
-    
-    if (commentToUpload == nil) return;
-    
-    [commentTextField resignFirstResponder];
-    
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.dimBackground = YES;
-    hud.labelText = @"Carico il Commento";
-    
-    
+
     [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"addComment", @"command",commentToUpload,@"testo",artWork.IdOpera,@"IdOpera",IdChunk,@"IdChunk",nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
 			//Successo
-            hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-            hud.mode = MBProgressHUDModeCustomView;
-            hud.labelText = @"Completato";
-            [hud hide:YES afterDelay:1];
-            
-            [delegate submitCommentDidPressed:self];
-			
+            commentIsUpload = true;
+            [self contentDidUpload];
+            			
 		} else {
 			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
 			NSString* errorMsg = [json objectForKey:@"error"];
 			[UIAlertView error:errorMsg];
-            [hud hide:YES afterDelay:1];
         }
-	}];    
+	}];
+    
 }
 
 - (void)uploadPhoto{
     
-    if (photoToUpload.image == defaultPlaceholder) return;
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.dimBackground = YES;
-    hud.labelText = @"Carico la Foto";
-    
     [[API sharedInstance] commandWithParams:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"upload", @"command", UIImageJPEGRepresentation(imageToUpload,70), @"file", @"title", @"title", artWork.IdOpera, @"IdOpera", nil] onCompletion:^(NSDictionary *json) {
 		//Completamento
 		if (![json objectForKey:@"error"]) {
-			//Successo
-			hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
-            hud.mode = MBProgressHUDModeCustomView;
-            hud.labelText = @"Completato";
-            [hud hide:YES afterDelay:1];
             
-            [delegate submitPhotoDidPressed:self];
-            
+            photoIsUpload = true;
+            [self contentDidUpload];
+                
 		} else {
 			//Errore, Cerca se la sessione è scaduta e se l'utente è autorizzato
 			NSString* errorMsg = [json objectForKey:@"error"];
 			[UIAlertView error:errorMsg];
-            [hud hide:YES afterDelay:1];
-			
 		}
 	}];
-
     
 }
 
