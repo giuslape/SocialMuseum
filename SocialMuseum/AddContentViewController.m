@@ -225,21 +225,26 @@
 
 - (IBAction)doneDidPress:(id)sender {
     
-    MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.dimBackground = YES;
-    hud.labelText = @"Carico";
-    
     isNewPhoto = (photoToUpload.image != defaultPlaceholder) ? true : false;
-    if(isNewPhoto) [self uploadPhoto];
-    
-    
-    commentToUpload = commentTextField.text;
-    [commentTextField resignFirstResponder];
-
     isNewComment = (commentToUpload != nil) ? true : false;
-    if(isNewComment) [self uploadComment];
-    
-   // [delegate contentDidLoad:isNewPhoto isComment:isNewComment];
+
+    if (isNewComment || isNewPhoto) {
+        
+        MBProgressHUD* hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.dimBackground = YES;
+        hud.labelText = @"Carico";
+        
+        if(isNewPhoto) [self uploadPhoto];
+        if(isNewComment) {
+            
+            commentToUpload = commentTextField.text;
+            [commentTextField resignFirstResponder];
+            [self uploadComment];
+        }
+
+
+    }
+   
 }
 
 - (IBAction)cancelDidPress:(id)sender {

@@ -167,9 +167,9 @@
     
     [[API sharedInstance] setTemporaryPhotosInfo:self.items];
     
-    NSEnumerator* enumerator = [self.items reverseObjectEnumerator];
+    //NSEnumerator* enumerator = [self.items ];
     
-    for (NSDictionary* dict in enumerator) {
+    for (NSDictionary* dict in self.items) {
         
         [photosGrid.boxes addObject:[self photoBoxFor:dict]];
         [photosGrid layout];
@@ -263,7 +263,7 @@
     AddContentViewController* contentViewController = (AddContentViewController *)[self presentedViewController];
     [contentViewController performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:1.3];
     
-    [self performSelector:@selector(loadComments) withObject:nil afterDelay:1.6f];
+    [self performSelector:@selector(loadDataSource) withObject:nil afterDelay:1.6f];
 }
 
 /*- (IBAction)photoBtnDidPressed:(id)sender {
