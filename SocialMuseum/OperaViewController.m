@@ -107,8 +107,8 @@
     [tablesGrid layout];
     [self.scroller layoutWithSpeed:0.3f completion:nil];
     [self loadArtWorkContent];
-    [self loadComments];
-    [self loadThumbPhotos];
+    //[self loadComments];
+    //[self loadThumbPhotos];
 }
 
 
@@ -131,6 +131,9 @@
 		[self showPhotos:[json objectForKey:@"result"]];
         
         }];*/
+    
+    [self loadComments];
+    [self loadThumbPhotos];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -447,7 +450,7 @@
         
         [streamLine.leftItems addObject:[self streamThumbPhotoWithId:[dict objectForKey:@"IdPhoto"] andSize:IPHONE_PORTRAIT_PHOTO]];
         
-        if ([dict isEqualToDictionary:[photos objectAtIndex:0]]) {
+        if ([dict isEqualToDictionary:[photos objectAtIndex:0]] && isNewPhoto) {
             
             [UIView animateWithDuration:0.2f
                                   delay:0.5f
@@ -469,7 +472,6 @@
     [photosTable.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
     footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
-    //footer.layer.shouldRasterize = YES;
     footer.onTap =^{
         
         [self performSegueWithIdentifier:@"ShowStream" sender:nil];
