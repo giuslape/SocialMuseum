@@ -11,6 +11,7 @@
 #import "MGScrollView.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
+#import "MGLineStyled.h"
 #import "AppDelegate.h"
 #import "PhotoBox.h"
 
@@ -21,6 +22,8 @@
 #define IPHONE_TABLES_GRID     (CGSize){320, 0}
 
 #define HEADER_FONT            [UIFont fontWithName:@"HelveticaNeue" size:14]
+#define ACTIVITY_FONT            [UIFont fontWithName:@"HelveticaNeue" size:12]
+
 
 
 @implementation ProfileViewController{
@@ -87,30 +90,27 @@
     [table1.boxes addObject:menu];
     
     // header line
-    MGLine *header = [MGLine lineWithLeft:nil right:nil size:(CGSize){304,136}];
+    MGLineStyled *header = [MGLineStyled lineWithLeft:nil right:nil size:(CGSize){304,116}];
     header.font = HEADER_FONT;
     [header.leftItems addObject:[PhotoBox photoProfileBoxWithView:self.userProfileImage andSize:(CGSize){100,100}]];
     
-    [header.middleItems addObject:self.userNameLabel.text];
-    header.topPadding = 16;
-    header.leftPadding  =   16;
-    header.rightPadding =   16;
-    header.bottomPadding = 80;
+    [header.middleItems addObject:[NSString stringWithFormat:@"%@",self.userNameLabel.text]];
+    header.middleItemsTextAlignment = UITextAlignmentLeft;
+    header.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    header.itemPadding = 8;
     
     [menu.topLines addObject:header];
     
     
-    MGLine* option = [MGLine lineWithSize:(CGSize){304,132}];
+    MGLineStyled* option = [MGLineStyled lineWithSize:(CGSize){304,132}];
     option.font = HEADER_FONT;
     [option.leftItems addObject:[PhotoBox photoProfileOptionAdvice]];
     [option.leftItems addObject:[PhotoBox photoProfileOptionPhoto:thumbPhotoId]];
-    option.topPadding  = 10;
-    option.leftPadding = 16;
+    option.topPadding  = 8;
+    option.leftPadding = 8;
     [menu.topLines addObject:option];
     
-    //[table1 layout];
-    [self.scroller layoutWithSpeed:0.3f completion:nil];
-    
+    [self.scroller layoutWithSpeed:0.3f completion:nil];    
 }
 
 
@@ -120,7 +120,7 @@
     MGTableBoxStyled* activity = MGTableBoxStyled.box;
     [table1.boxes addObject:activity];
         
-    MGLine* header = [MGLine lineWithLeft:@"Attività recenti" right:nil size:ROW_SIZE];
+    MGLineStyled* header = [MGLineStyled lineWithLeft:@"Attività recenti" right:nil size:ROW_SIZE];
     header.font = HEADER_FONT;
     header.leftPadding = header.rightPadding = header.topPadding = 16;
     [activity.topLines addObject:header];
@@ -131,19 +131,21 @@
         
         NSDictionary* dict = [streamUser objectAtIndex:i];
         
-        MGLine *line = [MGLine line];
+        MGLineStyled *line = [MGLineStyled line];
         
         if ([dict objectForKey:@"IdPhoto"]) {
             
-            MGLine* header = [MGLine lineWithMultilineLeft:[NSString stringWithFormat:@"%@ ha pubblicato una foto nei pressi di...",userName] right:nil width:304 minHeight:60];
-            header.leftPadding = header.topPadding = 16;
+            MGLineStyled* header = [MGLineStyled lineWithMultilineLeft:[NSString stringWithFormat:@"%@ ha pubblicato una foto \n\nnei pressi di...",userName] right:nil width:304 minHeight:60];
+            header.font = ACTIVITY_FONT;
+            header.leftPadding = 16;
+            header.topPadding = 8;
             header.underlineType = MGUnderlineNone;
             
             [activity.topLines addObject:header];
             
             MGBox* box = [self photoBoxFor:[NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"] intValue]]];
-            box.leftMargin = 0;
-            box.topMargin = 16;
+            box.leftMargin = 8;
+            box.topMargin = 8;
             [line.middleItems addObject:box];
             line.size = (CGSize){304,144};
         }
@@ -152,9 +154,13 @@
             id testo = [NSString stringWithFormat:@"%@ ha scritto un commento\n\n%@",userName,[dict objectForKey:@"testo"]];
         
             line.multilineLeft = testo;
+            line.font = ACTIVITY_FONT;
             line.padding = UIEdgeInsetsMake(16, 16, 16, 16);
-            line.size = (CGSize){304,132};
-        }
+            
+            CGSize minSize = [testo sizeWithFont:ACTIVITY_FONT];
+            CGFloat height = minSize.height + line.padding.top*2 + line.padding.bottom*2;
+            
+            line.size = (CGSize){304,height};        }
      
         [activity.topLines addObject:line];
     }

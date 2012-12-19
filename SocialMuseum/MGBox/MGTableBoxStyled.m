@@ -34,7 +34,7 @@
   self.layer.shadowOpacity = 1;
 
   // performance
-  self.rasterize = YES;
+  //self.rasterize = YES;
 }
 
 - (void)layout {

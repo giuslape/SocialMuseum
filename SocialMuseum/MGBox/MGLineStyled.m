@@ -13,7 +13,7 @@
 
   // default styling
   self.backgroundColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.95 alpha:1];
-  self.padding = UIEdgeInsetsMake(0, 16, 0, 16);
+  self.padding = UIEdgeInsetsMake(0, 8, 8, 8);
 
   // use MGBox borders instead of the maybe-to-be-deprecated solidUnderline
   self.borderStyle = MGBorderEtchedTop | MGBorderEtchedBottom;
