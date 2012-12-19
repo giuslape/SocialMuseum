@@ -226,6 +226,7 @@
 
 - (IBAction)doneDidPress:(id)sender {
     
+    commentToUpload = commentTextField.text;
     isNewPhoto = (photoToUpload.image != defaultPlaceholder) ? true : false;
     isNewComment = (commentToUpload != nil) ? true : false;
 
@@ -238,7 +239,6 @@
         if(isNewPhoto) [self uploadPhoto];
         
         if(isNewComment) {
-            commentToUpload = commentTextField.text;
             [commentTextField resignFirstResponder];
             [self uploadComment];
         }
