@@ -15,6 +15,7 @@
 #import "MGScrollView.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
+#import "MGLineStyled.h"
 #import "PhotoBox.h"
 #import "MBProgressHUD.h"
 #import <FacebookSDK/FacebookSDK.h>
@@ -208,20 +209,21 @@
     MGTableBoxStyled* art = MGTableBoxStyled.box;
     [tableContent.boxes addObject:art];
     
-    MGLine* line = [MGLine lineWithLeft:[self photoBoxForArtwork:artwork.imageUrl andSize:IPHONE_PORTRAIT_ARTWORK] right:nil size:ROW_IMAGE_ARTWORK];
+    MGLineStyled* line = [MGLineStyled lineWithLeft:[self photoBoxForArtwork:artwork.imageUrl andSize:IPHONE_PORTRAIT_ARTWORK] right:nil size:ROW_IMAGE_ARTWORK];
     [art.topLines addObject:line];
     line.padding = UIEdgeInsetsMake(8, 8, 8, 8);
     
     for (NSDictionary* dict in chuncks) {
         
-        MGLine* chunckLine = [MGLine lineWithMultilineLeft:[dict objectForKey:@"testo"] right:arrow width:304 minHeight:44];
+        MGLineStyled* chunckLine = [MGLineStyled lineWithMultilineLeft:[dict objectForKey:@"testo"] right:arrow width:304 minHeight:44];
         [art.topLines addObject:chunckLine];
         chunckLine.padding = UIEdgeInsetsMake(8, 8, 8, 8);
         chunckLine.font = LINE_FONT;
         chunckLine.sidePrecedence = MGSidePrecedenceRight;
         
+        chunckLine.leftBorderColor = [MGLineStyled borderColorForTag:[dict objectForKey:@"IdChunk"]];
+        
         chunckLine.onTap = ^{
-            
             
             [[API sharedInstance] setTemporaryChunck:@{@"testo": [dict objectForKey:@"testo"], @"IdChunk" : [NSNumber numberWithInt:[[dict objectForKey:@"IdChunk"] intValue]]}];
             
@@ -272,7 +274,7 @@
     MGTableBoxStyled* comment = MGTableBoxStyled.box;
     [tableComments.boxes addObject:comment];
 
-    MGLine* line = [MGLine lineWithLeft:@"Commenti Recenti" right:nil size:ROW_SIZE];
+    MGLineStyled* line = [MGLineStyled lineWithLeft:@"Commenti Recenti" right:nil size:ROW_SIZE];
     line.font = HEADER_FONT;
     line.padding = UIEdgeInsetsMake(8, 8, 8, 8);
     [comment.topLines addObject:line];
@@ -292,7 +294,7 @@
         
         //NSString* datetime = [dict objectForKey:@"datetime"];
 
-        MGLine* commentLine = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:arrow];
+        MGLineStyled* commentLine = [MGLineStyled lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:arrow];
         
         [commentLine.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username,commentText]];
 
@@ -303,6 +305,9 @@
         commentLine.sidePrecedence = MGSidePrecedenceRight;
         commentLine.rightFont = RIGHT_FONT;
         commentLine.maxHeight = 60;
+        
+        if ([[dict objectForKey:@"IdChunk" ] intValue] > 0)
+        commentLine.leftBorderColor = [MGLineStyled borderColorForTag:[dict objectForKey:@"IdChunk"]];
 
         CGSize minSize = [commentText sizeWithFont:LINE_FONT];
         CGFloat height = minSize.height + commentLine.padding.top + commentLine.padding.bottom;
@@ -334,7 +339,7 @@
 
     }
     
-    MGLine* footer = [MGLine lineWithLeft:nil right:nil size:FOOTER_SIZE];
+    MGLineStyled* footer = [MGLineStyled lineWithLeft:nil right:nil size:FOOTER_SIZE];
     [footer.middleItems addObject:@"Visualizza tutti i Commenti"];
     footer.sidePrecedence = MGSidePrecedenceMiddle;
     footer.padding = UIEdgeInsetsMake(8, 8, 8, 8);
@@ -342,7 +347,7 @@
     footer.middleItemsTextAlignment = NSTextAlignmentCenter;
     [comment.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
-    footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    //footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
     //footer.layer.shouldRasterize = YES;
     
     footer.onTap = ^{
@@ -434,12 +439,12 @@
     MGTableBoxStyled* photosTable = MGTableBoxStyled.box;
     [photosGrid.boxes addObject:photosTable];
     
-    MGLine* line = [MGLine lineWithLeft:@"Foto Recenti" right:nil size:ROW_SIZE];
+    MGLineStyled* line = [MGLineStyled lineWithLeft:@"Foto Recenti" right:nil size:ROW_SIZE];
     line.font = HEADER_FONT;
     line.padding = UIEdgeInsetsMake(8, 8, 8, 8);
     [photosTable.topLines addObject:line];
 
-    MGLine* streamLine = [MGLine lineWithSize:ROW_STREAM_FOTO_SIZE];
+    MGLineStyled* streamLine = [MGLineStyled lineWithSize:ROW_STREAM_FOTO_SIZE];
     [photosTable.topLines addObject:streamLine];
     streamLine.padding = UIEdgeInsetsMake(8, 0, 8, 8);
     streamLine.sidePrecedence = MGSidePrecedenceRight;
@@ -463,7 +468,7 @@
         }
         
     }
-    MGLine* footer = [MGLine lineWithLeft:nil right:nil size:FOOTER_SIZE];
+    MGLineStyled* footer = [MGLineStyled lineWithLeft:nil right:nil size:FOOTER_SIZE];
     [footer.middleItems addObject:@"Visualizza tutte le Foto"];
     footer.sidePrecedence = MGSidePrecedenceMiddle;
     footer.padding = UIEdgeInsetsMake(8, 8, 8, 8);
@@ -471,7 +476,7 @@
     footer.middleItemsTextAlignment = NSTextAlignmentCenter;
     [photosTable.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
-    footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+  //  footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
     footer.onTap =^{
         
         [self performSegueWithIdentifier:@"ShowStream" sender:nil];

@@ -4,7 +4,7 @@
 
 #import "MGLayoutManager.h"
 #import "MGScrollView.h"
-
+#import "MGLayoutBox.h"
 
 @interface MGLayoutManager ()
 
@@ -32,11 +32,9 @@
 
   // everyone in now please
   for (UIView <MGLayoutBox> *box in container.boxes) {
+    NSAssert([box conformsToProtocol:@protocol(MGLayoutBox)], @"Items in the boxes set must conform to MGLayoutBox");
     [container addSubview:box];
-    if ([box conformsToProtocol:@protocol(MGLayoutBox)]
-        && [container conformsToProtocol:@protocol(MGLayoutBox)]) {
-      box.parentBox = (id)container;
-    }
+    box.parentBox = (id)container;
   }
 
   // children layout first
@@ -46,12 +44,12 @@
 
   // layout the boxes
   switch (container.contentLayoutMode) {
-  case MGLayoutTableStyle:
-    [MGLayoutManager stackTableStyle:container onlyMove:nil];
-    break;
-  case MGLayoutGridStyle:
-    [MGLayoutManager stackGridStyle:container onlyMove:nil];
-    break;
+    case MGLayoutTableStyle:
+      [MGLayoutManager stackTableStyle:container onlyMove:nil];
+      break;
+    case MGLayoutGridStyle:
+      [MGLayoutManager stackGridStyle:container onlyMove:nil];
+      break;
   }
 
   // position attached and replacement boxes
@@ -92,8 +90,9 @@
   NSArray *gone = [MGLayoutManager findBoxesInView:container
       notInSet:container.boxes];
 
-  // every box is new and no one is gone? then skip that animation style
-  if (!gone.count && newTopBoxes.count == container.boxes.count) {
+  // every box is new and haven't asked for slide-in-from-empty animation?
+  if (newTopBoxes.count == container.boxes.count
+      && !container.slideBoxesInFromEmpty) {
     [newTopBoxes removeAllObjects];
   }
 
@@ -136,12 +135,12 @@
 
   // set start positions for remaining new boxes
   switch (container.contentLayoutMode) {
-  case MGLayoutTableStyle:
-    [MGLayoutManager stackTableStyle:container onlyMove:newNotTopBoxes];
-    break;
-  case MGLayoutGridStyle:
-    [MGLayoutManager stackGridStyle:container onlyMove:newNotTopBoxes];
-    break;
+    case MGLayoutTableStyle:
+      [MGLayoutManager stackTableStyle:container onlyMove:newNotTopBoxes];
+      break;
+    case MGLayoutGridStyle:
+      [MGLayoutManager stackGridStyle:container onlyMove:newNotTopBoxes];
+      break;
   }
 
   // everyone in now please
@@ -172,12 +171,12 @@
 
     // set final positions
     switch (container.contentLayoutMode) {
-    case MGLayoutTableStyle:
-      [MGLayoutManager stackTableStyle:container onlyMove:nil];
-      break;
-    case MGLayoutGridStyle:
-      [MGLayoutManager stackGridStyle:container onlyMove:nil];
-      break;
+      case MGLayoutTableStyle:
+        [MGLayoutManager stackTableStyle:container onlyMove:nil];
+        break;
+      case MGLayoutGridStyle:
+        [MGLayoutManager stackGridStyle:container onlyMove:nil];
+        break;
     }
 
     // final positions for attached and replacement boxes
@@ -337,6 +336,12 @@
 
   // find gone views
   for (UIView *item in view.subviews) {
+
+    // ignore views tagged -2 and below
+    if (item.tag < -1) {
+      continue;
+    }
+
     if (![boxes containsObject:item]) {
       [gone addObject:item];
     }

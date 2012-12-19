@@ -15,6 +15,7 @@
 #import "ArtWork.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
+#import "MGLineStyled.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "PhotoBox.h"
 
@@ -101,7 +102,9 @@
     MGTableBoxStyled* chunckTable = MGTableBoxStyled.box;
     [chunckContainer.boxes addObject:chunckTable];
     
-    MGLine* chunckTextLine = [MGLine multilineWithText:[chunckDetails objectForKey:@"testo"] font:LINE_FONT width:304 padding:UIEdgeInsetsMake(8, 8, 8, 8)];
+    MGLineStyled* chunckTextLine = [MGLineStyled multilineWithText:[chunckDetails objectForKey:@"testo"] font:LINE_FONT width:304 padding:UIEdgeInsetsMake(8, 8, 8, 8)];
+    
+    chunckTextLine.leftBorderColor = UIColor.redColor;
     
     [chunckTable.topLines addObject:chunckTextLine];
     
@@ -134,6 +137,7 @@
     
     MGTableBoxStyled* comment = MGTableBoxStyled.box;
     [commentContainer.boxes addObject:comment];
+   // comment.backgroundColor = [UIColor colo];
     
     for (NSDictionary* dict in _comments) {
         
@@ -149,7 +153,7 @@
         
         //NSString* datetime = [dict objectForKey:@"datetime"];
         
-        MGLine* commentLine = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:arrow];
+        MGLineStyled* commentLine = [MGLineStyled lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:arrow];
         
         [commentLine.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username,commentText]];
         
@@ -159,6 +163,8 @@
         commentLine.itemPadding = 8;
         commentLine.sidePrecedence = MGSidePrecedenceRight;
         commentLine.maxHeight = 60;
+        //commentLine.backgroundColor = [UIColor brownColor];
+        //commentLine.borderColor
         
         CGSize minSize = [commentText sizeWithFont:LINE_FONT];
         CGFloat height = minSize.height + commentLine.padding.top + commentLine.padding.bottom;
