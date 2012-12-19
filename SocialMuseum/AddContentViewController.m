@@ -311,7 +311,6 @@
     commentTextField.font = TEXT_FONT;
     commentTextField.delegate = self;
     commentTextField.keyboardType = UIKeyboardAppearanceDefault;
-    commentTextField.textColor = [UIColor blackColor];
     
     MGLineStyled* textView = [MGLineStyled lineWithLeft:commentTextField right:nil size:(CGSize){304,126}];
     [commentSection.topLines addObject:textView];

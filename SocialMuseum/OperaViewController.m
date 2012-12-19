@@ -346,9 +346,8 @@
     footer.middleFont = HEADER_FONT;
     footer.middleItemsTextAlignment = NSTextAlignmentCenter;
     [comment.bottomLines addObject:footer];
-    footer.layer.cornerRadius = 2;
-    footer.backgroundColor = [UIColor colorWithRed:219 green:215 blue:255 alpha:1];
-    //footer.layer.shouldRasterize = YES;
+    footer.borderStyle = MGBorderNone;
+    footer.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     
     footer.onTap = ^{
         [self performSegueWithIdentifier:@"StreamComment" sender:nil];
@@ -475,8 +474,8 @@
     footer.middleFont = HEADER_FONT;
     footer.middleItemsTextAlignment = NSTextAlignmentCenter;
     [photosTable.bottomLines addObject:footer];
-    footer.layer.cornerRadius = 2;
-  //  footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    footer.borderStyle = MGBorderNone;
+    footer.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     footer.onTap =^{
         
         [self performSegueWithIdentifier:@"ShowStream" sender:nil];
