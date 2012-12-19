@@ -30,7 +30,7 @@
 @implementation AddContentViewController{
     
     MGBox* containerBox, *commentBox, *photoBox, *chunkBox;
-    MGBox* submitCommentBox, *submitPhotoBox;
+    //MGBox* submitCommentBox, *submitPhotoBox;
     NSString* commentToUpload;
     UITextField* commentTextField;
     UIImageView* photoToUpload;
@@ -99,10 +99,10 @@
     if (isChunck) [self drawlayoutChunk];
     [self drawLayoutComment];
     
-    submitCommentBox = [MGBox boxWithSize:(CGSize){208,35}];
+    /*submitCommentBox = [MGBox boxWithSize:(CGSize){208,35}];
     submitCommentBox.fixedPosition = (CGPoint){commentBox.origin.x + commentBox.width/2 - submitCommentBox.width/2 + 8, commentBox.origin.y + commentBox.size.height + 8};
     
-    /*UIButton* submitCommentBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton* submitCommentBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     submitCommentBtn.size = (CGSize){200,30};
     
     // Btn Title
@@ -137,15 +137,15 @@
     photoBox = MGBox.box;
     [self.scroller.boxes addObject:photoBox];
     photoBox.sizingMode = MGResizingShrinkWrap;
-    photoBox.fixedPosition = (CGPoint){0,submitCommentBox.fixedPosition.y + submitCommentBox.size.height};
+    photoBox.fixedPosition = (CGPoint){0,commentBox.fixedPosition.y + commentBox.size.height + 40};
     
     [containerBox layout];
     [self drawLayoutPhoto];
     
-    submitPhotoBox = [MGBox boxWithSize:(CGSize){208,35}];
+    /*submitPhotoBox = [MGBox boxWithSize:(CGSize){208,35}];
     submitPhotoBox.fixedPosition = (CGPoint){photoBox.origin.x + photoBox.width/2 - submitPhotoBox.width/2 + 8, photoBox.fixedPosition.y + photoBox.size.height + 8};
     
-    /*// Btn init
+    // Btn init
     UIButton* submitPhotoBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     submitPhotoBtn.size = (CGSize){200,30};
     
@@ -310,6 +310,7 @@
     commentTextField.font = TEXT_FONT;
     commentTextField.delegate = self;
     commentTextField.keyboardType = UIKeyboardAppearanceDefault;
+    commentTextField.textColor = [UIColor blackColor];
     
     MGLine* textView = [MGLine lineWithLeft:commentTextField right:nil size:(CGSize){304,126}];
     [commentSection.topLines addObject:textView];
