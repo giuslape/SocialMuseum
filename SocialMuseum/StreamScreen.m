@@ -12,7 +12,6 @@
 #import "PhotoScreen.h"
 #import "PullToRefreshView.h"
 #import "MGScrollView.h"
-#import "MGLine.h"
 #import "PhotoBox.h"
 #import "ArtWork.h"
 

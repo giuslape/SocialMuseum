@@ -15,6 +15,7 @@
 #import "ArtWork.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
+#import "MGLineStyled.h"
 #import "MGScrollView.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "PhotoBox.h"
@@ -135,7 +136,7 @@
     MGTableBoxStyled* activity = MGTableBoxStyled.box;
     [tableComments.boxes addObject:activity];
 
-    MGLine* header = [MGLine lineWithLeft:@"Commenti Recenti" right:nil size:HEADER_SIZE];
+    MGLineStyled* header = [MGLineStyled lineWithLeft:@"Commenti Recenti" right:nil size:HEADER_SIZE];
     header.font = HEADER_FONT;
     header.leftPadding = header.rightPadding = header.topPadding = 8;
     [activity.topLines addObject:header];
@@ -152,7 +153,7 @@
         
         FBProfilePictureView* profilePictureView = [[FBProfilePictureView alloc] initWithProfileID:nil pictureCropping:FBProfilePictureCroppingSquare];
         
-        MGLine* line = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}] right:nil];
+        MGLineStyled* line = [MGLineStyled lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){35,35}] right:nil];
         
         [line.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username, commentText]];
         [line.rightItems addObject:[NSString determingTemporalDifferencesFromNowtoStartDate:datetime]];

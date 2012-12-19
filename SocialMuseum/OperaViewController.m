@@ -347,7 +347,7 @@
     footer.middleItemsTextAlignment = NSTextAlignmentCenter;
     [comment.bottomLines addObject:footer];
     footer.layer.cornerRadius = 2;
-    //footer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"texture.jpg"]];
+    footer.backgroundColor = [UIColor colorWithRed:219 green:215 blue:255 alpha:1];
     //footer.layer.shouldRasterize = YES;
     
     footer.onTap = ^{

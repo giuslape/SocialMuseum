@@ -12,6 +12,7 @@
 #import "PhotoBox.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
+#import "MGLineStyled.h"
 #import "API.h"
 #import "ArtWork.h"
 #import <FacebookSDK/FacebookSDK.h>
@@ -167,7 +168,7 @@
     [commentBox.boxes addObject:commentTable];
     
     NSString* textComment = [commentDetails objectForKey:@"testo"];
-    MGLine* commentLine = [MGLine multilineWithText:textComment font:LINE_FONT width:304 padding:UIEdgeInsetsMake(8, 0, 8, 8)];
+    MGLineStyled* commentLine = [MGLineStyled multilineWithText:textComment font:LINE_FONT width:304 padding:UIEdgeInsetsMake(8, 0, 8, 8)];
     
     commentLine.itemPadding = 8;
     
@@ -182,7 +183,7 @@
     
     NSString* datetime = [commentDetails objectForKey:@"datetime"];
     
-    MGLine* userLine = [MGLine lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:nil size:(CGSize){304, 61}];
+    MGLineStyled* userLine = [MGLineStyled lineWithLeft:[PhotoBox photoProfileBoxWithView:profilePictureView andSize:(CGSize){45,45}] right:nil size:(CGSize){304, 61}];
     
     [userLine.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username,datetime]];
     
