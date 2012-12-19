@@ -73,6 +73,15 @@
   if (allLines.count == 1) {
     MGLine *line = allLines.lastObject;
     line.layer.cornerRadius = self.layer.cornerRadius;
+      
+    CAShapeLayer *topMask = CAShapeLayer.layer;
+    topMask.frame = line.bounds;
+    CGSize radius = (CGSize){self.layer.cornerRadius, self.layer.cornerRadius};
+    topMask.path = [UIBezierPath bezierPathWithRoundedRect:topMask.bounds
+                                           byRoundingCorners:UIRectCornerAllCorners
+                                                 cornerRadii:radius].CGPath;
+    line.layer.mask = topMask;
+
     return;
   }
 
