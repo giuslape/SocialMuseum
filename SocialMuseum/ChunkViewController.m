@@ -20,6 +20,7 @@
 #import "PhotoBox.h"
 
 
+
 #define IPHONE_TABLES_GRID          (CGSize){320, 0}
 
 #define LINE_FONT              [UIFont fontWithName:@"HelveticaNeue" size:12]
@@ -60,7 +61,7 @@
     [hud setLabelText:@"Loading"];
     hud.dimBackground = YES;
     
-    self.scroller.contentLayoutMode = MGLayoutTableStyle;
+    self.scroller.contentLayoutMode = MGLayoutGridStyle;
     self.scroller.bottomPadding = 8;
    
     CGSize tablesGridSize =  IPHONE_TABLES_GRID;
@@ -76,7 +77,6 @@
     [containerBox.boxes addObject:commentContainer];
     commentContainer.sizingMode = MGResizingShrinkWrap;
     
-        
     [self.scroller addPullToRefreshWithActionHandler:^{
         [self streamCommenti];
     }];
@@ -84,6 +84,7 @@
     [containerBox layout];
     [self layoutChunckContainer];
     [self streamCommenti];
+    
     [self.scroller layoutWithSpeed:0.3f completion:nil];
 }
 
