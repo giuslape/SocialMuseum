@@ -68,8 +68,6 @@
     commentIsUpload = false;
     photoIsUpload = false;
     
-    defaultPlaceholder = [UIImage imageNamed:@"camera.png"];
-    
     IdChunk = [[[API sharedInstance] temporaryChunck] objectForKey:@"IdChunk"];
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
@@ -135,6 +133,8 @@
     
     if (isAddPhoto) {
         
+    defaultPlaceholder = [UIImage imageNamed:@"camera.png"];
+
     photoBox = MGBox.box;
     [self.scroller.boxes addObject:photoBox];
     photoBox.sizingMode = MGResizingShrinkWrap;
@@ -236,8 +236,8 @@
         hud.labelText = @"Carico";
         
         if(isNewPhoto) [self uploadPhoto];
+        
         if(isNewComment) {
-            
             commentToUpload = commentTextField.text;
             [commentTextField resignFirstResponder];
             [self uploadComment];
