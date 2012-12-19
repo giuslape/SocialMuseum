@@ -33,6 +33,8 @@
     UIImage* arrow;
     NSDictionary* chunckDetails;
     
+    //UIColor* leftBorderColor;
+    
     bool isNewComment;
     
 }
@@ -105,7 +107,7 @@
     
     MGLineStyled* chunckTextLine = [MGLineStyled multilineWithText:[chunckDetails objectForKey:@"testo"] font:LINE_FONT width:304 padding:UIEdgeInsetsMake(8, 8, 8, 8)];
     
-    chunckTextLine.leftBorderColor = UIColor.redColor;
+    chunckTextLine.leftBorderColor = [MGLineStyled borderColorForTag:[NSNumber numberWithInt:[[chunckDetails objectForKey:@"IdChunk"] intValue]]];
     
     [chunckTable.topLines addObject:chunckTextLine];
     

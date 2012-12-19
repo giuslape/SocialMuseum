@@ -158,6 +158,10 @@
         [line.leftItems addObject:[NSString stringWithFormat:@"%@\n%@",username, commentText]];
         [line.rightItems addObject:[NSString determingTemporalDifferencesFromNowtoStartDate:datetime]];
         
+        if ([[dict objectForKey:@"IdChunk"] intValue] > 0)
+        line.leftBorderColor = [MGLineStyled borderColorForTag:[NSNumber numberWithInt:[[dict objectForKey:@"IdChunk"] intValue]]];
+
+        
         line.font = HEADER_FONT;
         line.rightFont = RIGHT_FONT;
         line.padding = UIEdgeInsetsMake(4, 0, 4, 4);

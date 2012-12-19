@@ -51,10 +51,10 @@
     }
 
     // new style MGBox borderStyle
-    if (line == allLines[0]) {
+    /*if (line == allLines[0]) {
       line.borderStyle &= ~MGBorderEtchedTop;
     }
-      /*
+      
     if (line == allLines.lastObject) {
       line.borderStyle &= ~MGBorderEtchedBottom;
     }*/
