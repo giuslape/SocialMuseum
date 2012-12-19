@@ -12,6 +12,7 @@
 #import "MGScrollView.h"
 #import "MGTableBoxStyled.h"
 #import "MGLine.h"
+#import "MGLineStyled.h"
 #import "ArtWork.h"
 #import "API.h"
 #import "UIAlertView+error.h"
@@ -302,23 +303,24 @@
     
     MGTableBoxStyled* commentSection = MGTableBoxStyled.box;
     [commentBox.boxes addObject:commentSection];
-        
+    
     commentTextField = [[UITextField alloc] init];
     commentTextField.placeholder = @"Scrivi qui il tuo commento";
     commentTextField.borderStyle = UITextBorderStyleNone;
-    commentTextField.size = (CGSize){288, 160};
+    commentTextField.size = (CGSize){288, 120};
     commentTextField.font = TEXT_FONT;
     commentTextField.delegate = self;
     commentTextField.keyboardType = UIKeyboardAppearanceDefault;
     commentTextField.textColor = [UIColor blackColor];
     
-    MGLine* textView = [MGLine lineWithLeft:commentTextField right:nil size:(CGSize){304,126}];
+    MGLineStyled* textView = [MGLineStyled lineWithLeft:commentTextField right:nil size:(CGSize){304,126}];
     [commentSection.topLines addObject:textView];
     textView.padding = UIEdgeInsetsMake(8, 8, 8, 8);
+    textView.font = TEXT_FONT;
     
     MGLine* footerLine = [MGLine lineWithSize:(CGSize){304,35}];
     footerLine.padding = UIEdgeInsetsMake(8, 8, 8, 8);
-    [commentSection.topLines addObject:footerLine];
+    [commentSection.bottomLines addObject:footerLine];
     footerLine.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"texture.jpg"]resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)]];
     footerLine.layer.cornerRadius = 3;
     footerLine.middleFont = FOOTER_FONT;
