@@ -106,7 +106,7 @@
     [self.scroller.boxes addObject:photosGrid];
     
     [tablesGrid layout];
-    [self.scroller layoutWithSpeed:0.3f completion:nil];
+    //[self.scroller layoutWithSpeed:0.3f completion:nil];
     [self loadArtWorkContent];
     //[self loadComments];
     //[self loadThumbPhotos];
@@ -232,7 +232,6 @@
         };
     }
     
-    [tableContent layout];
     [self.scroller layoutWithSpeed:0.3 completion:nil];
     
     [MBProgressHUD hideHUDForView:self.view animated:YES];
