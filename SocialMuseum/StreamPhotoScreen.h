@@ -19,5 +19,5 @@
 }
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *viewControllers;
-
+@property (nonatomic, readwrite) NSNumber* firstPage;
 @end

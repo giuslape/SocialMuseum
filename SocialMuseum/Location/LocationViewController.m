@@ -61,7 +61,7 @@
     _tagAnnotation = 0;
     offsetRect = MKMapRectNull;
     distanceOffset = 5000;
-    levelZoom = 500;
+    levelZoom = 200;
     self.worksVisited = [NSMutableArray arrayWithCapacity:0];
     [[API sharedInstance] setTemporaryArtWork:nil];
     //Aspetto il caricamento della vista prima modificare l'area di interesse

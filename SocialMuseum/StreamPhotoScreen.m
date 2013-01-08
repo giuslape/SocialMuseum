@@ -29,7 +29,7 @@ static NSUInteger kNumberOfPages;
     FBProfilePictureView* profilePictureView;
 }
 
-@synthesize viewControllers, scrollView;
+@synthesize viewControllers, scrollView, firstPage;
 
 
 -(void)viewDidLoad {
@@ -55,7 +55,7 @@ static NSUInteger kNumberOfPages;
     scrollView.scrollsToTop = NO;
     scrollView.delegate = self;
     
-    [self loadScrollViewWithPage:3];
+    [self loadScrollViewWithPage:[firstPage intValue]];
 
 }
 

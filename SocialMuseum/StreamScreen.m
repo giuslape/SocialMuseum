@@ -168,11 +168,14 @@
     
     //NSEnumerator* enumerator = [self.items ];
     
-    for (NSDictionary* dict in self.items) {
+    for (NSDictionary* dict in self.items){
         
-        [photosGrid.boxes addObject:[self photoBoxFor:dict]];
-        [photosGrid layout];
+        int index = [self.items indexOfObject:dict];
+        
+        [photosGrid.boxes addObject:[self photoBoxFor:dict andTag:index]];
     }
+    
+    
     [photosGrid layoutWithSpeed:0.3 completion:nil];
     [self.scroller layoutWithSpeed:0.3 completion:nil];
 }
@@ -184,20 +187,11 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
-   /* if ([@"ShowPhoto" compare: segue.identifier]== NSOrderedSame) {
-        sender = (NSArray *)sender;
+    if ([@"ShowPhoto" compare: segue.identifier]== NSOrderedSame) {
+        sender = (NSNumber *)sender;
         StreamPhotoScreen* streamPhotoScreen = segue.destinationViewController;
-        streamPhotoScreen.IdPhoto =     [sender objectAtIndex:0];
-        NSString* username =    [sender objectAtIndex:1];
-        streamPhotoScreen.artWorkName = [sender objectAtIndex:2];
-        NSString* fbId =        [sender objectAtIndex:3];
-        streamPhotoScreen.datetime =    [sender objectAtIndex:4];
-        NSNumber* IdUser =      [sender objectAtIndex:5];
-        
-        NSDictionary* userTemp = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",fbId,@"FBId",IdUser,@"IdUser", nil];
-        [[API sharedInstance] setTemporaryUser:userTemp];
-
-    }*/
+        streamPhotoScreen.firstPage = sender;
+    }
     
     if ([@"AddPhoto" compare:[segue identifier]] == NSOrderedSame) {
                 
@@ -229,7 +223,7 @@
 }
 
 
--(MGBox *)photoBoxFor:(NSDictionary *)dict{
+-(MGBox *)photoBoxFor:(NSDictionary *)dict andTag:(int)tag{
     
     NSNumber* idPhoto = [NSNumber numberWithInt:[[dict objectForKey:@"IdPhoto"]intValue]];
 
@@ -247,7 +241,7 @@
 
          [[API sharedInstance] setTemporaryUser:@{@"IdUser" : idUser, @"username" : username, @"FBId" : fbId}];
          [[API sharedInstance] setTemporaryPhoto:dict];
-        [self performSegueWithIdentifier:@"ShowPhoto" sender:nil];
+        [self performSegueWithIdentifier:@"ShowPhoto" sender:[NSNumber numberWithInt:tag]];
      };
     
     return box;

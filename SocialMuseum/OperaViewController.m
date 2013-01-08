@@ -97,13 +97,13 @@
     [tablesGrid.boxes addObject:tableContent];
     tableContent.sizingMode = MGResizingShrinkWrap;
     
+    photosGrid = [MGBox boxWithSize:IPHONE_PORTRAIT_GRID];
+    photosGrid.contentLayoutMode = MGLayoutGridStyle;
+    [tablesGrid.boxes addObject:photosGrid];
+    
     tableComments = MGBox.box;
     [tablesGrid.boxes addObject:tableComments];
     tableComments.sizingMode = MGResizingShrinkWrap;
-    
-    photosGrid = [MGBox boxWithSize:IPHONE_PORTRAIT_GRID];
-    photosGrid.contentLayoutMode = MGLayoutGridStyle;
-    [self.scroller.boxes addObject:photosGrid];
     
     [tablesGrid layout];
     //[self.scroller layoutWithSpeed:0.3f completion:nil];
@@ -133,8 +133,8 @@
         
         }];*/
     
-    [self loadComments];
     [self loadThumbPhotos];
+    [self loadComments];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
